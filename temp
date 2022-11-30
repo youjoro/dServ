@@ -1,0 +1,30 @@
+    <header>
+    <nav class="navbar navbar-expand-md fixed-top" style="background-color: #5b6a82;">
+        <div class="container-fluid">
+        <a class="navbar-brand" href="#">dServ</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="signIn.html">Sign In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="logIn.html">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="becomeServProv.html">Become A Service Provider</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">About</a>
+                </li>
+                </ul>
+                
+            </div>
+        </div>
+    </nav>
+    </header>
