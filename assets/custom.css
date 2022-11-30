@@ -11,6 +11,10 @@ h1{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     
 }
+h2{
+    font-size: 2rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 
 .color-overlay{
     position: absolute;
@@ -26,4 +30,44 @@ h1{
     h1{
         font-size: calc(1.525rem + 3.3vw);
     }
+    .navbar-collapse{
+    background-color:#0073ad;
+    margin-left: -2%;
+    margin-right: -2%;
+  }
+    h2{
+        font-size: 1rem;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+}
+
+
+.navbar .navbar-nav .nav-link {
+    color: #fff;
+    font-size: 1.1em;
+}
+.navbar .navbar-nav .nav-link:hover {
+  background-color: #6bb39e;
+  color: #fff;
+}
+
+
+.navbar .navbar-nav .nav-link {
+  padding: 0.6em;
+}
+.navbar .navbar-brand {
+  padding: 0 0.6em;
+  color:#fff;
+  font-size:xx-large;
+}
+@media only screen and (min-width: 992px) {
+  .navbar {
+    padding: 0;
+  }
+  .navbar .navbar-nav .nav-link {
+    padding: 1em 0.7em;
+  }
+  .navbar .navbar-brand {
+    padding: 0 0.8em;
+  }
 }
