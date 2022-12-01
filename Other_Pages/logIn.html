@@ -9,6 +9,14 @@
     <link href="/assets/signin.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/custom.css">
     
+    <style>
+              body{
+        background-image: url("/assets/img/Untitled\ design.png");
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    </style>
+
   </head>
   <body class="text-center">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
@@ -16,7 +24,7 @@
 
 
     <header>
-    <nav class="navbar navbar-expand-md fixed-top" style="background-color: #5b6a82;">
+    <nav class="navbar navbar-expand-md fixed-top" >
         <div class="container-fluid">
         <a class="navbar-brand" href="#">dServ</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,27 +56,29 @@
 
 
     <main class="form-signin w-100 m-auto">
-    <form>
-        <img class="mb-4 border-left-0 rounded" src="/assets/img/logo.png" style="background-color: gray" alt="logo" width="120" height="100">
-        <h1 class="h3 mb-3 fw-normal">Please Log in</h1>
+<div class="shadow-lg p-3 mb-5 bg-white rounded">
+        <form>
+          <img class="mb-4 border-left-0 rounded text-bg-dark" src="/assets/img/logo.png" alt="logo" width="120" height="120">
+          <h1 class="h3 mb-3 fw-normal">Please Log in</h1>
 
-        <div class="form-floating">
-        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-        <label for="floatingInput">Email address</label>
-        </div>
-        <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-        <label for="floatingPassword">Password</label>
-        </div>
+          <div class="form-floating">
+          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+          <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <label for="floatingPassword">Password</label>
+          </div>
 
-        <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Log in</button>
-        <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
-    </form>
+          <div class="checkbox mb-3">
+          <label>
+              <input type="checkbox" value="remember-me"> Remember me
+          </label>
+          </div>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+          <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
+      </form>
+      </div>
     </main>
 
   </body>

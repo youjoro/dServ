@@ -23,25 +23,6 @@ h2{
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-@media (max-width: 768px){
-    .masthead{
-        min-height: 30vh;
-    }
-    h1{
-        font-size: calc(1.525rem + 3.3vw);
-    }
-    .navbar-collapse{
-    background-color:#0073ad;
-    margin-left: -2%;
-    margin-right: -2%;
-  }
-    h2{
-        font-size: 1rem;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    }
-}
-
-
 .navbar .navbar-nav .nav-link {
     color: #fff;
     font-size: 1.1em;
@@ -70,4 +51,28 @@ h2{
   .navbar .navbar-brand {
     padding: 0 0.8em;
   }
+}
+
+
+@media (max-width: 768px){
+    .masthead{
+        min-height: 30vh;
+    }
+    h1{
+        font-size: calc(1.525rem + 3.3vw);
+    }
+    .navbar-collapse{
+    background-color:rgb(255, 255, 255);
+    margin-left: -2%;
+    margin-right: -2%;
+  }
+
+    .navbar .navbar-nav .nav-link {
+      color:black;
+      font-size: 1.1em;
+  }
+    h2{
+        font-size: 1rem;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
 }
