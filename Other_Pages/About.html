@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>dServ</title>
 
 
@@ -21,61 +23,111 @@
     
     <!-- Custom styles for this template -->
     <link href="../assets/cover.css" rel="stylesheet">
+    <link href="../assets/carousel.css" rel="stylesheet">
     <link href="../assets/custom.css" rel="stylesheet">
+
+
+      
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    
   </head>
   
-  <body class="d-flex h-100 text-center">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  <body class="w-100 h-100 text-center">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="mb-auto">
+      <nav class="navbar navbar-expand-md fixed-top">
+          <div class="container-fluid">
+          <a class="navbar-brand" href="#">dServ</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+              <div class="collapse navbar-collapse" id="navbarCollapse">
+                  <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="signIn.html">Sign In</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="logIn.html">Log In</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="becomeServProv.html">Become A Service Provider</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="#">About</a>
+                  </li>
+                  </ul>
+                  
+              </div>
+          </div>
+      </nav>
+      </header>
 
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <header class="mb-auto">
-    <nav class="navbar navbar-expand-md fixed-top">
-        <div class="container-fluid">
-        <a class="navbar-brand" href="#">dServ</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="signIn.html">Sign In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="logIn.html">Log In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="becomeServProv.html">Become A Service Provider</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">About</a>
-                </li>
-                </ul>
-                
-            </div>
+    <main>
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        
+        <div class="container ">
+          <div class="carousel-caption ">
+            <h1>About Us</h1>
+            <p class="lead">Discover what our app holds</p>
+            <p class="lead">
+              <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Learn more</a>
+            </p>
+          </div>
         </div>
-    </nav>
-    </header>
+      </div>
+      <div class="carousel-item">
+        
+        <div class="container d-flex justify-content-center align-items-center">
+          <img class="img-fluid h-100 w-100 rounded" src="https://static8.depositphotos.com/1192060/932/i/600/depositphotos_9320270-stock-photo-home-services.jpg" alt="Los Angeles">
+          <div class="carousel-caption" style="background:rgba(0,0,0,0.4); height:100%;  position:absolute">
+            
+            <h2 style="margin-top: 12vh;">Become a Service Provider now</h2>
+            <p>Register and get clients easily with our online platform.</p>
+            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        
+        <div class="container">
+          <div class="carousel-caption text-end">
+            <h2>Learn about the People Behind the App</h2>
+            <p>Take a look on how this app was developed</p>
+            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev btn btn-dark" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next btn btn-dark" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
 
-  <main class="px-3">
-    <h1>About Us</h1>
-    <p class="lead">dServ is an app for your home services needs 
 
-
-    </p>
-    <p class="lead">
-      <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Learn more</a>
-    </p>
-  </main>
-
-  <footer class="mt-auto text-white-50">
-    <p>Footer</p>
-  </footer>
-</div>
-
-
+    </main>
     
+    <footer class="mt-auto text-white-50">
+      <p>All Rights Reserved &copy; 2017–2022</p>
+    </footer>
+  </div>
+
+
   </body>
 </html>
