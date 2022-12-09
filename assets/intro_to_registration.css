@@ -9,9 +9,6 @@
 }
 
 @media (max-width: 768px){
-    main{
-      padding-top: 10vh;
-    }
     h1{
         font-size: calc(1.525rem + 3.3vw);
     }
@@ -28,10 +25,5 @@
     h2{
         font-size: 1rem;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    }
-}
-@media only screen and (max-width: 992px) {
-      main{
-      padding-top: 10vh;
     }
 }

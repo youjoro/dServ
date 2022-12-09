@@ -3,19 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.104.2">
-    <title>Checkout example · Bootstrap v5.2</title>
-
+    
+    <title>dServ</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/logo_smol.png" />
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/checkout/">
 
-    
-
-    
-
-<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="../assets/custom.css">
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -68,14 +60,27 @@
         -webkit-overflow-scrolling: touch;
       }
     </style>
-
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     
     <!-- Custom styles for this template -->
-    <link href="form-validation.css" rel="stylesheet">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/custom.css">
+    <link href="../assets/form-validation.css" rel="stylesheet">      
+          <link href=
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+      
+        <script src=
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'>
+        </script>
+      
+        <script src=
+    'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'>
+        </script>
   </head>
   <body class="bg-light col-lg-8 mx-auto p-4 py-md-5">
     
-        <header class="mb-auto">
+    <header class="mb-auto">
             <nav class="navbar navbar-expand-md fixed-top navbar-light " >
                 <div class="container-fluid">
                 <a class="navbar-brand text-dark" href="#">dServ</a>
@@ -110,15 +115,21 @@
 <div class="container">
   <main>
 
-    <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4 bg-dark rounded" src="../assets/img/logo.png" alt="" width="100" height="90">
-      <h2>Registration form</h2>
-      <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
-    </div>
 
-      <div class="col-md-7 col-lg-8">
-        <h4 class="mb-3">Personal information</h4>
-        <form class="needs-validation" novalidate>
+    <h1 class="text-center fs-4 py-lg-4">Registration form</h1>
+    <form id="signUpForm" action="#!">
+        <!-- start step indicators -->
+        <div class="form-header d-flex mb-4">
+            <span class="stepIndicator">Account Setup</span>
+            <span class="stepIndicator">Background and Personal Details</span>
+            <span class="stepIndicator">Job History and Experience</span>
+            <span class="stepIndicator">First Service Posting</span>
+        </div>
+        <!-- end step indicators -->
+        
+        <!--Registration Form: Account Setup-->  
+        <!-- step one -->
+        <div class="step">
           <div class="row g-3">
             <div class="col-sm-6">
               <label for="firstName" class="form-label">First name</label>
@@ -136,7 +147,7 @@
               </div>
             </div>
 
-            <div class="col-12">
+            <div class="col-12" id="username">
               <label for="username" class="form-label">Username</label>
               <div class="input-group has-validation">
                 <span class="input-group-text">@</span>
@@ -156,18 +167,18 @@
             </div>
 
             <div class="col-12">
-              <label for="address" class="form-label">Address</label>
-              <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+              <label for="address" class="form-label">Phone Number</label>
+              <input type="text" class="form-control" id="address" placeholder="0912345789" required>
               <div class="invalid-feedback">
-                Please enter your address.
+                Please enter your phone number.
               </div>
             </div>
 
             <div class="col-12">
-              <label for="address" class="form-label">Phone Number</label>
+              <label for="address" class="form-label">Address</label>
               <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
               <div class="invalid-feedback">
-                Please enter your phone number.
+                Please enter your address.
               </div>
             </div>
 
@@ -205,9 +216,8 @@
                 Zip code required.
               </div>
             </div>
-          </div>
 
-          <hr class="my-4">
+            <hr class="my-4">
 
           <div class="form-check">
             <input type="checkbox" class="form-check-input" id="same-address">
@@ -236,12 +246,361 @@
 
           
           <hr class="my-4">
+          </div>
+        </div>
 
-          <button class="w-100 btn btn-primary btn-lg" type="submit">Proceed to next step</button>
-        </form>
-      </div>
+        <!--Registration Form: Background and Personal Details-->  
+        <!-- step two -->
+        <div class="step">
+          <section class="vh-100">
+            <div class="container h-100">
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-xl-9">
+
+                  <h2 class="text-black mb-4">Background and Personal Details</h2>
+
+                  <div class="card" style="border-radius: 15px;">
+                    <div class="card-body">
+
+                      <div class="row align-items-center pt-4 pb-3">
+                        <div class="col-md-3 ps-5">
+
+                          <h6 class="mb-0">Previous Jobs</h6>
+
+                        </div>
+                        <div class="col-md-9 pe-5">
+
+                          <input type="text" class="form-control form-control-lg" />
+
+                        </div>
+                      </div>
+
+                      <hr class="mx-n3">
+
+                      <div class="row align-items-center py-3">
+                        <div class="col-md-3 ps-5">
+
+                          <h6 class="mb-0">Years of Experience</h6>
+
+                        </div>
+                        <div class="col-md-9 pe-5">
+
+                          <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
+
+                        </div>
+                      </div>
+
+                      <hr class="mx-n3">
+
+                      <div class="row align-items-center py-3">
+                        <div class="col-md-3 ps-5">
+
+                          <h6 class="mb-0">History</h6>
+
+                        </div>
+                        <div class="col-md-9 pe-5">
+
+                          <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
+
+                        </div>
+                      </div>
+
+                      <hr class="mx-n3">
+
+                      <div class="row align-items-center py-3">
+                        <div class="col-md-3 ps-5">
+
+                          <h6 class="mb-0">Upload CV</h6>
+
+                        </div>
+                        <div class="col-md-9 pe-5">
+
+                          <input class="form-control form-control-lg" id="formFileLg" type="file" />
+                          <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
+                            size 50 MB</div>
+
+                        </div>
+                      </div>
+
+                      <hr class="mx-n3">            
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!--Registration Form: History and Experience-->  
+        <!-- step three -->
+        <div class="step">
+          <section class="vh-100">
+            <div class="container h-100">
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-xl-9">
+
+                  <h2 class="text-black mb-4">Personal Skills and Job Experience</h2>
+
+                  <div class="card" style="border-radius: 15px;">
+                    <div class="card-body">
+
+                      <div class="row align-items-center pt-4 pb-3">
+                        <div class="col-md-3 ps-5">
+
+                          <h6 class="mb-0">Previous Jobs</h6>
+
+                        </div>
+                        <div class="col-md-9 pe-5">
+
+                          <input type="text" class="form-control form-control-lg" />
+
+                        </div>
+                      </div>
+
+                      <hr class="mx-n3">
+
+                      <div class="row align-items-center py-3">
+                        <div class="col-md-3 ps-5">
+
+                          <h6 class="mb-0">Years of Experience</h6>
+
+                        </div>
+                        <div class="col-md-9 pe-5">
+
+                          <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
+
+                        </div>
+                      </div>
+
+                      <hr class="mx-n3">
+
+                      <div class="row align-items-center py-3">
+                        <div class="col-md-3 ps-5">
+
+                          <h6 class="mb-0">History</h6>
+
+                        </div>
+                        <div class="col-md-9 pe-5">
+
+                          <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
+
+                        </div>
+                      </div>
+
+                      <hr class="mx-n3">
+
+                      <div class="row align-items-center py-3">
+                        <div class="col-md-3 ps-5">
+
+                          <h6 class="mb-0">Upload CV</h6>
+
+                        </div>
+                        <div class="col-md-9 pe-5">
+
+                          <input class="form-control form-control-lg" id="formFileLg" type="file" />
+                          <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
+                            size 50 MB</div>
+
+                        </div>
+                      </div>
+
+                      <hr class="mx-n3">            
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        
+    
+        <!--Registration Form: First Service Details-->  
+        <!-- step four -->
+        <div class="step">
+          <section class="vh-100">
+            <div class="container h-100">
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-xl-9">
+
+                  <h2 class="text-black mb-4">Creating your First Service Posting</h2>
+
+                  <div class="card" style="border-radius: 15px;">
+                    <div class="card-body">
+
+                      <div class="row align-items-center pt-4 pb-3">
+                        <div class="col-md-3 ps-5">
+
+                          <h6 class="mb-0">Previous Jobs</h6>
+
+                        </div>
+                        <div class="col-md-9 pe-5">
+
+                          <input type="text" class="form-control form-control-lg" />
+
+                        </div>
+                      </div>
+
+                      <hr class="mx-n3">
+
+                      <div class="row align-items-center py-3">
+                        <div class="col-md-3 ps-5">
+
+                          <h6 class="mb-0">Years of Experience</h6>
+
+                        </div>
+                        <div class="col-md-9 pe-5">
+
+                          <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
+
+                        </div>
+                      </div>
+
+                      <hr class="mx-n3">
+
+                      <div class="row align-items-center py-3">
+                        <div class="col-md-3 ps-5">
+
+                          <h6 class="mb-0">History</h6>
+
+                        </div>
+                        <div class="col-md-9 pe-5">
+
+                          <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
+
+                        </div>
+                      </div>
+
+                      <hr class="mx-n3">
+
+                      <div class="row align-items-center py-3">
+                        <div class="col-md-3 ps-5">
+
+                          <h6 class="mb-0">Upload CV</h6>
+
+                        </div>
+                        <div class="col-md-9 pe-5">
+
+                          <input class="form-control form-control-lg" id="formFileLg" type="file" />
+                          <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
+                            size 50 MB</div>
+
+                        </div>
+                      </div>
+
+                      <hr class="mx-n3">            
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+
+        <!-- start previous / next buttons -->
+        <div class="form-footer d-flex py-3">
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+        </div>
+        <!-- end previous / next buttons -->
+    </form>
+
+
+    <!--Registration Form: History and Experience-->  
+    <div id="experience" class="" hidden>
+      <section class="vh-100">
+        <div class="container h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-9">
+
+              <h2 class="text-black mb-4">Personal History and Job Experience</h2>
+
+              <div class="card" style="border-radius: 15px;">
+                <div class="card-body">
+
+                  <div class="row align-items-center pt-4 pb-3">
+                    <div class="col-md-3 ps-5">
+
+                      <h6 class="mb-0">Full name</h6>
+
+                    </div>
+                    <div class="col-md-9 pe-5">
+
+                      <input type="text" class="form-control form-control-lg" />
+
+                    </div>
+                  </div>
+
+                  <hr class="mx-n3">
+
+                  <div class="row align-items-center py-3">
+                    <div class="col-md-3 ps-5">
+
+                      <h6 class="mb-0">Email address</h6>
+
+                    </div>
+                    <div class="col-md-9 pe-5">
+
+                      <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
+
+                    </div>
+                  </div>
+
+                  <hr class="mx-n3">
+
+                  <div class="row align-items-center py-3">
+                    <div class="col-md-3 ps-5">
+
+                      <h6 class="mb-0">Full name</h6>
+
+                    </div>
+                    <div class="col-md-9 pe-5">
+
+                      <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
+
+                    </div>
+                  </div>
+
+                  <hr class="mx-n3">
+
+                  <div class="row align-items-center py-3">
+                    <div class="col-md-3 ps-5">
+
+                      <h6 class="mb-0">Upload CV</h6>
+
+                    </div>
+                    <div class="col-md-9 pe-5">
+
+                      <input class="form-control form-control-lg" id="formFileLg" type="file" />
+                      <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
+                        size 50 MB</div>
+
+                    </div>
+                  </div>
+
+                  <hr class="mx-n3">            
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
+
+    <!--Registration Form: Pictures for Confirmation-->
+
+    <div id="for_Pics" hidden>
+      
+    </div>
+    
+
   </main>
+</div>
 
   <footer class="my-5 pt-5 text-muted text-center text-small">
     <p class="mb-1">&copy; 2017–2022 dServ</p>
@@ -254,8 +613,12 @@
 </div>
 
 
-    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
-      <script src="form-validation.js"></script>
+
   </body>
+      <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+    <!--<script src="../assets/dist/js/form-validation.js"></script>-->
+
+    <!--for div changing-->
+    <script src="../assets/js/switch_divs.js"></script>
 </html>

@@ -1,0 +1,65 @@
+<!-- bootstrap css -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+<!-- google font -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+<h1 class="text-center fs-4">Form Wizard - Multi Step Form</h1>
+    <form id="signUpForm" action="#!">
+        <!-- start step indicators -->
+        <div class="form-header d-flex mb-4">
+            <span class="stepIndicator">Account Setup</span>
+            <span class="stepIndicator">Social Profiles</span>
+            <span class="stepIndicator">Personal Details</span>
+        </div>
+        <!-- end step indicators -->
+    
+        <!-- step one -->
+        <div class="step">
+            <p class="text-center mb-4">Create your account</p>
+            <div class="mb-3">
+                <input type="email" placeholder="Email Address" oninput="this.className = ''" name="email">
+            </div>
+            <div class="mb-3">
+                <input type="password" placeholder="Password" oninput="this.className = ''" name="password">
+            </div>
+            <div class="mb-3">
+                <input type="password" placeholder="Confirm Password" oninput="this.className = ''" name="password">
+            </div>
+        </div>
+    
+        <!-- step two -->
+        <div class="step">
+            <p class="text-center mb-4">Your presence on the social network</p>
+            <div class="mb-3">
+                <input type="text" placeholder="Linked In" oninput="this.className = ''" name="linkedin">
+            </div>
+            <div class="mb-3">
+                <input type="text" placeholder="Twitter" oninput="this.className = ''" name="twitter">
+            </div>
+            <div class="mb-3">
+                <input type="text" placeholder="Facebook" oninput="this.className = ''" name="facebook">
+            </div>
+        </div>
+    
+        <!-- step three -->
+        <div class="step">
+            <p class="text-center mb-4">We will never sell it</p>
+            <div class="mb-3">
+                <input type="text" placeholder="Full name" oninput="this.className = ''" name="fullname">
+            </div>
+            <div class="mb-3">
+                <input type="text" placeholder="Mobile" oninput="this.className = ''" name="mobile">
+            </div>
+            <div class="mb-3">
+                <input type="text" placeholder="Address" oninput="this.className = ''" name="address">
+            </div>
+        </div>
+    
+        <!-- start previous / next buttons -->
+        <div class="form-footer d-flex">
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+        </div>
+        <!-- end previous / next buttons -->
+    </form>

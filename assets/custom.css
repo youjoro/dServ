@@ -5,7 +5,9 @@
     color: white;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
-
+main{
+  padding-top: 8vh;
+}
 .ServiceProviderIntro{
     background-size: cover;
     min-height: 95vh;
@@ -82,4 +84,8 @@ h2{
         font-size: 1rem;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     }
+
+  main{
+    padding-top: 8vh;
+  }
 }
