@@ -1,6 +1,6 @@
 .masthead {
     background-size: cover;
-    min-height: 60vh;
+    min-height: 62vh;
     position: relative;
     color: white;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
@@ -18,13 +18,7 @@ main{
 
 
 h1{
-    font-size: 4rem;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    
-}
-h2{
-    font-size: 2rem;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 4rem;   
 }
 
 .color-overlay{
@@ -44,11 +38,13 @@ h2{
 
 .navbar .navbar-nav .nav-link {
   padding: 0.6em;
+  font-family: 'Raleway', sans-serif;
 }
 .navbar .navbar-brand {
   padding: 0 0.6em;
   color:#fff;
   font-size:xx-large;
+  font-family: 'Raleway', sans-serif;
 }
 @media only screen and (min-width: 992px) {
   .navbar {
@@ -60,16 +56,15 @@ h2{
   .navbar .navbar-brand {
     padding: 0 0.8em;
   }
+
 }
 
 
 @media (max-width: 768px){
     .masthead{
-        min-height: 30vh;
+        min-height: 40vh;
     }
-    h1{
-        font-size: calc(1.525rem + 3.3vw);
-    }
+
     .navbar-collapse{
     background-color:rgb(255, 255, 255);
     margin-left: -2%;
@@ -80,10 +75,7 @@ h2{
       color:black;
       font-size: 1.1em;
   }
-    h2{
-        font-size: 1rem;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    }
+
 
   main{
     padding-top: 8vh;
