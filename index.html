@@ -61,14 +61,17 @@
             min-height: 300px;
             min-width: 300px;
             margin-right: 5px;
+
+            max-height: 300px;
+            max-width: 300px;
         }
     </style>
     <!--Stylesheet and Logo-->
     
-    <link rel="stylesheet" href="assets/custom.css">
+    <link rel="stylesheet" href="assets//css/custom.css">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo_smol.png" />
     
-    <!--Navbar-->
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(window).scroll(function(){
@@ -79,7 +82,6 @@
     
   </head>
   <body>
-
     <!--Navbar-->
     <header class="text-center">
     <nav class="navbar navbar-expand-md fixed-top bg-dark navbar-dark ">
@@ -268,23 +270,7 @@
                 <hr class="mx-n3">
             </div>
             <div class="container-fluid py-2">
-                
-                <div class="d-flex flex-row flex-nowrap overflow-auto">
-                    <div class="card card-body2">Card</div>
-                    <div class="card card-body2">Card</div>
-                    <div class="card card-body2">Card</div>
-                    <div class="card card-body2">Card</div>
-                    <div class="card card-body2">Card</div>
-                    <div class="card card-body2">Card</div>
-                    <div class="card card-body2">Card</div>
-                    <div class="card card-body2">Card</div>
-                    <div class="card card-body2">Card</div>
-                    <div class="card card-body2">Card</div>
-                    <div class="card card-body2">Card</div>
-                    <div class="card card-body2">Card</div>
-                    <div class="card card-body2">Card</div>
-                    <div class="card card-body2">Card</div>
-                </div>
+                <div class="d-flex flex-row flex-nowrap overflow-auto" id="promotions"></div>
             </div>
 
             
@@ -359,6 +345,71 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-  
+    
   </body>
+
+
+
+
+<script type="module">
+var div = document.getElementById('promotions');
+var promotions = 0;
+
+
+function addDivToPromos(test){
+    let d = document.createElement("div")
+    d.classList.add('card','card-body2','overflow');
+    let p = document.createElement("p");
+    p.innerHTML=test;
+    d.appendChild(p);
+    div.appendChild(d);
+}
+
+function addAllItemsInPromos(promos){
+    promotions = 0;
+    div.innerHTML="";
+    promos.forEach(element=>{
+        addDivToPromos(element.promo);
+    })
+}
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { getDatabase, ref, child, onValue,get} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+  
+
+//Change into your own firebase config
+const firebaseConfig = {
+    apiKey: "AIzaSyDcb9FH5Hcik94Ucxih4atoG0dNApeahA4",
+    authDomain: "dserv-26a9a.firebaseapp.com",
+    databaseURL: "https://dserv-26a9a-default-rtdb.firebaseio.com",
+    projectId: "dserv-26a9a",
+    storageBucket: "dserv-26a9a.appspot.com",
+    messagingSenderId: "292011413224",
+    appId: "1:292011413224:web:f4b3ec12cc9f3be49fc35d",
+    measurementId: "G-L5FNF3XE6S"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+
+function getDataOnce(){
+    const dbRef = ref(db);
+
+    get(child(dbRef, "promos"))
+    .then((snapshot)=>{
+        var p = [];
+
+        snapshot.forEach(childSnapshot =>{
+            p.push(childSnapshot.val());
+        });
+
+        addAllItemsInPromos(p);
+    })
+}
+
+
+window.onload = getDataOnce;
+    </script>
 </html>

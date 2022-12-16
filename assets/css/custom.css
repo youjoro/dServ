@@ -66,9 +66,7 @@ h1{
 
 
 @media screen and (max-width: 768px){
-    .card:not(:first-child){
-      display: none;
-    }
+
     .masthead{
         min-height: 40vh;
     }

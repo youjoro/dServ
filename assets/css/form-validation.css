@@ -1,6 +1,10 @@
+
+
 .container {
   max-width: 960px;
 }
+
+
 body{
             font-family: 'Open Sans', sans-serif;
         }
@@ -16,7 +20,8 @@ body{
         #signUpForm .form-header {
             gap: 5px;
             text-align: center;
-            font-size: .9em;
+            font-size: 1em;
+            font-family: 'Urbanist', sans-serif;;
         }
         #signUpForm .form-header .stepIndicator {
             position: relative;
@@ -107,3 +112,60 @@ body{
             background-color: #fff;
             color: #009688;
         }
+
+
+
+.navbar .navbar-nav .nav-link {
+    font-size: 1.1em;
+}
+.navbar .navbar-nav .nav-link:hover {
+  background-color: #ffffff;
+}
+
+
+.navbar .navbar-nav .nav-link {
+  padding: 0.6em;
+  font-family: 'Raleway', sans-serif;
+}
+.navbar .navbar-brand {
+  padding: 0 0.6em;
+  color:#fff;
+  font-size:xx-large;
+  font-family: 'Raleway', sans-serif;
+}
+@media screen and (max-width: 992px) {
+  .navbar {
+    padding: 0;
+  }
+  .navbar .navbar-nav .nav-link {
+    padding: 1em 0.7em;
+  }
+  .navbar .navbar-brand {
+    padding: 0 0.8em;
+  }
+  
+}
+
+
+@media screen and (max-width: 768px){
+
+    .masthead{
+        min-height: 40vh;
+    }
+    .navbar-collapse{
+    background-color:rgb(255, 255, 255);
+    margin-left: -2%;
+    margin-right: -2%;
+  }
+
+    .navbar .navbar-nav .nav-link {
+      color:black;
+      font-size: 1.1em;
+  }
+
+
+  main{
+    padding-top: 8vh;
+  }
+}
+
