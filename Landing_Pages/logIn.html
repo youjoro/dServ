@@ -34,14 +34,11 @@
 
     
   </head>
-  <body class="text-center has-bg-img bg-purple bg-blend-multiply">
+  <body class="text-center">
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-
-
 
     <header>
-    <nav class="navbar navbar-expand-md fixed-top navbar-dark">
+    <nav class="navbar navbar-expand-md fixed-top navbar-dark" >
         <div class="container-fluid">
         <a class="navbar-brand" href="#">dServ</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,10 +50,10 @@
                     <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Sign In</a>
+                    <a class="nav-link active" aria-current="page" href="signIn.html">Sign In</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="logIn.html">Log In</a>
+                    <a class="nav-link active" aria-current="page" href="#">Log In</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="becomeServProv.html">Become A Service Provider</a>
@@ -72,21 +69,18 @@
     </header>
 
 
-
-
     <main class="form-signin w-100 m-auto">
-
-      <div class="shadow-lg p-3 mb-5 bg-white rounded" style="padding-top: 5vh;">
+<div class="shadow-lg p-3 mb-5 bg-white rounded">
         <form>
           <img class="mb-4 border-left-0 rounded text-bg-dark" src="../assets/img/logo.png" alt="logo" width="120" height="120">
-          <h1 class="h3 mb-3 fw-normal">Please Sign in</h1>
+          <h1 class="h3 mb-3 fw-normal">Log in</h1>
 
           <div class="form-floating">
-          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+          <input type="text" class="form-control" id="email" placeholder="name@example.com">
           <label for="floatingInput">Email address</label>
           </div>
           <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <input type="password" class="form-control" id="password" placeholder="Password">
           <label for="floatingPassword">Password</label>
           </div>
 
@@ -95,20 +89,75 @@
               <input type="checkbox" value="remember-me"> Remember me
           </label>
           </div>
-          <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
           
       </form>
+      <input type="submit" id='login' name="login" value="Log In" class="w-100 btn btn-lg btn-primary"/>
       </div>
-    
-    
+
+
       <!--Footer-->
     <footer class="mt-auto text-white-50 text-center">
       <p>All Rights Reserved &copy; 2017–2022</p>
     </footer>
-
     </main>
 
 
     
   </body>
+
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+  import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBqDSyxeNX-qh8V64H37k6Ep48kyAgyE7I",
+  authDomain: "auth-test-63ddf.firebaseapp.com",
+  databaseURL: "https://auth-test-63ddf-default-rtdb.firebaseio.com",
+  projectId: "auth-test-63ddf",
+  storageBucket: "auth-test-63ddf.appspot.com",
+  messagingSenderId: "808304544920",
+  appId: "1:808304544920:web:73472ee38e4a5b248554ed"
+};
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const auth = getAuth();
+
+  login.addEventListener('click',(e)=>{
+    document.getElementById("signUp").disabled = true;
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+
+        const dt = new Date();
+        update(ref(database, 'users/' + user.uid),{
+        last_login: dt
+    }).then(function(){
+      
+      alert('user created');
+      window.location.replace("http://127.0.0.1:5501/index.html");
+    }).catch(function(error){
+       console.log('Synchronization failed');
+    })
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        alert(errorMessage);
+    });
+  });
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </html>

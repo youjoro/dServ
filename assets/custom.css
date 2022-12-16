@@ -7,7 +7,12 @@
 }
 main{
   padding-top: 8vh;
+} 
+
+.card-body{
+  min-height: auto;
 }
+
 .ServiceProviderIntro{
     background-size: cover;
     min-height: 95vh;
@@ -46,7 +51,7 @@ h1{
   font-size:xx-large;
   font-family: 'Raleway', sans-serif;
 }
-@media only screen and (min-width: 992px) {
+@media screen and (max-width: 992px) {
   .navbar {
     padding: 0;
   }
@@ -56,15 +61,17 @@ h1{
   .navbar .navbar-brand {
     padding: 0 0.8em;
   }
-
+  
 }
 
 
-@media (max-width: 768px){
+@media screen and (max-width: 768px){
+    .card:not(:first-child){
+      display: none;
+    }
     .masthead{
         min-height: 40vh;
     }
-
     .navbar-collapse{
     background-color:rgb(255, 255, 255);
     margin-left: -2%;
@@ -80,4 +87,15 @@ h1{
   main{
     padding-top: 8vh;
   }
+}
+
+@media screen and (min-width: 568px) {
+.cards-wrapper{
+  display: flex;
+}
+
+.card{
+  margin: 1em auto; 
+  width: calc(100%/2);
+}
 }

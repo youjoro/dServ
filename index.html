@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>dServ</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    
 
     <!--Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,18 +14,16 @@
 
     <!--Google Icons-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    
     <style>
 
         h1{
             font-family: 'Paytone One', sans-serif;
             text-shadow: 5px;
         }
-        h2,h3,h4{
+        h2,h3,h4,button, .btn, input{
             font-family: 'Urbanist', sans-serif;
-        }
-        input{
-            font-family: 'Raleway', sans-serif;
         }
         
         .material-symbols-outlined {
@@ -38,15 +36,38 @@
         .bg-dark{
             background: transparent !important;
         }
+        .btn, .form-control{
+            border-radius: 0%;
+        }
         .bg-dark.scrolled{
             background: #000 !important;
             transition: 0.75s ease;
+        }@media (max-width: 992px) {
+            .button{
+                width: 10%;
+            }
+            .carousel-control-next,.carousel-control-prev{
+            margin-top: 18vh;
+            padding: 1.5em;
+            height: 8vh;
+            width: 8vh;
+            }
+        }
+        .carousel-control-next,.carousel-control-prev{
+            padding: 1.5em;
+            height: 10vh;
+            width: 10vh;
+        }.card-body2{
+            min-height: 300px;
+            min-width: 300px;
+            margin-right: 5px;
         }
     </style>
     <!--Stylesheet and Logo-->
-    <link rel="stylesheet" href="../assets/custom.css">
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/logo_smol.png" />
-
+    
+    <link rel="stylesheet" href="assets/custom.css">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo_smol.png" />
+    
     <!--Navbar-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
@@ -54,6 +75,8 @@
             $('nav').toggleClass('scrolled', $(this).scrollTop() > 400);
         });
     </script>
+
+    
   </head>
   <body>
 
@@ -72,16 +95,16 @@
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="Other_Pages/signIn.html">Sign In</a>
+                    <a class="nav-link active" aria-current="page" href="Landing_Pages/signIn.html">Sign In</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="Other_Pages/logIn.html">Log In</a>
+                    <a class="nav-link active" aria-current="page" href="Landing_Pages/logIn.html">Log In</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="Other_Pages/becomeServProv.html">Become A Service Provider</a>
+                    <a class="nav-link active" aria-current="page" href="Landing_Pages/becomeServProv.html">Become A Service Provider</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="Other_Pages/About.html">About</a>
+                    <a class="nav-link active" aria-current="page" href="Landing_Pages/About.html">About</a>
                 </li>
                 </ul>
                 
@@ -103,10 +126,20 @@
                     <h2 class="text-center">Find Home Services Providers near you</h1>
                 </div>
                 
-                <div class="row" style="width: 80%; margin:auto;">
-                    <form class="d-flex " role="search">
-                        <input class="form-control form-control-sm" type="search" placeholder="Search for Home Services" aria-label="Search">
-                        <button class="btn btn-primary btn-floating" type="submit"><span class="material-symbols-outlined">search</span></button>
+                <div class="d-flex text-bg-light rounded my-1 justify-content-center align-items-center" style="width: 80%; margin:auto;">
+                    <div class="dropdown">
+                    <button class="btn btn-lg btn-light dropdown-toggle rounded-start" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Search by 
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">City</a></li>
+                        <li><a class="dropdown-item" href="#">Service</a></li>
+                        <li><a class="dropdown-item" href="#">Rating</a></li>
+                    </ul>
+                    </div>
+                    <form class="d-flex" role="search" style="width: 100%;">
+                        <input class="form-control form-control-lg " type="search" placeholder="Search for Home Services" aria-label="Search">
+                        <button class="btn btn-primary btn-floating rounded-end" type="submit"><span class="material-symbols-outlined">search</span></button>
                     </form>
                 </div>
 
@@ -131,13 +164,138 @@
                         <a href="#" class="link-light">Book now!</a>
                 </div>
             </div>
+
+
+            <!--Promotions-->
+            <div class="my-lg-5"></div>
+            <div class="my-lg-5"><br></div>
+            <div class="my-3">
+                <h2>Promotions</h2>
+                <hr class="mx-n3">
+            </div>
+
+            <!--promos-->
+            <div> 
+                <div id="myCarousel" class="carousel carousel-dark slide " data-bs-ride="carousel">
+                
+                <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="cards-wrapper d-flex justify-content-center align-items-center">
+                        <!--Cards - 1-->
+                            <div class="card">
+                            <img class="card-img-top" src="..." alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">1</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                            </div>
+                            <div class="card">
+                            <img class="card-img-top" src="..." alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">2</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                            </div>
+                            <div class="card">
+                            <img class="card-img-top" src="..." alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">3</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                            </div>
+
+                            
+                    </div>
+                    
+                </div>
+
+                <div class="carousel-item">
+                    <div class="cards-wrapper d-flex justify-content-center align-items-center">
+                        <!--Cards - 1-->
+                            <div class="card">
+                            <img class="card-img-top" src="..." alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">4</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                            </div>
+                            <div class="card">
+                            <img class="card-img-top" src="..." alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">5</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                            </div>
+                            <div class="card">
+                            <img class="card-img-top" src="..." alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">6</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                            </div>
+
+                            
+                    </div>
+                    
+                </div>
+                
+                </div>
+
+                    <button class="carousel-control-prev btn rounded-2 btn-dark my-lg-5" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next btn rounded-2 btn-dark my-lg-5" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                    </button>
+
+                
+            </div>
+
+            </div>
+            <!--View Services-->
+            <div class="my-lg-5"></div>
+            <div class="my-lg-5"><br></div>
+            <div class="my-3">
+                <h2 class="font-weight-light">Promos Available</h2>
+                <hr class="mx-n3">
+            </div>
+            <div class="container-fluid py-2">
+                
+                <div class="d-flex flex-row flex-nowrap overflow-auto">
+                    <div class="card card-body2">Card</div>
+                    <div class="card card-body2">Card</div>
+                    <div class="card card-body2">Card</div>
+                    <div class="card card-body2">Card</div>
+                    <div class="card card-body2">Card</div>
+                    <div class="card card-body2">Card</div>
+                    <div class="card card-body2">Card</div>
+                    <div class="card card-body2">Card</div>
+                    <div class="card card-body2">Card</div>
+                    <div class="card card-body2">Card</div>
+                    <div class="card card-body2">Card</div>
+                    <div class="card card-body2">Card</div>
+                    <div class="card card-body2">Card</div>
+                    <div class="card card-body2">Card</div>
+                </div>
+            </div>
+
+            
+            <!--Services-->
             <div class="my-lg-5"></div>
             <div class="my-lg-5"><br></div>
             <div class="my-3">
                 <h2>Services</h2>
                 <hr class="mx-n3">
             </div>
-            <div class="row text-center d-flex justify-content-center align-items-center">
+            <div class=" row text-center d-flex justify-content-center align-items-center">
                     <div class="col-6 col-sm mx-1 my-2 text-light p-4 py-lg-5 border rounded-2" style="background-color: rgb(226, 144, 144);">
                             <br>
                             <h3 class="fs-5 fw-bold">Self-Care</h3>
@@ -164,7 +322,7 @@
             <div class="my-lg-5"></div>
             <div class="my-lg-5"><br></div>
             <div class="my-3">
-                <h2>Locations</h2>
+                <h2>Service Providers available in:</h2>
                 <hr class="mx-n3">
 
 
@@ -199,8 +357,8 @@
       <p>All Rights Reserved &copy; 2017–2022</p>
     </footer>
 
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+  
   </body>
 </html>
