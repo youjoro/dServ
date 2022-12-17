@@ -1,12 +1,16 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { getDatabase, ref, child, onValue,get} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+
 var div = document.getElementById('promotions');
 var promotions = 0;
 
 
 function addDivToPromos(test){
-    let d = document.createElement("div .card")
-
-    d.innerHTML=test;
-
+    let d = document.createElement("div")
+    d.classList.add('card','card-body2','overflow');
+    let p = document.createElement("p");
+    p.innerHTML=test;
+    d.appendChild(p);
     div.appendChild(d);
 }
 
@@ -18,13 +22,6 @@ function addAllItemsInPromos(promos){
     })
 }
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, ref, child, onValue,get} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
     apiKey: "AIzaSyDcb9FH5Hcik94Ucxih4atoG0dNApeahA4",
     authDomain: "dserv-26a9a.firebaseapp.com",
