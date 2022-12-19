@@ -7,7 +7,7 @@ var promotions = 0;
 
 function addDivToPromos(test){
     let d = document.createElement("div")
-    d.classList.add('card','card-body2','overflow');
+    d.classList.add('card','card-body2','overflow','p-2','mx-3');
     let p = document.createElement("p");
     p.innerHTML=test;
     d.appendChild(p);

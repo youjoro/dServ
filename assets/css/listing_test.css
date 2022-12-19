@@ -1,0 +1,67 @@
+#ServicesDiv
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+.productcard{
+    border: 2px lightblue solid;
+    border-radius: 5px;
+    height: 470px;
+    width: 270px;
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    transition: border-color .3s;
+}
+.productcard:hover{
+    border-color: darkcyan;
+}
+.thumb{
+    width: 220px;
+    height: 140px;
+    cursor: pointer;
+}
+.detbtns{
+    background-color: navy;
+    color: white;
+    width: 90%;
+    margin-bottom: 1vh;
+}
+.detbtns:hover{
+    background-color: rgb(1, 1, 87);
+    color: wheat;
+}
+.title{
+    font-family: 'Raleway', sans-serif;
+}
+li,h5{
+    font-family: 'Urbanist', sans-serif;
+}
+.list-group-item{
+    margin-bottom: 2px;
+    margin-top: 2px;
+    font-size: medium;
+}
+
+.list-group-item:hover{
+    background-color: rgb(128, 128, 128);
+    color: white;
+    padding: 2px;
+}
+
+@media screen and (max-width: 1120px){
+    .list-group-item{
+        padding: 2px;
+    }
+
+}
+
+
+@media screen and (max-width: 992px){
+    #sidebar{
+        display: none;
+    }
+
+}
