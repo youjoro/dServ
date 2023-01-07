@@ -9,75 +9,25 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/checkout/">
 
 
-        <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      .bg-dark{
-            background: transparent !important;
-            
-        }
-        .bg-dark.scrolled{
-            background: rgb(165, 163, 163) !important;
-            transition: 0.75s ease;
-        }
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      .b-example-divider {
-        height: 3rem;
-        background-color: rgba(0, 0, 0, .1);
-        border: solid rgba(0, 0, 0, .15);
-        border-width: 1px 0;
-        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
-
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
-
-      .bi {
-        vertical-align: -.125em;
-        fill: currentColor;
-      }
-
-      .nav-scroller {
-        position: relative;
-        z-index: 2;
-        height: 2.75rem;
-        overflow-y: hidden;
-      }
-
-      .nav-scroller .nav {
-        display: flex;
-        flex-wrap: nowrap;
-        padding-bottom: 1rem;
-        margin-top: -1px;
-        overflow-x: auto;
-        text-align: center;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-      }
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    
       
-    </style>
+    
     <!--Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,900&family=Montserrat:wght@500&family=Quicksand:wght@300&family=Raleway:wght@300;500&display=swap" rel="stylesheet">
     
     <!-- Custom styles for this template -->
-
+    <style>
+      .nav-link{
+            font-family: 'Raleway', sans-serif;
+            font-size: 29px;
+            letter-spacing: 0.02em;
+            font-style: normal;
+            font-weight: 900;
+        }
+    </style>
 
     <link href="../assets/css/form-validation.css" rel="stylesheet">      
           <link href=
@@ -91,276 +41,421 @@
     'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'>
         </script>
 
-        <script>
-        $(window).scroll(function(){
-            $('nav').toggleClass('scrolled', $(this).scrollTop() > 400);
-        });
-    </script>
-  </head>
-  <body class="bg-light col-lg-8 mx-auto p-4 py-md-5">
-    
-    <!--Navbar-->
-    <header class="mb-auto text-center ">
-            <nav class="navbar navbar-expand-md fixed-top bg-dark navbar-light" >
-                <div class="container-fluid">
-                <a class="navbar-brand text-dark" href="#">dServ</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../Landing_Pages/signUp.html">Sign Up</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../Landing_Pages/logIn.html">Log In</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../Landing_Pages/becomeServProv.html">Become A Service Provider</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../Landing_Pages/About.html">About</a>
-                        </li>
-                        </ul>
-                        
-                    </div>
-                </div>
-            </nav>
-    </header>
-
-
-<div class="container">
-  <main>
-
-
-    <h1 class="text-center fs-4 py-lg-4">Registration form</h1>
-    <form id="signUpForm" action="#!">
-        <!-- start step indicators -->
-        <div class="form-header d-flex mb-4">
-            <span class="stepIndicator">Account Setup</span>
-            <span class="stepIndicator">Background and Personal Details</span>
-            <span class="stepIndicator">Job History and Experience</span>
-            <span class="stepIndicator">First Service Posting</span>
-        </div>
-        <!-- end step indicators -->
         
-        <!--Registration Form: Account Setup-->  
-        <!-- step one -->
-        <div class="step">
-          <div class="row g-3">
-            <div class="col-sm-6">
-              <label for="firstName" class="form-label">First name</label>
-              <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Valid first name is required.
-              </div>
-            </div>
+  </head>
+  <body class="">
 
-            <div class="col-sm-6">
-              <label for="lastName" class="form-label">Last name</label>
-              <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Valid last name is required.
-              </div>
-            </div>
+    <div class="flex p-4">
+      <a class="nav-link active" aria-current="page" href="/Registration_Provider/introduction.html"> > Return</a>
+    </div>
 
-            <div class="col-12" id="username">
-              <label for="username" class="form-label">Username</label>
-              <div class="input-group has-validation">
-                <span class="input-group-text">@</span>
-                <input type="text" class="form-control" id="username" placeholder="Username" required>
-              <div class="invalid-feedback">
-                  Your username is required.
+
+    <div class="container col-lg-8 mx-auto">
+      <main>
+
+
+        <h1 class="text-center fs-4 py-lg-4">Registration form</h1>
+        <form id="signUpForm" action="#!">
+            <!-- start step indicators -->
+            <div class="form-header d-flex mb-4">
+                <span class="stepIndicator">Account Setup</span>
+                <span class="stepIndicator">Background and Personal Details</span>
+                <span class="stepIndicator">Job History and Experience</span>
+                <span class="stepIndicator">First Service Posting</span>
+            </div>
+            <!-- end step indicators -->
+            
+            <!--Registration Form: Account Setup-->  
+            <!-- step one -->
+            <div class="step">
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <label for="firstName" class="form-label">First name</label>
+                  <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                  <div class="invalid-feedback">
+                    Valid first name is required.
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="col-12">
-              <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
-              <input type="email" class="form-control" id="email" placeholder="you@example.com">
-              <div class="invalid-feedback">
-                Please enter a valid email address for updates.
-              </div>
-            </div>
+                <div class="col-sm-6">
+                  <label for="lastName" class="form-label">Last name</label>
+                  <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                  <div class="invalid-feedback">
+                    Valid last name is required.
+                  </div>
+                </div>
 
-            <div class="col-12">
-              <label for="address" class="form-label">Phone Number</label>
-              <input type="text" class="form-control" id="phone_number" placeholder="0912345789" required>
-              <div class="invalid-feedback">
-                Please enter your phone number.
-              </div>
-            </div>
-
-            <div class="col-12">
-              <label for="address" class="form-label">Address</label>
-              <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-              <div class="invalid-feedback">
-                Please enter your address.
-              </div>
-            </div>
-
-            <div class="col-12">
-              <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-            </div>
-
-            <div class="col-md-5">
-              <label for="country" class="form-label">Country</label>
-              <select class="form-select" id="country" required>
-                <option value="">Choose...</option>
-                <option>United States</option>
-              </select>
-              <div class="invalid-feedback">
-                Please select a valid country.
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <label for="state" class="form-label">State</label>
-              <select class="form-select" id="state" required>
-                <option value="">Choose...</option>
-                <option>California</option>
-              </select>
-              <div class="invalid-feedback">
-                Please provide a valid state.
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <label for="zip" class="form-label">Zip</label>
-              <input type="text" class="form-control" id="zip" placeholder="" required>
-              <div class="invalid-feedback">
-                Zip code required.
-              </div>
-            </div>
-
-            <hr class="my-4">
-
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="same-address">
-            <label class="form-check-label" for="same-address">I am 21 years old and over.</label>
-          </div>
-
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="save-info">
-            <label class="form-check-label" for="save-info">I am personally liable for my actions</label>
-          </div>
-
-          <hr class="my-4">
-
-          <h4 class="mb-3">Type of Provider</h4>
-
-          <div class="my-3">
-            <div class="form-check">
-              <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
-              <label class="form-check-label" for="credit">Individual</label>
-            </div>
-            <div class="form-check">
-              <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
-              <label class="form-check-label" for="debit">Company</label>
-            </div>
-          </div>
-
-          
-          <hr class="my-4">
-          </div>
-        </div>
-
-        <!--Registration Form: Background and Personal Details-->  
-        <!-- step two -->
-        <div class="step">
-          <section class="vh-100">
-            <div class="container h-100">
-              <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-xl-9">
-
-                  <h2 class="text-black mb-4">Background and Personal Details</h2>
-
-                  <div class="card" style="border-radius: 15px;">
-                    <div class="card-body">
-
-                      <div class="row align-items-center pt-4 pb-3">
-                        <div class="col-md-3 ps-5">
-
-                          <h6 class="mb-0">Previous Jobs</h6>
-
-                        </div>
-                        <div class="col-md-9 pe-5">
-
-                          <input type="text" class="form-control form-control-lg" />
-
-                        </div>
-                      </div>
-
-                      <hr class="mx-n3">
-
-                      <div class="row align-items-center py-3">
-                        <div class="col-md-3 ps-5">
-
-                          <h6 class="mb-0">Years of Experience</h6>
-
-                        </div>
-                        <div class="col-md-9 pe-5">
-
-                          <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
-
-                        </div>
-                      </div>
-
-                      <hr class="mx-n3">
-
-                      <div class="row align-items-center py-3">
-                        <div class="col-md-3 ps-5">
-
-                          <h6 class="mb-0">History</h6>
-
-                        </div>
-                        <div class="col-md-9 pe-5">
-
-                          <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
-
-                        </div>
-                      </div>
-
-                      <hr class="mx-n3">
-
-                      <div class="row align-items-center py-3">
-                        <div class="col-md-3 ps-5">
-
-                          <h6 class="mb-0">Upload CV</h6>
-
-                        </div>
-                        <div class="col-md-9 pe-5">
-
-                          <input class="form-control form-control-lg" id="formFileLg" type="file" />
-                          <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
-                            size 50 MB</div>
-
-                        </div>
-                      </div>
-
-                      <hr class="mx-n3">            
+                <div class="col-12" id="username">
+                  <label for="username" class="form-label">Username</label>
+                  <div class="input-group has-validation">
+                    <span class="input-group-text">@</span>
+                    <input type="text" class="form-control" id="username" placeholder="Username" required>
+                  <div class="invalid-feedback">
+                      Your username is required.
                     </div>
                   </div>
+                </div>
 
+                <div class="col-12">
+                  <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
+                  <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                  <div class="invalid-feedback">
+                    Please enter a valid email address for updates.
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label for="address" class="form-label">Phone Number</label>
+                  <input type="text" class="form-control" id="phone_number" placeholder="0912345789" required>
+                  <div class="invalid-feedback">
+                    Please enter your phone number.
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label for="address" class="form-label">Address</label>
+                  <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                  <div class="invalid-feedback">
+                    Please enter your address.
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
+                  <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                </div>
+
+                <div class="col-md-5">
+                  <label for="country" class="form-label">Country</label>
+                  <select class="form-select" id="country" required>
+                    <option value="">Choose...</option>
+                    <option>United States</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select a valid country.
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <label for="state" class="form-label">State</label>
+                  <select class="form-select" id="state" required>
+                    <option value="">Choose...</option>
+                    <option>California</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please provide a valid state.
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <label for="zip" class="form-label">Zip</label>
+                  <input type="text" class="form-control" id="zip" placeholder="" required>
+                  <div class="invalid-feedback">
+                    Zip code required.
+                  </div>
+                </div>
+
+                <hr class="my-4">
+
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="same-address">
+                <label class="form-check-label" for="same-address">I am 21 years old and over.</label>
+              </div>
+
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="save-info">
+                <label class="form-check-label" for="save-info">I am personally liable for my actions</label>
+              </div>
+
+              <hr class="my-4">
+
+              <h4 class="mb-3">Type of Provider</h4>
+
+              <div class="my-3">
+                <div class="form-check">
+                  <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
+                  <label class="form-check-label" for="credit">Individual</label>
+                </div>
+                <div class="form-check">
+                  <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
+                  <label class="form-check-label" for="debit">Company</label>
                 </div>
               </div>
+
+              
+              <hr class="my-4">
+              </div>
             </div>
-          </section>
-        </div>
+
+            <!--Registration Form: Background and Personal Details-->  
+            <!-- step two -->
+            <div class="step">
+              <section class="vh-100">
+                <div class="container h-100">
+                  <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-xl-9">
+
+                      <h2 class="text-black mb-4">Background and Personal Details</h2>
+
+                      <div class="card" style="border-radius: 15px;">
+                        <div class="card-body">
+
+                          <div class="row align-items-center pt-4 pb-3">
+                            <div class="col-md-3 ps-5">
+
+                              <h6 class="mb-0">Previous Jobs</h6>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                              <input type="text" class="form-control form-control-lg" />
+
+                            </div>
+                          </div>
+
+                          <hr class="mx-n3">
+
+                          <div class="row align-items-center py-3">
+                            <div class="col-md-3 ps-5">
+
+                              <h6 class="mb-0">Years of Experience</h6>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                              <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
+
+                            </div>
+                          </div>
+
+                          <hr class="mx-n3">
+
+                          <div class="row align-items-center py-3">
+                            <div class="col-md-3 ps-5">
+
+                              <h6 class="mb-0">History</h6>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                              <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
+
+                            </div>
+                          </div>
+
+                          <hr class="mx-n3">
+
+                          <div class="row align-items-center py-3">
+                            <div class="col-md-3 ps-5">
+
+                              <h6 class="mb-0">Upload CV</h6>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                              <input class="form-control form-control-lg" id="formFileLg" type="file" />
+                              <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
+                                size 50 MB</div>
+
+                            </div>
+                          </div>
+
+                          <hr class="mx-n3">            
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <!--Registration Form: History and Experience-->  
+            <!-- step three -->
+            <div class="step">
+              <section class="vh-100">
+                <div class="container h-100">
+                  <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-xl-9">
+
+                      <h2 class="text-black mb-4">Personal Skills and Job Experience</h2>
+
+                      <div class="card" style="border-radius: 15px;">
+                        <div class="card-body">
+
+                          <div class="row align-items-center pt-4 pb-3">
+                            <div class="col-md-3 ps-5">
+
+                              <h6 class="mb-0">Previous Jobs</h6>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                              <input type="text" class="form-control form-control-lg" />
+
+                            </div>
+                          </div>
+
+                          <hr class="mx-n3">
+
+                          <div class="row align-items-center py-3">
+                            <div class="col-md-3 ps-5">
+
+                              <h6 class="mb-0">Years of Experience</h6>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                              <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
+
+                            </div>
+                          </div>
+
+                          <hr class="mx-n3">
+
+                          <div class="row align-items-center py-3">
+                            <div class="col-md-3 ps-5">
+
+                              <h6 class="mb-0">History</h6>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                              <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
+
+                            </div>
+                          </div>
+
+                          <hr class="mx-n3">
+
+                          <div class="row align-items-center py-3">
+                            <div class="col-md-3 ps-5">
+
+                              <h6 class="mb-0">Upload CV</h6>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                              <input class="form-control form-control-lg" id="formFileLg" type="file" />
+                              <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
+                                size 50 MB</div>
+
+                            </div>
+                          </div>
+
+                          <hr class="mx-n3">            
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            
+        
+            <!--Registration Form: First Service Details-->  
+            <!-- step four -->
+            <div class="step">
+              <section class="vh-100">
+                <div class="container h-100">
+                  <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-xl-9">
+
+                      <h2 class="text-black mb-4">Creating your First Service Posting</h2>
+
+                      <div class="card" style="border-radius: 15px;">
+                        <div class="card-body">
+
+                          <div class="row align-items-center pt-4 pb-3">
+                            <div class="col-md-3 ps-5">
+
+                              <h6 class="mb-0">Previous Jobs</h6>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                              <input type="text" class="form-control form-control-lg" />
+
+                            </div>
+                          </div>
+
+                          <hr class="mx-n3">
+
+                          <div class="row align-items-center py-3">
+                            <div class="col-md-3 ps-5">
+
+                              <h6 class="mb-0">Years of Experience</h6>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                              <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
+
+                            </div>
+                          </div>
+
+                          <hr class="mx-n3">
+
+                          <div class="row align-items-center py-3">
+                            <div class="col-md-3 ps-5">
+
+                              <h6 class="mb-0">History</h6>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                              <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
+
+                            </div>
+                          </div>
+
+                          <hr class="mx-n3">
+
+                          <div class="row align-items-center py-3">
+                            <div class="col-md-3 ps-5">
+
+                              <h6 class="mb-0">Upload CV</h6>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                              <input class="form-control form-control-lg" id="formFileLg" type="file" />
+                              <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
+                                size 50 MB</div>
+
+                            </div>
+                          </div>
+
+                          <hr class="mx-n3">            
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+
+            <!-- start previous / next buttons -->
+            <div class="form-footer d-flex py-3">
+                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+            </div>
+            <!-- end previous / next buttons -->
+        </form>
+
 
         <!--Registration Form: History and Experience-->  
-        <!-- step three -->
-        <div class="step">
+        <div id="experience" class="" hidden>
           <section class="vh-100">
             <div class="container h-100">
               <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-xl-9">
 
-                  <h2 class="text-black mb-4">Personal Skills and Job Experience</h2>
+                  <h2 class="text-black mb-4">Personal History and Job Experience</h2>
 
                   <div class="card" style="border-radius: 15px;">
                     <div class="card-body">
@@ -368,7 +463,7 @@
                       <div class="row align-items-center pt-4 pb-3">
                         <div class="col-md-3 ps-5">
 
-                          <h6 class="mb-0">Previous Jobs</h6>
+                          <h6 class="mb-0">Full name</h6>
 
                         </div>
                         <div class="col-md-9 pe-5">
@@ -383,7 +478,7 @@
                       <div class="row align-items-center py-3">
                         <div class="col-md-3 ps-5">
 
-                          <h6 class="mb-0">Years of Experience</h6>
+                          <h6 class="mb-0">Email address</h6>
 
                         </div>
                         <div class="col-md-9 pe-5">
@@ -398,7 +493,7 @@
                       <div class="row align-items-center py-3">
                         <div class="col-md-3 ps-5">
 
-                          <h6 class="mb-0">History</h6>
+                          <h6 class="mb-0">Full name</h6>
 
                         </div>
                         <div class="col-md-9 pe-5">
@@ -435,192 +530,15 @@
           </section>
         </div>
 
+        <!--Registration Form: Pictures for Confirmation-->
+
+        <div id="for_Pics" hidden>
+          
+        </div>
         
-    
-        <!--Registration Form: First Service Details-->  
-        <!-- step four -->
-        <div class="step">
-          <section class="vh-100">
-            <div class="container h-100">
-              <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-xl-9">
 
-                  <h2 class="text-black mb-4">Creating your First Service Posting</h2>
-
-                  <div class="card" style="border-radius: 15px;">
-                    <div class="card-body">
-
-                      <div class="row align-items-center pt-4 pb-3">
-                        <div class="col-md-3 ps-5">
-
-                          <h6 class="mb-0">Previous Jobs</h6>
-
-                        </div>
-                        <div class="col-md-9 pe-5">
-
-                          <input type="text" class="form-control form-control-lg" />
-
-                        </div>
-                      </div>
-
-                      <hr class="mx-n3">
-
-                      <div class="row align-items-center py-3">
-                        <div class="col-md-3 ps-5">
-
-                          <h6 class="mb-0">Years of Experience</h6>
-
-                        </div>
-                        <div class="col-md-9 pe-5">
-
-                          <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
-
-                        </div>
-                      </div>
-
-                      <hr class="mx-n3">
-
-                      <div class="row align-items-center py-3">
-                        <div class="col-md-3 ps-5">
-
-                          <h6 class="mb-0">History</h6>
-
-                        </div>
-                        <div class="col-md-9 pe-5">
-
-                          <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
-
-                        </div>
-                      </div>
-
-                      <hr class="mx-n3">
-
-                      <div class="row align-items-center py-3">
-                        <div class="col-md-3 ps-5">
-
-                          <h6 class="mb-0">Upload CV</h6>
-
-                        </div>
-                        <div class="col-md-9 pe-5">
-
-                          <input class="form-control form-control-lg" id="formFileLg" type="file" />
-                          <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
-                            size 50 MB</div>
-
-                        </div>
-                      </div>
-
-                      <hr class="mx-n3">            
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-
-
-        <!-- start previous / next buttons -->
-        <div class="form-footer d-flex py-3">
-            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-        </div>
-        <!-- end previous / next buttons -->
-    </form>
-
-
-    <!--Registration Form: History and Experience-->  
-    <div id="experience" class="" hidden>
-      <section class="vh-100">
-        <div class="container h-100">
-          <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-xl-9">
-
-              <h2 class="text-black mb-4">Personal History and Job Experience</h2>
-
-              <div class="card" style="border-radius: 15px;">
-                <div class="card-body">
-
-                  <div class="row align-items-center pt-4 pb-3">
-                    <div class="col-md-3 ps-5">
-
-                      <h6 class="mb-0">Full name</h6>
-
-                    </div>
-                    <div class="col-md-9 pe-5">
-
-                      <input type="text" class="form-control form-control-lg" />
-
-                    </div>
-                  </div>
-
-                  <hr class="mx-n3">
-
-                  <div class="row align-items-center py-3">
-                    <div class="col-md-3 ps-5">
-
-                      <h6 class="mb-0">Email address</h6>
-
-                    </div>
-                    <div class="col-md-9 pe-5">
-
-                      <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
-
-                    </div>
-                  </div>
-
-                  <hr class="mx-n3">
-
-                  <div class="row align-items-center py-3">
-                    <div class="col-md-3 ps-5">
-
-                      <h6 class="mb-0">Full name</h6>
-
-                    </div>
-                    <div class="col-md-9 pe-5">
-
-                      <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
-
-                    </div>
-                  </div>
-
-                  <hr class="mx-n3">
-
-                  <div class="row align-items-center py-3">
-                    <div class="col-md-3 ps-5">
-
-                      <h6 class="mb-0">Upload CV</h6>
-
-                    </div>
-                    <div class="col-md-9 pe-5">
-
-                      <input class="form-control form-control-lg" id="formFileLg" type="file" />
-                      <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
-                        size 50 MB</div>
-
-                    </div>
-                  </div>
-
-                  <hr class="mx-n3">            
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
+      </main>
     </div>
-
-    <!--Registration Form: Pictures for Confirmation-->
-
-    <div id="for_Pics" hidden>
-      
-    </div>
-    
-
-  </main>
-</div>
 
   <footer class="my-5 pt-5 text-muted text-center text-small">
     <p class="mb-1">&copy; 2017–2022 dServ</p>
@@ -630,7 +548,7 @@
       <li class="list-inline-item"><a href="#">Support</a></li>
     </ul>
   </footer>
-</div>
+
 
 
 

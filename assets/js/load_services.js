@@ -43,17 +43,18 @@ function addAllServices(){
     arrayOfServices.forEach(serv =>{
         addAService(serv, i++);
     });
+    AssignAllEvents();
 }
 
 
 function addAService(service, index){
     let html = 
     `
-    <img src="`+ service.LinksOfImagesArray[0]+`" class="thumb mt-2" id="thumb`+ index +`">
-    <p class="title" id="title`+index+`">`+service.ServiceName+`</p>
+    <img src="`+ service.LinksOfImagesArray[0]+`" class="thumb mt-2" id="thumb-`+ index +`">
+    <p class="title" id="title-`+index+`">`+service.ServiceName+`</p>
     `+getUl(service.Points)+`
     <h5 class="price">`+service.ServicePrice+`</h5>
-    <button class="btn detbtns" id="detbtn">View Details</button>
+    <button class="btn detbtns" id="detbtn-`+index+`">View Details</button>
     `
 
 
@@ -74,4 +75,28 @@ function getUl(array){
         ul.append(li);
     });
     return ul.outerHTML;
+}
+
+function getServiceIndex(id){
+    var indstart = id.indexOf('-')+1;
+    var indEnd = id.length;
+    return Number(id.substring(indstart,indEnd));
+}
+
+function gotoServiceDetails(event){
+    var index = getServiceIndex(event.target.id);
+    localStorage.Service = JSON.stringify(arrayOfServices[index]);
+    window.location = "services_details.html";
+}
+
+function AssignAllEvents(method){
+    var btns = document.getElementsByClassName('detbtns');
+    var titles = document.getElementsByClassName('title');
+    var thumbs = document.getElementsByClassName('thumb');
+
+    for (let i=0; i <btns.length;i++){
+        btns[i].addEventListener('click',gotoServiceDetails);
+        titles[i].addEventListener('click',gotoServiceDetails);
+        thumbs[i].addEventListener('click',gotoServiceDetails);
+    }
 }

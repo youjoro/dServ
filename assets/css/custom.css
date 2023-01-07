@@ -8,7 +8,9 @@
 main{
   padding-top: 8vh;
 } 
-
+body{
+  background-size:cover;
+}
 .card-body{
   min-height: auto;
 }
@@ -96,4 +98,23 @@ h1{
   margin: 1em auto; 
   width: calc(100%/2);
 }
+}
+.btn-outline {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.142);
+    border-color: #309c37;
+    border-width: 0.1em;
+    font-family: 'Montserrat', sans-serif;
+  
+    letter-spacing: 0.05em;
+    border-radius: 0.5em;
+}
+.btn-outline:hover,
+.btn-outline:active,
+.btn-outline:focus,
+.btn-outline.active {
+  background: #4fbfa8;
+  color: #ffffff;
+  border-color: #4fbfa8;
+
 }

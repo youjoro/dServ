@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="titleTop"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+        <!--Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,900&family=Montserrat:wght@500&family=Quicksand:wght@300&family=Raleway:wght@300;500&display=swap" rel="stylesheet">
+
+    <!--Map-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <style>
+        #map{
+            width: 100%;
+            height: 40vh;
+            z-index: 1;
+        }
+        .navbar-brand{
+            font-size: 29px;
+            letter-spacing: 0.02em;
+            font-style: normal;
+            font-weight: 900;
+        }
+        h2,h3,h4,p{
+            font-family: 'Raleway', sans-serif;
+        }
+        h2{
+            font-size: 2.8em;
+        }
+        h3,h4{
+            font-size: 1.3em;
+            font-weight: 300;
+        }
+        p{
+            font-size: 1em;
+            font-weight: 400;
+        }
+        img{
+            border-radius: 1em;
+        }
+        .float{
+            position:fixed;
+            width:15em;
+            height:60px;
+            bottom:40px;
+            right:40px;
+            background-color:#0C9;
+            color:#FFF;
+            border-radius:1em;
+            display:flex;/*CSS3*/
+            align-items:center;/*Vertical align*/
+            justify-content:center;/*horizontal align*/
+            box-shadow: 2px 2px 3px #999;
+            font-size: 1.4em;
+            font-family: 'Raleway', sans-serif;
+            letter-spacing: 0.05em;
+            border-radius: 0.5em;
+            z-index: 2;
+        }
+    </style>
+
+    <link rel="stylesheet" href="/assets/css/custom.css">
+</head>
+<body>
+    <!--Navbar-->
+    <header class="text-center">
+    <nav class="navbar navbar-expand-md navbar-light ">
+        <div class="container-fluid">
+        
+        <a class="navbar-brand text-dark" href="#">dServ</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/signUp.html">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/logIn.html">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/becomeServProv.html">Become A Service Provider</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/About.html">About</a>
+                </li>
+                </ul>
+                
+            </div>
+        </div>
+    </nav>
+    </header>
+    <div class="container py-1">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
+            <li class="breadcrumb-item"><a id="categoryLink" href="/services_listing/services_listing.html"></a></li>
+            <li class="breadcrumb-item "><a id="locationLink" href="/services_listing/services_listing.html"></a></li>
+            <li class="breadcrumb-item active" id="titleLink" aria-current="page"></li>
+        </ol>
+        </nav>        
+
+    </div>
+
+
+
+    <div class="container my-1">
+
+
+        <div class="flex py-sm-2 w-75">
+            <!--For Images-->
+            <div class="row">
+                <div class="col-7">
+                    <img id="big_img" class="img-fluid w-75" alt="...">
+                </div>
+                <div class="col-5">
+                    <div class="row row-cols-2"  id="small_imgs">
+
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="container">
+            <!--For Upper Text and Title-->
+            <div class="container">
+                <div class="row row-cols-2">
+                    <div class="col-9">
+                        <h2 id="title"></h2>
+                        <h3 id="Location"></h3>
+                        <h4 id="serviceTimes"></h4>
+                    </div>
+                    <div class="col-1">
+                        <div class="row">
+                            <div class="col">
+                                <!--Rating-->
+                            </div>
+                            <div class="col">
+                                <h4>4</h4>
+                                <p>reviews</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        
+        <hr class="my-4">
+    </div>
+    
+    
+    <div class="container">
+        <div class="container py-3">
+            <h2>Overview</h2>
+                <div class="row row-cols-2">
+                    <div class="col-7">
+                        <p id="desc"></p>
+                        <hr>
+                        <h3>Price:</h3>                    
+                        <p id="price"></p>
+                        <ul id="points">
+
+                        </ul>
+                    </div>
+
+
+                    <!--Sidebar-->
+                    <div class="col-4 mx-lg-5">
+                        <div class="container shadow p-3 mb-5 bg-body rounded">
+                            <h3>Call</h3>
+                            <h3 class=" text-danger" id="number"></h3>
+                            <hr>
+                            <h3>Directions</h3>
+                            <div id="map"></div>
+                            
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="container">
+            <h2>Reviews</h2>
+            <div class="container">
+                <!---->
+            </div>
+        </div>
+    </div>
+            <a href="#" class="float">
+            Book Now
+            </a>
+    </div>
+</body>
+
+<script src="/assets/js/service_details.js" type="module"></script>
+</html>
