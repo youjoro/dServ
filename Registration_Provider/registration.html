@@ -27,6 +27,7 @@
             font-style: normal;
             font-weight: 900;
         }
+
     </style>
 
     <link href="../assets/css/form-validation.css" rel="stylesheet">      
@@ -122,30 +123,49 @@
 
                 <div class="col-12">
                   <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
-                  <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                  <input type="text" class="form-control" id="address2" placeholder="Apartment or suite (N/A for none)">
                 </div>
 
                 <div class="col-md-5">
-                  <label for="country" class="form-label">Country</label>
-                  <select class="form-select" id="country" required>
+                  <label for="country" class="form-label">City</label>
+                  <select class="form-select" id="city" required>
                     <option value="">Choose...</option>
-                    <option>United States</option>
+                    <option>Alaminos</option>
+                    <option>Bay</option>
+                    <option>Biñan</option>
+                    <option>Cabuyao</option>
+                    <option>Calamba</option>
+                    <option>Calauan</option>
+                    <option>Cavinti</option>
+                    <option>Famy</option>
+                    <option>Kalayaan</option>
+                    <option>Liliw</option>
+                    <option>Los Baños</option>
+                    <option>Luisiana</option>
+                    <option>Lumban</option>
+                    <option>Mabitac</option>
+                    <option>Magdalena</option>
+                    <option>Majayjay</option>
+                    <option>Nagcarlan</option>
+                    <option>Paete</option>
+                    <option>Pagsanjan</option>
+                    <option>Pakil</option>
+                    <option>Pangil</option>
+                    <option>Pila</option>
+                    <option>Rizal</option>
+                    <option>San Pablo</option>
+                    <option>San Pedro</option>
+                    <option>Santa Cruz</option>
+                    <option>Santa Maria</option>
+                    <option>Santa Rosa</option>
+                    <option>Siniloan</option>
+                    <option>Victoria</option>
                   </select>
                   <div class="invalid-feedback">
-                    Please select a valid country.
+                    Please select a valid city.
                   </div>
                 </div>
 
-                <div class="col-md-4">
-                  <label for="state" class="form-label">State</label>
-                  <select class="form-select" id="state" required>
-                    <option value="">Choose...</option>
-                    <option>California</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Please provide a valid state.
-                  </div>
-                </div>
 
                 <div class="col-md-3">
                   <label for="zip" class="form-label">Zip</label>
@@ -173,11 +193,11 @@
 
               <div class="my-3">
                 <div class="form-check">
-                  <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
+                  <input id="individual" name="paymentMethod" type="radio" class="form-check-input" checked required>
                   <label class="form-check-label" for="credit">Individual</label>
                 </div>
                 <div class="form-check">
-                  <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
+                  <input id="company" name="paymentMethod" type="radio" class="form-check-input" required>
                   <label class="form-check-label" for="debit">Company</label>
                 </div>
               </div>
@@ -203,42 +223,27 @@
                           <div class="row align-items-center pt-4 pb-3">
                             <div class="col-md-3 ps-5">
 
-                              <h6 class="mb-0">Previous Jobs</h6>
+                              <h6 class="mb-0">Previous Jobs and Expertise</h6>
 
                             </div>
                             <div class="col-md-9 pe-5">
-
-                              <input type="text" class="form-control form-control-lg" />
+                              <a class="btn btn-lg btn-outline my-3" href="#!" id="addfield" onclick="addFields()">Add Item</a>
+                              <div id="experience_expertise" class="container"></div>
 
                             </div>
-                          </div>
+                          </div>                    
 
                           <hr class="mx-n3">
 
                           <div class="row align-items-center py-3">
                             <div class="col-md-3 ps-5">
 
-                              <h6 class="mb-0">Years of Experience</h6>
+                              <h6 class="mb-0">Describe yourself</h6>
 
                             </div>
                             <div class="col-md-9 pe-5">
 
-                              <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
-
-                            </div>
-                          </div>
-
-                          <hr class="mx-n3">
-
-                          <div class="row align-items-center py-3">
-                            <div class="col-md-3 ps-5">
-
-                              <h6 class="mb-0">History</h6>
-
-                            </div>
-                            <div class="col-md-9 pe-5">
-
-                              <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
+                              <textarea class="form-control" rows="3" id="selfDescription" placeholder="Describe yourself"></textarea>
 
                             </div>
                           </div>
@@ -256,7 +261,8 @@
                               <input class="form-control form-control-lg" id="formFileLg" type="file" />
                               <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
                                 size 50 MB</div>
-
+                                
+                                <button onclick="skipCV()">Skip this part</button>
                             </div>
                           </div>
 
@@ -278,20 +284,20 @@
                   <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-xl-9">
 
-                      <h2 class="text-black mb-4">Personal Skills and Job Experience</h2>
-
+                      <h2 class="text-black mb-4">Create your Brand</h2>
+                      <p>This for what the client will see looking at your profile</p>
                       <div class="card" style="border-radius: 15px;">
                         <div class="card-body">
 
                           <div class="row align-items-center pt-4 pb-3">
                             <div class="col-md-3 ps-5">
 
-                              <h6 class="mb-0">Previous Jobs</h6>
-
+                              <h6 class="mb-0">Name the Brand</h6>
+                              
                             </div>
                             <div class="col-md-9 pe-5">
 
-                              <input type="text" class="form-control form-control-lg" />
+                              <input type="text" class="form-control form-control-lg" id="brand_name"/>
 
                             </div>
                           </div>
@@ -554,9 +560,8 @@
 
 
   </body>
-      <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-    <!--<script src="../assets/dist/js/form-validation.js"></script>-->
-
-    <!--for div changing-->
-    <script src="/assets/js/switch_divs.js"></script>
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="/assets/js/servProv_reg.js" type="module"></script>
+    <script src="/assets/js/firebase_config.js" type="module"></script>
 </html>

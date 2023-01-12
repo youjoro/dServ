@@ -1,22 +1,22 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import {firebaseConfig} from './firebase_config.js';
 
-import { firebaseConfig } from "./initialize_Firebase";
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
-
-
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
   const auth = getAuth();
 
-
+window.onload = document.getElementById('loading').style.visibility = 'hidden';
 signUp.addEventListener('click',(e) => {
+  document.getElementById('loading').style.visibility = 'visible';
+  document.getElementById('signUp-form').style.visibility = 'hidden';
+
   document.getElementById("signUp").disabled = true;
-    var email = document.getElementById('email').value;
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
-    var phone_number = document.getElementById('phone_number').value;
+  var email = document.getElementById('email').value;
+  var username = document.getElementById('username').value;
+  var password = document.getElementById('password').value;
+  var phone_number = document.getElementById('phone_number').value;
 
 createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
@@ -41,7 +41,9 @@ createUserWithEmailAndPassword(auth, email, password)
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-
+    document.getElementById('signUp-form').style.visibility='visible';
+    document.getElementById('loading').style.visibility = 'hidden';
+    document.getElementById("signUp").disabled = false;
     alert(errorMessage);
     // ..
   });

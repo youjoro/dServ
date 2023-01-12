@@ -18,6 +18,7 @@
         background-image: url("../assets/img/bg.png");
         background-position: center;
         background-repeat: no-repeat;
+        background-size:cover;
         min-height: 100vh;
       }
       
@@ -37,7 +38,7 @@
 
     
   </head>
-  <body class="text-center has-bg-img bg-purple bg-blend-multiply">
+  <body class="text-center has-bg-img bg-purple bg-blend-multiply h-100">
     
     <header>
     <nav class="navbar navbar-expand-md fixed-top navbar-dark">
@@ -70,10 +71,22 @@
     </nav>
     </header>
 
+    <div id="loading" class="h-100" style="z-index: 2;" >
+      <div class="color-overlay d-flex justify-content-center align-items-center" >
+            <div class="container">
+              <div class="flex d-flex justify-content-center align-items-center py-3">
+                  <div class="loader" id="load"></div>
+              </div>
+              <p class="text-light">Please wait....</p>
+            </div>
+            
+      </div>
+    </div>
+    
 
 
 
-    <main class="form-signin w-100 m-auto">
+    <main class="form-signin w-100 h-100 m-auto" id="signUp-form" style="z-index:1;"  >
 
       <div class="shadow-lg p-3 mb-5 bg-white rounded" style="padding-top: 5vh;">
         <form>
@@ -105,8 +118,8 @@
       </form>
       <input type="submit" id='signUp' name="signup_submit" value="Sign Up" class="w-100 btn btn-lg btn-primary"/>
       <!--<hr class="mx-n3">   
-      <h4>or Sign Up with:</h4>         
-      </div>-->
+      <h4>or Sign Up with:</h4>-->  
+      </div>
     
       
       <!--Footer-->
@@ -121,7 +134,7 @@
   </body>
 
 <script type="module" src="/assets/js/signUp.js"></script>
-
+<script src="/assets/js/firebase_config.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
 </html>

@@ -36,7 +36,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav ms-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/index.html">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="Landing_Pages/signUp.html">Sign Up</a>
@@ -94,6 +94,10 @@
                 </nav>
             </div>
             <div class="col-9 py-5">
+                <div class="flex d-flex justify-content-center align-items-center py-lg-5" id="load">
+                    <div class="loader" id="load"></div>
+                </div>
+                
                 <div id="ServicesDiv" style="min-width: 100%;" class="container">
                 </div>
             </div>
@@ -120,6 +124,6 @@
         return title + "...";
     }
   </script>
-
+  <script src="/assets/js/firebase_config.js" type="module"></script>
   <script src="/assets/js/load_services.js" type="module"></script>
 </html>

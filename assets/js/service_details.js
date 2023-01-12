@@ -7,6 +7,10 @@ window.onload = function(){
         LoadService();
     }
 }
+/*window.onbeforeunload = function() {
+  localStorage.clear();
+  return '';
+};*/
 
 function LoadService(){
     document.getElementById('titleTop').innerHTML = service.ServiceName;
@@ -57,12 +61,51 @@ function loadMap(){
     let data = service.location_data;
     var location_data = String(data).split(',').map(Number);
     var map = L.map('map').setView(location_data, 13);
-    console.log(data);
+    
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
+    navigator.geolocation.getCurrentPosition(success,error);
+
+    let marker;
+    var markers=[];
+    var curr_Loc_Icon = L.icon({
+        iconUrl:'https://cdn-icons-png.flaticon.com/512/5693/5693831.png',
+        iconSize: [30, 30]
+    });
+    
+
+    function success(pos){
+        const lat = pos.coords.latitude;
+        const long = pos.coords.longitude;
+        
+
+        if(marker){
+            map.removeLayer(marker); 
+            map.removeLayer(circle);
+        }
+
+        marker = L.marker([lat,long],{icon: curr_Loc_Icon}).addTo(map)
+        .bindPopup("Your Location",{autoClose: false}).openPopup();
+        
+
+        map.setView([lat,long]);
+    }
+
+    function error(err){
+
+        if (err.code === 1 ){
+            alert("Please allow geolocation access");
+        } else {
+            alert("Cannot get current location");
+        }
+    }
+
     L.marker(location_data).addTo(map)
-        .bindPopup(service.Location)
+        .bindPopup(service.ServiceName,{autoClose: false})
         .openPopup();
+
+    
 }

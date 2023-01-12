@@ -134,38 +134,49 @@ body{
   font-family: 'Raleway', sans-serif;
 }
 @media screen and (max-width: 992px) {
-  .navbar {
-    padding: 0;
-  }
-  .navbar .navbar-nav .nav-link {
-    padding: 1em 0.7em;
-  }
-  .navbar .navbar-brand {
-    padding: 0 0.8em;
-  }
-  
-}
-
-
-@media screen and (max-width: 768px){
-
-    .masthead{
-        min-height: 40vh;
+      body{
+        max-height: 40vh;
     }
-    .navbar-collapse{
-    background-color:rgb(255, 255, 255);
-    margin-left: -2%;
-    margin-right: -2%;
-  }
-
-    .navbar .navbar-nav .nav-link {
-      color:black;
-      font-size: 1.1em;
-  }
-
-
-  main{
-    padding-top: 8vh;
-  }
 }
 
+
+@media only screen and (max-width: 600px){
+
+    body{
+        max-height: 40vh;
+        font-size:0.9em;
+        font-weight: 500;
+    }
+    .h6,.h2{
+      font-size: medium;
+    }
+
+}
+
+
+
+.btn{
+  width: 8em;
+  height: 3em;
+  font-size: small;
+}
+
+.btn-outline {
+    color: #000000;
+    background-color: rgba(255, 255, 255, 0.142);
+    border-color: #309c37;
+    border-width: 0.1em;
+    font-family: 'Montserrat', sans-serif;
+
+    letter-spacing: 0.001em;
+    border-radius: 0.5em;
+}
+.btn-outline:hover,
+.btn-outline:active,
+.btn-outline:focus,
+.btn-outline.active {
+  background: #4fbfa8;
+  color: #ffffff;
+  border-color: #4fbfa8;
+
+}
