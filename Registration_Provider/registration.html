@@ -59,10 +59,10 @@
         <form id="signUpForm" action="#!">
             <!-- start step indicators -->
             <div class="form-header d-flex mb-4">
-                <span class="stepIndicator">Account Setup</span>
+                <span class="stepIndicator">Profile Setup</span>
                 <span class="stepIndicator">Background and Personal Details</span>
-                <span class="stepIndicator">Job History and Experience</span>
-                <span class="stepIndicator">First Service Posting</span>
+                <span class="stepIndicator">Create the Brand</span>
+                <span class="stepIndicator">dServ Account Creation</span>
             </div>
             <!-- end step indicators -->
             
@@ -86,20 +86,19 @@
                   </div>
                 </div>
 
-                <div class="col-12" id="username">
+                <div class="col-12">
                   <label for="username" class="form-label">Username</label>
-                  <div class="input-group has-validation">
-                    <span class="input-group-text">@</span>
+ 
                     <input type="text" class="form-control" id="username" placeholder="Username" required>
                   <div class="invalid-feedback">
                       Your username is required.
                     </div>
-                  </div>
+                  
                 </div>
 
                 <div class="col-12">
-                  <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
-                  <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                  <label for="email" class="form-label">Business Email<span class="text-muted">(Optional)</span></label>
+                  <input type="email" class="form-control" id="businessEmail" placeholder="Business@example.com">
                   <div class="invalid-feedback">
                     Please enter a valid email address for updates.
                   </div>
@@ -130,36 +129,36 @@
                   <label for="country" class="form-label">City</label>
                   <select class="form-select" id="city" required>
                     <option value="">Choose...</option>
-                    <option>Alaminos</option>
-                    <option>Bay</option>
-                    <option>Biñan</option>
-                    <option>Cabuyao</option>
-                    <option>Calamba</option>
-                    <option>Calauan</option>
-                    <option>Cavinti</option>
-                    <option>Famy</option>
-                    <option>Kalayaan</option>
-                    <option>Liliw</option>
-                    <option>Los Baños</option>
-                    <option>Luisiana</option>
-                    <option>Lumban</option>
-                    <option>Mabitac</option>
-                    <option>Magdalena</option>
-                    <option>Majayjay</option>
-                    <option>Nagcarlan</option>
-                    <option>Paete</option>
-                    <option>Pagsanjan</option>
-                    <option>Pakil</option>
-                    <option>Pangil</option>
-                    <option>Pila</option>
-                    <option>Rizal</option>
-                    <option>San Pablo</option>
-                    <option>San Pedro</option>
-                    <option>Santa Cruz</option>
-                    <option>Santa Maria</option>
-                    <option>Santa Rosa</option>
-                    <option>Siniloan</option>
-                    <option>Victoria</option>
+                    <option value="Alaminos">Alaminos</option>
+                    <option value="Bay">Bay</option>
+                    <option value="Biñan">Biñan</option>
+                    <option value="Cabuyao">Cabuyao</option>
+                    <option value="Calamba">Calamba</option>
+                    <option value="Calauan">Calauan</option>
+                    <option value="Cavinti">Cavinti</option>
+                    <option value="Famy">Famy</option>
+                    <option value="Kalayaan">Kalayaan</option>
+                    <option value="Liliw">Liliw</option>
+                    <option value="Los Baños">Los Baños</option>
+                    <option value="Luisiana">Luisiana</option>
+                    <option value="Lumban">Lumban</option>
+                    <option value="Mabitac">Mabitac</option>
+                    <option value="Magdalena">Magdalena</option>
+                    <option value="Majayjay">Majayjay</option>
+                    <option value="Nagcarlan">Nagcarlan</option>
+                    <option value="Paete">Paete</option>
+                    <option value="Pagsanjan">Pagsanjan</option>
+                    <option value="Pakil">Pakil</option>
+                    <option value="Pangil">Pangil</option>
+                    <option value="Pila">Pila</option>
+                    <option value="Rizal">Rizal</option>
+                    <option value="San Pablo">San Pablo</option>
+                    <option value="San Pedro">San Pedro</option>
+                    <option value="Santa Cruz">Santa Cruz</option>
+                    <option value="Santa Maria">Santa Maria</option>
+                    <option value="Santa Rosa">Santa Rosa</option>
+                    <option value="Siniloan">Siniloan</option>
+                    <option value="Victoria">Victoria</option>
                   </select>
                   <div class="invalid-feedback">
                     Please select a valid city.
@@ -192,12 +191,13 @@
               <h4 class="mb-3">Type of Provider</h4>
 
               <div class="my-3">
+                
                 <div class="form-check">
-                  <input id="individual" name="paymentMethod" type="radio" class="form-check-input" checked required>
+                  <input id="individual" type="radio" class="form-check-input" checked required>
                   <label class="form-check-label" for="credit">Individual</label>
                 </div>
                 <div class="form-check">
-                  <input id="company" name="paymentMethod" type="radio" class="form-check-input" required>
+                  <input id="company" type="radio" class="form-check-input" required>
                   <label class="form-check-label" for="debit">Company</label>
                 </div>
               </div>
@@ -276,7 +276,7 @@
               </section>
             </div>
 
-            <!--Registration Form: History and Experience-->  
+            <!--Registration Form: Create dServ Account-->  
             <!-- step three -->
             <div class="step">
               <section class="vh-100">
@@ -297,7 +297,7 @@
                             </div>
                             <div class="col-md-9 pe-5">
 
-                              <input type="text" class="form-control form-control-lg" id="brand_name"/>
+                              <input type="text" class="form-control form-control-lg" id="brand_name"required/>
 
                             </div>
                           </div>
@@ -305,49 +305,34 @@
                           <hr class="mx-n3">
 
                           <div class="row align-items-center py-3">
-                            <div class="col-md-3 ps-5">
+                           <div class="col-md-3 ps-5">
 
-                              <h6 class="mb-0">Years of Experience</h6>
+                              <h6 class="mb-0">Describe yourself</h6>
 
                             </div>
                             <div class="col-md-9 pe-5">
 
-                              <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
+                              <textarea class="form-control" rows="3" id="brandDescription" placeholder="Describe yourself"required></textarea>
 
                             </div>
-                          </div>
 
                           <hr class="mx-n3">
 
                           <div class="row align-items-center py-3">
                             <div class="col-md-3 ps-5">
 
-                              <h6 class="mb-0">History</h6>
+                              <h6 class="mb-0">Times Available</h6>
 
                             </div>
                             <div class="col-md-9 pe-5">
 
-                              <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
+
+                              <input type="text" class="form-control form-control-lg" id="availability" placeholder="7:00am to 9:00pm"required/>
+
 
                             </div>
                           </div>
-
-                          <hr class="mx-n3">
-
-                          <div class="row align-items-center py-3">
-                            <div class="col-md-3 ps-5">
-
-                              <h6 class="mb-0">Upload CV</h6>
-
-                            </div>
-                            <div class="col-md-9 pe-5">
-
-                              <input class="form-control form-control-lg" id="formFileLg" type="file" />
-                              <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
-                                size 50 MB</div>
-
-                            </div>
-                          </div>
+                      
 
                           <hr class="mx-n3">            
                         </div>
@@ -361,7 +346,7 @@
 
             
         
-            <!--Registration Form: First Service Details-->  
+            <!--Registration Form: Create dServ Account-->  
             <!-- step four -->
             <div class="step">
               <section class="vh-100">
@@ -369,7 +354,7 @@
                   <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-xl-9">
 
-                      <h2 class="text-black mb-4">Creating your First Service Posting</h2>
+                      <h2 class="text-black mb-4">Create dServ Account</h2>
 
                       <div class="card" style="border-radius: 15px;">
                         <div class="card-body">
@@ -377,12 +362,12 @@
                           <div class="row align-items-center pt-4 pb-3">
                             <div class="col-md-3 ps-5">
 
-                              <h6 class="mb-0">Previous Jobs</h6>
+                              <h6 class="mb-0">Account Email</h6>
 
                             </div>
                             <div class="col-md-9 pe-5">
 
-                              <input type="text" class="form-control form-control-lg" />
+                              <input type="text" id="acc_email" class="form-control form-control-lg" placeholder="example@example.com" required />
 
                             </div>
                           </div>
@@ -392,47 +377,31 @@
                           <div class="row align-items-center py-3">
                             <div class="col-md-3 ps-5">
 
-                              <h6 class="mb-0">Years of Experience</h6>
+                              <h6 class="mb-0">Password</h6>
 
                             </div>
                             <div class="col-md-9 pe-5">
 
-                              <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
+                              <input type="password" id="password" class="form-control form-control-lg" required/>
 
                             </div>
                           </div>
-
+                          
                           <hr class="mx-n3">
 
                           <div class="row align-items-center py-3">
                             <div class="col-md-3 ps-5">
 
-                              <h6 class="mb-0">History</h6>
+                              <h6 class="mb-0">Confirm Password</h6>
 
                             </div>
                             <div class="col-md-9 pe-5">
 
-                              <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
+                              <input type="password" id="password2" class="form-control form-control-lg" required/>
 
                             </div>
                           </div>
 
-                          <hr class="mx-n3">
-
-                          <div class="row align-items-center py-3">
-                            <div class="col-md-3 ps-5">
-
-                              <h6 class="mb-0">Upload CV</h6>
-
-                            </div>
-                            <div class="col-md-9 pe-5">
-
-                              <input class="form-control form-control-lg" id="formFileLg" type="file" />
-                              <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
-                                size 50 MB</div>
-
-                            </div>
-                          </div>
 
                           <hr class="mx-n3">            
                         </div>
@@ -448,101 +417,14 @@
             <!-- start previous / next buttons -->
             <div class="form-footer d-flex py-3">
                 <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                <button type="submit" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                <button id="final_submit" type="submit" onclick="nextPrev(1)">Submit</button>
             </div>
             <!-- end previous / next buttons -->
         </form>
 
-
-        <!--Registration Form: History and Experience-->  
-        <div id="experience" class="" hidden>
-          <section class="vh-100">
-            <div class="container h-100">
-              <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-xl-9">
-
-                  <h2 class="text-black mb-4">Personal History and Job Experience</h2>
-
-                  <div class="card" style="border-radius: 15px;">
-                    <div class="card-body">
-
-                      <div class="row align-items-center pt-4 pb-3">
-                        <div class="col-md-3 ps-5">
-
-                          <h6 class="mb-0">Full name</h6>
-
-                        </div>
-                        <div class="col-md-9 pe-5">
-
-                          <input type="text" class="form-control form-control-lg" />
-
-                        </div>
-                      </div>
-
-                      <hr class="mx-n3">
-
-                      <div class="row align-items-center py-3">
-                        <div class="col-md-3 ps-5">
-
-                          <h6 class="mb-0">Email address</h6>
-
-                        </div>
-                        <div class="col-md-9 pe-5">
-
-                          <input type="email" class="form-control form-control-lg" placeholder="example@example.com" />
-
-                        </div>
-                      </div>
-
-                      <hr class="mx-n3">
-
-                      <div class="row align-items-center py-3">
-                        <div class="col-md-3 ps-5">
-
-                          <h6 class="mb-0">Full name</h6>
-
-                        </div>
-                        <div class="col-md-9 pe-5">
-
-                          <textarea class="form-control" rows="3" placeholder="Message sent to the employer"></textarea>
-
-                        </div>
-                      </div>
-
-                      <hr class="mx-n3">
-
-                      <div class="row align-items-center py-3">
-                        <div class="col-md-3 ps-5">
-
-                          <h6 class="mb-0">Upload CV</h6>
-
-                        </div>
-                        <div class="col-md-9 pe-5">
-
-                          <input class="form-control form-control-lg" id="formFileLg" type="file" />
-                          <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
-                            size 50 MB</div>
-
-                        </div>
-                      </div>
-
-                      <hr class="mx-n3">            
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        <!--Registration Form: Pictures for Confirmation-->
-
-        <div id="for_Pics" hidden>
-          
-        </div>
         
-
+        
       </main>
     </div>
 
@@ -564,4 +446,5 @@
     
     <script src="/assets/js/servProv_reg.js" type="module"></script>
     <script src="/assets/js/firebase_config.js" type="module"></script>
+    <script src="/assets/js/serviceProvider_AccDetails_send.js" type="module"></script>
 </html>

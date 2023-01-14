@@ -22,7 +22,7 @@ createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
-    
+    console.log("somg");
     set(ref(database, 'users/' + user.uid),{
         username: username,
         email: email,

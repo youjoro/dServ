@@ -1,40 +1,37 @@
-//IMPORTS AND CONFIG
-import {firebaseConfig} from './firebase_config.js';
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-
-import { getDatabase, ref, set, child, update, remove }
-    from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const realdb = getDatabase(app);
-
-
-
-function UploadAService(){
-    set(ref(realdb,"Services/"+getShortTitle()),{
-        ServiceName: service_name.value,
-        ServicePrice: service_price.value,
-        ServiceTimes: service_times.value,
-        ServiceCategory: service_category.value,
-        Description: service_desc.value,
-        Points: getPoints(),
-        LinksOfImagesArray: imageLinkArray
-    }).then(function(){
-        alert("Upload Succesful");
-        RestoreBack();
-    });
-
-    
-}
-
-
-
+//import { send } from "./serviceProvider_AccDetails_send";
 
 //get data from fields
+var fName = document.getElementById("firstName");
+var lName = document.getElementById("lastName");
+var username = document.getElementById("username");
+var businessEmail = document.getElementById("businessEmail");
+var phoneNumber = document.getElementById("phone_number");
+var address = document.getElementById("address");
+var address2 = document.getElementById("address2");
+var city = document.getElementById("city");
+var zip = document.getElementById("zip");
+var individual = document.getElementById("individual");
+var company = document.getElementById("company");
 
+var selfDescription = document.getElementById("selfDescription");
+var CV = document.getElementById("formFileLg");
+
+var brand_name = document.getElementById("firstName");
+var brand_desc = document.getElementById("brandDescription");
+var availability = document.getElementById("availability");
+
+var acc_email = document.getElementById("acc_email");
+var acc_pass = document.getElementById("password");
+
+var typeOfProvider = "";
+
+if (individual.checked){
+  typeOfProvider = "individual";
+}else if(company.checked){
+  typeOfProvider = "company";
+}
+window.onload =localStorage.clear();
+window.onload = document.getElementById("final_submit").style.visibility="hidden";
 
 
 
@@ -46,16 +43,16 @@ var exp_dataEntries = [];
 
 function checkData(){
   
-  for (i=1;i<row_num+1;i++){
+  for (let i=1;i<row_num+1;i++){
     var j = document.getElementById('job-'+i+'').value;
     var y = document.getElementById('year-'+i+'').value;
     
-    exp_dataEntries.push(j,y);
+    exp_dataEntries.push("Experience in: "+j+"| Years:"+y);
   }
   
 }
 
-function addFields(){
+window.addFields = function (){
   row_num +=1;
   var container = document.getElementById('experience_expertise');
   var jobs = document.createElement("input");
@@ -103,16 +100,25 @@ function showTab(n) {
     document.getElementById("prevBtn").style.display = "inline";
   }
   if (n == (x.length - 1)) {
-    document.getElementById("nextBtn").innerHTML = "Submit";
-    document.getElementById("nextBtn").className = " Submit_end";
+    document.getElementById("nextBtn").style.visibility="hidden";
+    document.getElementById("final_submit").style.visibility="visible";
   } else {
     document.getElementById("nextBtn").innerHTML = "Next";
   }
   //... and run a function that will display the correct step indicator:
-  fixStepIndicator(n)
+  fixStepIndicator(n);
 }
 var currTab = 0;
-function nextPrev(n) {
+
+
+
+
+
+
+
+
+
+window.nextPrev = function (n){
   // This function will figure out which tab to display
   var x = document.getElementsByClassName("step");
   // Exit the function if any field in the current tab is invalid:
@@ -124,7 +130,32 @@ function nextPrev(n) {
   // if you have reached the end of the form...
   if (currentTab >= x.length) {
     // ... the form gets submitted:
-    document.getElementById("signUpForm").submit();
+    checkData();
+    console.log(exp_dataEntries);
+    var send_data = [
+      fName.value,
+      lName.value,
+      username.value,
+      businessEmail.value,
+      phoneNumber.value,
+      address.value,
+      address2.value,
+      city.value,
+      zip.value,
+      typeOfProvider,
+      selfDescription.value,
+      CV.value,
+      brand_name.value,
+      brand_desc.value,
+      availability.value,
+      acc_email.value,
+      acc_pass.value
+    ];
+    localStorage.setItem("Data",send_data);
+    localStorage.setItem("exp_entries",
+    exp_dataEntries);
+    
+    
     return false;
   }
   // Otherwise, display the correct tab:
@@ -133,10 +164,11 @@ function nextPrev(n) {
 }
 
 //skip CV part
-function skipCV(){
+window.skipCV=function (){
   document.getElementById('formFileLg').classList.remove("invalid");
   document.getElementById('formFileLg').disabled = true;
   CVskipped = true;
+  return false;
 }
 
 
@@ -171,8 +203,8 @@ function validateForm() {
   // If the valid status is true, mark the step as finished and valid:
   if (valid) {
     document.getElementsByClassName("stepIndicator")[currentTab].className += " finish";
-    checkData();
     
+
   }
   return valid; // return the valid status
 }

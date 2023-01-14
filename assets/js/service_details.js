@@ -7,10 +7,10 @@ window.onload = function(){
         LoadService();
     }
 }
-/*window.onbeforeunload = function() {
+window.onbeforeunload = function() {
   localStorage.clear();
   return '';
-};*/
+};
 
 function LoadService(){
     document.getElementById('titleTop').innerHTML = service.ServiceName;
