@@ -34,8 +34,27 @@ window.onload =localStorage.clear();
 window.onload = document.getElementById("final_submit").style.visibility="hidden";
 
 
+//check confirm password
+var pass = document.getElementById("password");
+var confirm_pass = document.getElementById("confirm_password");
 
+confirm_pass.addEventListener('input',checkPass);
 
+function checkPass(){
+  if (pass.value == confirm_pass.value){
+    pass.classList.add("border-success");
+    confirm_pass.classList.add("border-success");
+    pass.classList.remove("border-warning");
+    confirm_pass.classList.remove("border-warning");
+    document.getElementById("final_submit").disabled=false;
+  }else if(pass.value != confirm_pass.value){
+    pass.classList.add("border-warning");
+    confirm_pass.classList.add("border-warning");
+    pass.classList.remove("border-success");
+    confirm_pass.classList.remove("border-success");
+    document.getElementById("final_submit").disabled=true;
+  }
+}
 
 //adding fields
 var row_num = 0;
@@ -104,18 +123,15 @@ function showTab(n) {
     document.getElementById("final_submit").style.visibility="visible";
   } else {
     document.getElementById("nextBtn").innerHTML = "Next";
+    document.getElementById("nextBtn").style.visibility="visible";
+    document.getElementById("final_submit").style.visibility="hidden";
   }
   //... and run a function that will display the correct step indicator:
   fixStepIndicator(n);
 }
+
+
 var currTab = 0;
-
-
-
-
-
-
-
 
 
 window.nextPrev = function (n){
@@ -131,7 +147,6 @@ window.nextPrev = function (n){
   if (currentTab >= x.length) {
     // ... the form gets submitted:
     checkData();
-    console.log(exp_dataEntries);
     var send_data = [
       fName.value,
       lName.value,
@@ -163,6 +178,8 @@ window.nextPrev = function (n){
   showTab(currentTab);
 }
 
+
+
 //skip CV part
 window.skipCV=function (){
   document.getElementById('formFileLg').classList.remove("invalid");
@@ -170,6 +187,7 @@ window.skipCV=function (){
   CVskipped = true;
   return false;
 }
+
 
 
 function validateForm() {
@@ -203,11 +221,13 @@ function validateForm() {
   // If the valid status is true, mark the step as finished and valid:
   if (valid) {
     document.getElementsByClassName("stepIndicator")[currentTab].className += " finish";
-    
+    document.documentElement.scrollTop = 9;
 
   }
   return valid; // return the valid status
 }
+
+
 
 function fixStepIndicator(n) {
   // This function removes the "active" class of all steps...

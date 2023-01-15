@@ -48,14 +48,14 @@
 
 <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="mb-auto">
-      <nav class="navbar navbar-expand-md fixed-top navbar-dark">
+      <nav class="navbar navbar-expand-md fixed-top navbar-dark" id="nav_bar">
           <div class="container-fluid">
           <a class="navbar-brand" href="#">dServ</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
           </button>
               <div class="collapse navbar-collapse" id="navbarCollapse">
-                  <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                  <ul class="navbar-nav ms-auto mb-2 mb-md-0" id="navBar_list">
                   <li class="nav-item">
                       <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
                   </li>
@@ -76,6 +76,36 @@
               </div>
           </div>
       </nav>
+    </header>
+    <!--Navbar-->
+    <header class="text-center">
+    <nav class="navbar navbar-expand-md fixed-top bg-dark navbar-dark" id="nav_barLoggedIn">
+        <div class="container-fluid">
+        
+        <a class="navbar-brand" href="#">dServ</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0" id="navBar_list">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="Landing_Pages/signUp.html">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/view_profile/profile.html"><img src="/assets/img/profile_icon.png" class="img-thumbnail" alt=""></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#"  id="logOut">Log Out</a>
+                </li>
+                
+                </ul>
+                
+            </div>
+        </div>
+    </nav>
     </header>
 
     <main>
@@ -140,4 +170,6 @@
 
 
   </body>
+  <script src="/assets/js/session_user.js" type="module"></script>
+  <script src="/assets/js/firebase_config.js" type="module"></script>
 </html>

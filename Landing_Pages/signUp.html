@@ -17,9 +17,9 @@
       body{
         background-image: url("../assets/img/bg.png");
         background-position: center;
-        background-repeat: no-repeat;
+        background-repeat: repeat;
         background-size:cover;
-        min-height: 100vh;
+        
       }
       
       h1, label,a,h2,h3,h4{
@@ -28,6 +28,9 @@
       button{
             font-family: 'Urbanist', sans-serif;
         }
+      #signUp_div{
+        width: 20em;
+      }
     </style>
     
 
@@ -38,17 +41,17 @@
 
     
   </head>
-  <body class="text-center has-bg-img bg-purple bg-blend-multiply h-100">
+  <body class="text-center  ">
     
     <header>
-    <nav class="navbar navbar-expand-md fixed-top navbar-dark">
+    <nav class="navbar navbar-expand-md fixed-top navbar-dark" id="nav_bar">
         <div class="container-fluid">
         <a class="navbar-brand" href="#">dServ</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0" id="navBar_list">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
                 </li>
@@ -86,10 +89,10 @@
 
 
 
-    <main class="form-signin w-100 h-100 m-auto" id="signUp-form" style="z-index:1;"  >
+    <main class="form-signin w-100 h-100 m-auto " id="signUp-form" style="z-index:1;"  >
 
-      <div class="shadow-lg p-3 mb-5 bg-white rounded" style="padding-top: 5vh;">
-        <form>
+      <div class="shadow-lg pt-5 pb-4 px-5 bg-white rounded" id="signUp_div">
+        <form class="w-100">
           <img class="mb-4 border-left-0 rounded text-bg-dark" src="../assets/img/logo.png" alt="logo" width="120" height="120">
           <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
 
@@ -106,9 +109,21 @@
           <label for="floatingPassword">Password</label>
           </div>
           <div class="form-floating">
-          <input type="text" class="form-control" id="phone_number" placeholder="Phone Number">
-          <label for="phone_number">Phone Number</label>
+            <div class="form-floating">
+            <input type="text" class="form-control" id="phone_number" placeholder="Phone Number">
+            <label for="phone_number">Phone Number</label>
+            <input type="submit" id='sendNum' onclick="phoneAuth();return false;"  value="Verify Number" class="w-75 mt-2 mb-2 btn btn-md btn-primary"/>
+            </div>
+            <div class="form-floating" id="OTP">
+            <input type="text" class="form-control" id="otp_verify" placeholder="OTP Verification">
+            <label for="phone_number">OTP Verification</label>
+            <input type="submit" id='OTPVerify' onclick="codeverify();return false;" value="Verify OTP" class="w-75 mt-2 btn btn-md btn-primary"/>
+            </div>
           </div>
+          
+
+          <div class="flex d-flex justify-content-center align-items-center pt-3" id="recaptcha-container"></div>
+
 
           <div class="checkbox mb-3">
           <label>
@@ -123,7 +138,7 @@
     
       
       <!--Footer-->
-    <footer class="mt-auto text-white-50 text-center">
+    <footer class="pt-2 text-white-50 text-center">
       <p>All Rights Reserved &copy; 2017–2022</p>
     </footer>
 
@@ -136,5 +151,20 @@
 <script type="module" src="/assets/js/signUp.js"></script>
 <script src="/assets/js/firebase_config.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
+<script>
+ const firebaseConfig = {
+apiKey: "AIzaSyDcb9FH5Hcik94Ucxih4atoG0dNApeahA4",
+authDomain: "dserv-26a9a.firebaseapp.com",
+databaseURL: "https://dserv-26a9a-default-rtdb.firebaseio.com",
+projectId: "dserv-26a9a",
+storageBucket: "dserv-26a9a.appspot.com",
+messagingSenderId: "292011413224",
+appId: "1:292011413224:web:f4b3ec12cc9f3be49fc35d",
+measurementId: "G-L5FNF3XE6S"
+};
+  firebase.initializeApp(firebaseConfig);
 
+</script>
 </html>

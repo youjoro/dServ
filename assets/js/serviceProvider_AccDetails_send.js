@@ -7,14 +7,27 @@ import {firebaseConfig} from './firebase_config.js';
   const database = getDatabase(app);
   const auth = getAuth();
 
+window.onload = renderCaptcha();
+function renderCaptcha() {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+    recaptchaVerifier.render();
+}
 
+
+
+window.onload = document.getElementById("loading").style.visibility ="hidden";
 
 
 
 var final_submit = document.getElementById("final_submit");
 
 final_submit.addEventListener('click',(e) => {
-  var data = localStorage.getItem("Data");
+
+document.getElementById("loading").style.visibility ="visible";
+document.getElementById("reg_form").style.visibility = "hidden";
+document.getElementById("final_submit").style.visibility = "hidden";
+
+var data = localStorage.getItem("Data");
 data = data.split(',');
 var exp = localStorage.getItem("exp_entries");
 
@@ -53,10 +66,13 @@ createUserWithEmailAndPassword(auth, data[15], data[16])
     
   })
   .catch((error) => {
+    
     const errorCode = error.code;
     const errorMessage = error.message;
     
     alert(errorMessage);
+    location.reload();
+    
     // ..
   });
 

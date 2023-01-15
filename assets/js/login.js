@@ -1,7 +1,20 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+import { getDatabase, 
+  set, 
+  ref, 
+  update 
+} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+
+import { getAuth, 
+  signInWithEmailAndPassword, 
+  onAuthStateChanged, 
+  signOut 
+} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+
+
 import {firebaseConfig} from './firebase_config.js';
+
+
 
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
@@ -24,6 +37,7 @@ import {firebaseConfig} from './firebase_config.js';
       
       alert('Logged In');
       window.location.replace("http://127.0.0.1:5501/index.html");
+      sessionStorage.setItem("User",);
     }).catch(function(error){
        console.log('Synchronization failed');
     })
@@ -35,3 +49,22 @@ import {firebaseConfig} from './firebase_config.js';
         alert(errorMessage);
     });
   });
+
+
+const monitorAuthState = async() =>{
+    onAuthStateChanged(auth,user=>{
+      if(user){
+        console.log(user);
+        sessionStorage.setItem("user","loggedIn");
+      }else{
+        console.log("no user");
+        
+      }
+    });
+  }
+monitorAuthState();
+
+
+const signOutUser = async() =>{
+    await signOut(auth);
+}

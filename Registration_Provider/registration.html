@@ -20,14 +20,33 @@
     
     <!-- Custom styles for this template -->
     <style>
-      .nav-link{
+        .nav-link{
             font-family: 'Raleway', sans-serif;
             font-size: 29px;
             letter-spacing: 0.02em;
             font-style: normal;
-            font-weight: 900;
+            font-weight: 700;
+            border-radius: 2em;
+            width: 5em;
         }
-
+        .nav-link:hover{
+          width: 5em;
+            background-color: rgb(93, 238, 136);
+            color: rgb(255, 255, 255);
+            border-radius: 2em;
+            font-style: normal;
+            font-weight: 900;
+            
+        }
+        body{
+          background-image: url("../assets/img/bg_light.png ");
+          
+            
+          background-size:cover;
+        }
+        h1{
+          font-family: 'Urbanist', sans-serif;
+          }
     </style>
 
     <link href="../assets/css/form-validation.css" rel="stylesheet">      
@@ -46,16 +65,16 @@
   </head>
   <body class="">
 
-    <div class="flex p-4">
-      <a class="nav-link active" aria-current="page" href="/Registration_Provider/introduction.html"> > Return</a>
+    <div class="flex p-3">
+      <a class="nav-link active p-2" aria-current="page" href="/Registration_Provider/introduction.html"> > Return</a>
     </div>
 
 
-    <div class="container col-lg-8 mx-auto">
+    <div class="container col-lg-8 mx-auto" id="reg_form" style="z-index: 1;">
       <main>
 
 
-        <h1 class="text-center fs-4 py-lg-4">Registration form</h1>
+        <h1 class="text-center ">Registration form</h1>
         <form id="signUpForm" action="#!">
             <!-- start step indicators -->
             <div class="form-header d-flex mb-4">
@@ -70,6 +89,7 @@
             <!-- step one -->
             <div class="step">
               <div class="row g-3">
+                <h2 class="text-black mb-4">Create your Profile</h2>
                 <div class="col-sm-6">
                   <label for="firstName" class="form-label">First name</label>
                   <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
@@ -279,7 +299,7 @@
             <!--Registration Form: Create dServ Account-->  
             <!-- step three -->
             <div class="step">
-              <section class="vh-100">
+              <section class="vh-50">
                 <div class="container h-100">
                   <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-xl-9">
@@ -334,7 +354,7 @@
                           </div>
                       
 
-                          <hr class="mx-n3">            
+                                
                         </div>
                       </div>
 
@@ -349,7 +369,7 @@
             <!--Registration Form: Create dServ Account-->  
             <!-- step four -->
             <div class="step">
-              <section class="vh-100">
+              <section class="vh-50">
                 <div class="container h-100">
                   <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-xl-9">
@@ -397,11 +417,12 @@
                             </div>
                             <div class="col-md-9 pe-5">
 
-                              <input type="password" id="password2" class="form-control form-control-lg" required/>
+                              <input type="password" id="confirm_password" class="form-control form-control-lg" required/>
 
                             </div>
                           </div>
 
+                          <div id="recaptcha-container"></div>
 
                           <hr class="mx-n3">            
                         </div>
@@ -426,6 +447,17 @@
         
         
       </main>
+    </div>
+    <div id="loading" class="h-100" style="z-index: 9;" >
+      <div class="color-overlay d-flex justify-content-center align-items-center" >
+            <div class="container text-center">
+              <div class="flex d-flex justify-content-center align-items-center py-3">
+                  <div class="loader" id="load"></div>
+              </div>
+              <p class="text-black">Please wait....</p>
+            </div>
+            
+      </div>
     </div>
 
   <footer class="my-5 pt-5 text-muted text-center text-small">
