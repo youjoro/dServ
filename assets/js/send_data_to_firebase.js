@@ -214,7 +214,7 @@ import {firebaseConfig} from './firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
-
+const userID = sessionStorage.getItem("user");
 
 
     function UploadAService(){
@@ -229,10 +229,20 @@ const realdb = getDatabase(app);
             Location: city,
             location_data:loc_data,
             Phone_Number: contact_Number.value,
+            Owner: userID
             
         }).then(function(){
-            set(ref(database, 'ProviderProfile/' + user.uid + '/Services'),{
-          service:"test"
+            set(ref(realdb, 'ProviderProfile/' + userID + '/Services/' + service_name.value),{
+            ServiceName: service_name.value,
+            ServicePrice: service_price.value,
+            ServiceTimes: service_times.value,
+            ServiceCategory: service_category.value,
+            Description: service_desc.value,
+            Points: getPoints(),
+            LinksOfImagesArray: imageLinkArray,
+            Location: city,
+            location_data:loc_data,
+            Phone_Number: contact_Number.value
             })
             alert("Upload Succesful");
             RestoreBack();

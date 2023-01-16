@@ -16,7 +16,7 @@ var OuterDiv = document.getElementById('ServicesDiv');
 var arrayOfServices = [];
 window.addEventListener('load', getAllServices);    
 window.onload = document.getElementById("empty_list").style.visibility = 'hidden';
-
+var userID = sessionStorage.getItem("user");
 function getAllServices(){
     const dbref = ref(realdb);
 

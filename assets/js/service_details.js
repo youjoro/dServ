@@ -1,6 +1,22 @@
 let service = null;
 
+
+function checkSession(){
+  
+var sessionData=sessionStorage.getItem("sessionCheck");
+console.log(sessionData);
+if(sessionData == "loggedIn"){
+    document.getElementById("bookButton").style.display="block";
+    document.getElementById("signupbutton").style.display="none";
+}else{
+    document.getElementById("bookButton").style.display="none";
+    document.getElementById("signupbutton").style.display="block";
+}
+}
+
+
 window.onload = function(){
+    checkSession();
     service = localStorage.Service;
     if (service){
         service = JSON.parse(service);
@@ -8,8 +24,10 @@ window.onload = function(){
     }
 }
 window.onbeforeunload = function() {
-  localStorage.clear();
-  return '';
+  if(!location.reload){
+    localStorage.clear();
+    return '';
+  }
 };
 
 function LoadService(){

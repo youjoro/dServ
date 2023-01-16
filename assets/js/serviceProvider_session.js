@@ -15,11 +15,11 @@ var sessiontext = document.getElementById('session');
 var addButton = document.getElementById('addServButton');
 window.onload = sessiontext.style.visibility="hidden";
 
-function checkSession(){
+function checkSession(user){
   
 var sessionData=sessionStorage.getItem("user");
 console.log(sessionData);
-if(sessionData == "loggedIn"){
+if(sessionData != null){
     sessiontext.style.visibility="hidden";
     addButton.disabled=false;
 }else{
@@ -32,9 +32,9 @@ checkSession();
 const monitorAuthState = async() =>{
     onAuthStateChanged(auth,user=>{
       if(user){
-        sessionStorage.setItem("user","loggedIn");
+        sessionStorage.setItem("user",user.uid);
         console.log(user);
-        
+        checkSession(user); 
       }else{
         console.log("no user");
         

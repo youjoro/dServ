@@ -10,6 +10,7 @@ window.onload = document.getElementById('signUp').disabled= true;
 window.onload = document.getElementById('loading').style.visibility = 'hidden';
 window.onload = document.getElementById('OTP').style.visibility = 'hidden';
 window.onload = document.getElementById('sendNum').disabled= true;
+window.onload = document.getElementById("recaptcha-container").style.visibility ='visible';
   // render recaptcha verifier
 window.onload = render();
 function render() {
@@ -35,7 +36,7 @@ window.phoneAuth = function () {
         coderesult = confirmationResult;
         console.log('OTP Sent');
         document.getElementById('OTP').style.visibility = 'visible';
-        
+        document.getElementById("recaptcha-container").style.visibility ='hidden';
     }).catch(function (error) {
         // error in sending OTP
         window.onload = document.getElementById('sendNum').disabled= true;
@@ -47,6 +48,7 @@ window.phoneAuth = function () {
 // function for OTP verify
 window.codeverify = function () {
     var code = document.getElementById('otp_verify').value;
+    
     coderesult.confirm(code).then(function () {
         console.log('OTP Verified');
         window.onload = document.getElementById('signUp').disabled= false;

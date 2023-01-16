@@ -25,6 +25,15 @@
             height: 2em;
         }.bg-gradient-success{
             background-color:rgb(rgb(52, 110, 74));
+        }.loader {
+        border: 8px solid #f3f3f3;
+        border-radius: 100%;
+        border-top: 16px solid #3498db;
+        width: 60px;
+        height: 60px;
+        
+        animation: spin 2s linear infinite;
+        
         }
     </style>
 </head>
@@ -316,7 +325,19 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div id="loading" class="h-100" style="z-index: 2;" >
+                <div class="color-overlay d-flex justify-content-center align-items-center" >
+                        <div class="container">
+                        <div class="flex d-flex justify-content-center align-items-center py-3">
+                            <div class="loader" id="load"></div>
+                        </div>
+                        <p class="text-dark text-center">Please wait....</p>
+                        </div>
+                        
+                </div>
+                </div>
+                    
+                <div class="container-fluid" id="profile_content">
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -432,16 +453,8 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Services</h6>
                                 </div>
-                                <div class="card-body">
-                                    <div class="container border border-dark rounded">
-                                    <h4 class="small font-weight-bold pt-1">Server Migration </h4>
-                                    <div class="container">
-                                        <h5 class="small font-weight-bold">Desc:</h5>
-                                        <h5 class="small font-weight-bold">Jobs Finished:</h5>
-                                        <a href="#!" class="mr-auto">Edit</a>
-                                    </div>
-                                    
-                                    </div>
+                                <div class="card-body" id="servicesBlock">
+                                
                                     
                                     
                                 </div>

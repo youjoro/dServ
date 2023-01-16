@@ -80,10 +80,10 @@
 <body>
     <!--Navbar-->
     <header class="text-center">
-    <nav class="navbar navbar-expand-md navbar-light ">
+    <nav class="navbar navbar-expand-md navbar-light " id="nav_bar">
         <div class="container-fluid">
         
-        <a class="navbar-brand text-dark" href="#">dServ</a>
+        <a class="navbar-brand text-dark" href="#!">dServ</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -110,6 +110,39 @@
         </div>
     </nav>
     </header>
+
+    <!--Navbar-->
+    <header class="text-center">
+    <nav class="navbar navbar-expand-md navbar-light    " id="nav_barLoggedIn">
+        <div class="container-fluid">
+        
+        <a class="navbar-brand text-dark" href="#!">dServ</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0" id="navBar_list">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#!">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/About.html">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" id="profile_tab" aria-current="page" ><img src="/assets/img/profile_icon.png" class="img-thumbnail" alt=""></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#!"  id="logOut">Log Out</a>
+                </li>
+                
+                </ul>
+                
+            </div> 
+        </div>
+    </nav>
+    </header>
+
+
     <div class="container py-1">
         <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -122,7 +155,7 @@
 
     </div>
 
-
+    
 
     <div class="container my-1">
 
@@ -195,7 +228,8 @@
                             <h3 class=" text-danger" id="number"></h3>
                             <hr>
                             <h3>Directions</h3>
-                            <div id="map"></div>
+                            <div id="map" class="py-3"></div>
+                            <hr>
                             <button id="getDirections" class="btn btn-outline-dark"><h4 class="text-danger">Get Directions</h4></button>
                         </div>
                     </div>
@@ -208,12 +242,19 @@
             </div>
         </div>
     </div>
-            <a href="#" class="float">
+    <div class="container"id="bookButton">
+        <a href="#!" class="float" >
             Book Now
-            </a>
+        </a>
     </div>
+    <div class="container"id="signupbutton">
+        <a href="/Landing_Pages/signUp.html" class="float" >
+            Sign Up or Log In to book
+        </a>
+    </div>
+    
 </body>
-
+<script src="/assets/js/session_user.js" type="module"></script>
 <script src="/assets/js/service_details.js" type="module"></script>
 <script src="/assets/js/firebase_config.js" type="module"></script>
 </html>
