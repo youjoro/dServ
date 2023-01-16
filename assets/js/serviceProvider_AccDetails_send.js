@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { getDatabase, set, ref,update  } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import {firebaseConfig} from './firebase_config.js';
 
   const app = initializeApp(firebaseConfig);
@@ -62,8 +62,7 @@ createUserWithEmailAndPassword(auth, data[15], data[16])
           phone_number: data[4],
           user_type: "provider"
       })
-      alert("Upload Succesful");
-      window.location.replace("http://127.0.0.1:5500/index.html");
+      monitorAuthState(data[15], data[16]);
     }).catch(function(error){
        console.log('Synchronization failed');
     })
@@ -84,5 +83,30 @@ createUserWithEmailAndPassword(auth, data[15], data[16])
 })
 
 
-
+const monitorAuthState = async(acc,pass) =>{
+  var accEmail = acc;
+  var password = pass;
+    signInWithEmailAndPassword(auth, accEmail, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        
+        const dt = new Date();
+        update(ref(database, 'users/' + user.uid),{
+        last_login: dt
+    }).then(function(){
+      alert("Account Creation Succesful");
+      sessionStorage.setItem("user","loggedIn");
+      window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+    }).catch(function(error){
+       console.log('Synchronization failed');
+    })
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        
+        alert(errorMessage);
+    });
+  }
 

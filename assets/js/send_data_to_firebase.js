@@ -209,6 +209,7 @@ import {getStorage, ref as sRef, uploadBytesResumable, getDownloadURL}
 import { getDatabase, ref, set, child, update, remove }
     from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
+
 import {firebaseConfig} from './firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
@@ -227,8 +228,12 @@ const realdb = getDatabase(app);
             LinksOfImagesArray: imageLinkArray,
             Location: city,
             location_data:loc_data,
-            Phone_Number: contact_Number.value
+            Phone_Number: contact_Number.value,
+            
         }).then(function(){
+            set(ref(database, 'ProviderProfile/' + user.uid + '/Services'),{
+          service:"test"
+            })
             alert("Upload Succesful");
             RestoreBack();
         });

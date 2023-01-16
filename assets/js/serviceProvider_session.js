@@ -11,25 +11,30 @@ import {firebaseConfig} from './firebase_config.js';
 const app = initializeApp(firebaseConfig);
 //const db = getDatabase(app);
 const auth = getAuth();
+var sessiontext = document.getElementById('session');
+var addButton = document.getElementById('addServButton');
+window.onload = sessiontext.style.visibility="hidden";
 
-
-function checkSession(user){
+function checkSession(){
   
 var sessionData=sessionStorage.getItem("user");
 console.log(sessionData);
 if(sessionData == "loggedIn"){
-    document.getElementById('prov_name').innerHTML=user.email; 
+    sessiontext.style.visibility="hidden";
+    addButton.disabled=false;
 }else{
-    console.log("no user");
+    sessiontext.style.visibility="visible";
+    addButton.disabled=true;
 }
 }
 
+checkSession(); 
 const monitorAuthState = async() =>{
     onAuthStateChanged(auth,user=>{
       if(user){
         sessionStorage.setItem("user","loggedIn");
         console.log(user);
-        checkSession(user); 
+        
       }else{
         console.log("no user");
         

@@ -108,7 +108,7 @@
         <label class="form-check-label" for="same-address">I agree to stuff</label>
         </div>
         <div class="mb-5  my-lg-4">
-        <a href="../Registration_Provider/registration.html" class="btn btn-primary btn-lg px-4">Continue to Registration</a>
+        <a class="btn btn-primary btn-lg px-4" id="continue">Continue to Registration</a>
         </div>
 
         <hr class="col-3 col-md-2 mb-5  my-lg-4">
@@ -148,4 +148,18 @@
 
     
   </body>
+  <script>
+    const consent = document.querySelector('#consent');
+    const agreement = document.querySelector('#agreement');
+    const continue_button = document.querySelector('#continue');
+    
+    continue_button.onclick = () => {
+        if(consent.checked && agreement.checked){
+            window.location.replace("http://127.0.0.1:5500/Registration_Provider/registration.html");
+        }else{
+            alert("Agree to terms first");
+        }
+    }
+    
+  </script>
 </html>
