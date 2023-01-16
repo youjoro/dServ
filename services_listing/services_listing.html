@@ -39,16 +39,16 @@
                     <a class="nav-link active" aria-current="page" href="/index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="Landing_Pages/signUp.html">Sign Up</a>
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/signUp.html">Sign Up</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="Landing_Pages/logIn.html">Log In</a>
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/logIn.html">Log In</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="Landing_Pages/becomeServProv.html">Become A Service Provider</a>
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/becomeServProv.html">Become A Service Provider</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="Landing_Pages/About.html">About</a>
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/About.html">About</a>
                 </li>
                 </ul>
                 
@@ -56,7 +56,36 @@
         </div>
     </nav>
     </header>
-
+    <!--Navbar-->
+    <header class="text-center">
+    <nav class="navbar navbar-expand-md fixed-top bg-dark navbar-dark" id="nav_barLoggedIn">
+        <div class="container-fluid">
+        
+        <a class="navbar-brand" href="#">dServ</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0" id="navBar_list">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/About.html">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/view_profile/profile.html"><img src="/assets/img/profile_icon.png" class="img-thumbnail" alt=""></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#"  id="logOut">Log Out</a>
+                </li>
+                
+                </ul>
+                
+            </div> 
+        </div>
+    </nav>
+    </header>
 
 
 
@@ -94,7 +123,8 @@
                 </nav>
             </div>
             <div class="col-9 py-5">
-                <div class="flex d-flex justify-content-center align-items-center py-lg-5" id="load">
+                <div id="empty_list"><p>No Services/Empty List</p></div>
+                <div class="flex d-flex justify-content-center align-items-center py-lg-5" id="load">                    
                     <div class="loader" id="load"></div>
                 </div>
                 
@@ -104,7 +134,7 @@
         </div>
 
 
-
+        
     </div>
 
 
@@ -124,6 +154,7 @@
         return title + "...";
     }
   </script>
+  <script src="/assets/js/session_user.js" type="module"></script>
   <script src="/assets/js/firebase_config.js" type="module"></script>
   <script src="/assets/js/load_services.js" type="module"></script>
 </html>

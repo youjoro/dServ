@@ -36,7 +36,7 @@ import {firebaseConfig} from './firebase_config.js';
     }).then(function(){
       
       alert('Logged In');
-      window.location.replace("http://127.0.0.1:5501/index.html");
+      window.location.replace("http://127.0.0.1:5500/index.html");
       sessionStorage.setItem("User",);
     }).catch(function(error){
        console.log('Synchronization failed');
@@ -45,7 +45,7 @@ import {firebaseConfig} from './firebase_config.js';
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-
+        document.getElementById('login').disabled = false;
         alert(errorMessage);
     });
   });

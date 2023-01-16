@@ -7,11 +7,11 @@ import {firebaseConfig} from './firebase_config.js';
   const database = getDatabase(app);
   const auth = getAuth();
 
-window.onload = renderCaptcha();
+/*window.onload = renderCaptcha();
 function renderCaptcha() {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
     recaptchaVerifier.render();
-}
+}*/
 
 
 
@@ -56,9 +56,14 @@ createUserWithEmailAndPassword(auth, data[15], data[16])
         expertise: exp.split(',')
         
     }).then(function(){
-      
+        set(ref(database, 'users/' + user.uid),{
+          username: data[2],
+          email: data[15],
+          phone_number: data[4],
+          user_type: "provider"
+      })
       alert("Upload Succesful");
-        window.location.replace("http://127.0.0.1:5501/Service_Provider_Dashboard/index.html");
+      window.location.replace("http://127.0.0.1:5500/index.html");
     }).catch(function(error){
        console.log('Synchronization failed');
     })

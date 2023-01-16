@@ -3,6 +3,8 @@
     var FileReaders = [];
     var imageLinkArray = [];
 
+    //Location
+    const locationbutton = document.getElementById('getLocation');
     //Images 
     const imgDiv = document.getElementById('imageDiv');
     const addImg = document.getElementById('addServButton');
@@ -15,7 +17,7 @@
     const service_times = document.getElementById('timeAvailInp');
     const service_desc = document.getElementById('desArea');
     const service_category = document.getElementById('Cate_Inp');
-
+    const contact_Number = document.getElementById('servNum');
     //Points
     const point_1 = document.getElementById('Point1_Inp');
     const point_2 = document.getElementById('Point2_Inp');
@@ -135,7 +137,7 @@
 
     selectImg.addEventListener('click', OpenFileDialog);
     addImg.addEventListener('click', uploadAllImages);
-
+    locationbutton.addEventListener('click', getLocation);
     //Functions
 
     function uploadAllImages(){
@@ -183,8 +185,20 @@
         );
     }
 
+    var loc_data = "";
+    var city = "";
+    function getLocation(){
+        fetch('http://ip-api.com/json/?fields=61439')
+        .then(res => res.json())
+        .then(res => {
+            loc_data = res.lat+","+res.lon;
+            city = res.city
+            console.log(city);
+            console.log(loc_data);
+        }
+        );
 
-
+    }
 
 //IMPORTS AND CONFIG
 
@@ -197,7 +211,7 @@ import { getDatabase, ref, set, child, update, remove }
 
 import {firebaseConfig} from './firebase_config.js';
 
-  const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
 
 
@@ -210,7 +224,10 @@ const realdb = getDatabase(app);
             ServiceCategory: service_category.value,
             Description: service_desc.value,
             Points: getPoints(),
-            LinksOfImagesArray: imageLinkArray
+            LinksOfImagesArray: imageLinkArray,
+            Location: city,
+            location_data:loc_data,
+            Phone_Number: contact_Number.value
         }).then(function(){
             alert("Upload Succesful");
             RestoreBack();

@@ -73,7 +73,7 @@ createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
-    console.log("somg");
+    
     set(ref(database, 'users/' + user.uid),{
         username: username,
         email: email,
@@ -82,7 +82,7 @@ createUserWithEmailAndPassword(auth, email, password)
     }).then(function(){
       
       alert('user created');
-      window.location.replace("http://127.0.0.1:5501/index.html");
+      window.location.replace("http://127.0.0.1:5500/index.html");
     }).catch(function(error){
        console.log('Synchronization failed');
     })

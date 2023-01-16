@@ -12,21 +12,38 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth();
 
-window.onload = document.getElementById("nav_barLoggedIn").style.display="none";
+
+function checkSession(){
+  
+var sessionData=sessionStorage.getItem("user");
+console.log(sessionData);
+if(sessionData == "loggedIn"){
+    document.getElementById("nav_bar").style.display="none";
+    document.getElementById("nav_barLoggedIn").style.display="block";
+}else{
+    document.getElementById("nav_barLoggedIn").style.display="none";
+    document.getElementById("nav_bar").style.display="block";
+}
+}
+
+
 
 const monitorAuthState = async() =>{
     onAuthStateChanged(auth,user=>{
       if(user){
-        console.log(user);
         sessionStorage.setItem("user","loggedIn");
-        
+        console.log(user);
+        checkSession();
       }else{
         console.log("no user");
-        
+        document.getElementById("nav_barLoggedIn").style.display="none";
       }
     });
   }
+
 monitorAuthState();
+
+document.getElementById("nav_barLoggedIn").style.display="none";
 
 
 const signOutUser = async() =>{
@@ -41,15 +58,3 @@ const signOutUser = async() =>{
 
 document.getElementById('logOut').addEventListener('click',signOutUser);
 
-
-
-
-var sessionData=sessionStorage.getItem("user");
-console.log(sessionData);
-if(sessionData == "loggedIn"){
-    document.getElementById("nav_bar").style.display="none";
-    document.getElementById("nav_barLoggedIn").style.display="block";
-}else{
-    document.getElementById("nav_barLoggedIn").style.display="none";
-    document.getElementById("nav_bar").style.display="block";
-}

@@ -15,7 +15,7 @@ const realdb = getDatabase(app);
 var OuterDiv = document.getElementById('ServicesDiv');
 var arrayOfServices = [];
 window.addEventListener('load', getAllServices);    
-
+window.onload = document.getElementById("empty_list").style.visibility = 'hidden';
 
 function getAllServices(){
     const dbref = ref(realdb);
@@ -26,7 +26,12 @@ function getAllServices(){
             arrayOfServices.push(serv.val());
         });
         document.getElementById('load').remove();
-        addAllServices();
+        if (arrayOfServices.length != 0){
+            addAllServices();
+            document.getElementById("empty_list").style.visibility = 'hidden';
+        }else{
+            document.getElementById("empty_list").style.visibility = 'visible';
+        }
         
     })
 }

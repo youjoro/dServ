@@ -23,7 +23,7 @@ function LoadService(){
     document.getElementById('serviceTimes').innerHTML = service.ServiceTimes;
     document.getElementById('desc').innerHTML = service.Description;
     document.getElementById('price').innerHTML = service.ServicePrice;
-    document.getElementById('number').innerHTML = service.ContactNumber;
+    document.getElementById('number').innerHTML = service.Phone_Number;
     
     GenLI();
     genImgs();
