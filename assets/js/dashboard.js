@@ -108,14 +108,15 @@ function addAllServices(){
     
 }
 var OuterDiv = document.getElementById('servicesBlock');
-
+  let desc = service.Description.substring(0,20);
+  desc.replace(/[^a-zA-Z0-9]/g,"");
 function addAService(service, index){
     let html = 
     `
     <div class="container border border-dark my-2 rounded">
     <h4 class="small font-weight-bold pt-1" >`+service.ServiceName+`</h4>
     <div class="container">
-        <h5 class="small font-weight-bold">Desc: `+service.Description+`</h5>
+        <h5 class="small font-weight-bold">Desc: `+desc+`</h5>
         <h5 class="small font-weight-bold">Jobs Finished:</h5>
         <a href="#!" class="mr-auto">Edit</a>
     </div>

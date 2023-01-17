@@ -12,8 +12,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,900&family=Montserrat:wght@500&family=Paytone+One&family=Quicksand:wght@300&family=Raleway:wght@300;500&family=Urbanist:wght@300&display=swap" rel="stylesheet">
 
+    <!--Map-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    
 
     <style>
+        #map{
+            width: 100%;
+            height: 40vh;
+            z-index: 1;
+        }
         .imgsDivStyle{
             margin-top: 1vh;
             width: 600px;
@@ -48,10 +57,18 @@
             <div class="container vstack p-2 ms-5" >
                 
                 <label>Service Name</label> <input class="form-control" type="text" name="" id="servnameInp" required>
+
                 <label>Service Price/ per hour</label> <input class="form-control" type="text" name="" id="servPrice" required>
+
                 <label>Contact Number</label> <input class="form-control" type="text" name="" id="servNum" required>
+
+                <label id="Location"></label>
+                <label id="City"></label>
+                <div id="map" class="py-3"></div>
                 <button id="getLocation" class="btn btn-primary m-2">Get Location</button>
+
                 <label>Times Available</label> <input class="form-control" type="text" name="" id="timeAvailInp" required>
+
                 <label>Category</label>
                 <select id="Cate_Inp" class="form-select" required>
                     <option value="Beautification">Beautification</option>
@@ -60,6 +77,7 @@
                     <option value="Therapeutic">Therapeutic</option>
                     <option value="Cleaning">Cleaning</option>
                 </select>
+
                 <label>Description</label> <textarea class="form-control" id="desArea" cols="30" rows="10" required></textarea>
                 
                 <hr class="mx-n3">

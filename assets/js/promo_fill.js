@@ -5,22 +5,23 @@ var div = document.getElementById('promotions');
 var promotions = 0;
 
 
-function addDivToPromos(test){
-    let d = document.createElement("div")
-    d.classList.add('card','card-body2','overflow','p-2','mx-3');
-    let p = document.createElement("p");
-    p.innerHTML=test;
-    d.appendChild(p);
-    div.appendChild(d);
+function addDivToPromos(imglink){
+    
+    console.log(imglink);
+    for (var i = 0;i<imglink.length;i++){
+        console.log(imglink[i].imgLink);
+        let d = document.createElement("div")
+        d.classList.add('card','card-body2','overflow','p-2','mx-3','mw-75');
+        let img = document.createElement("img");
+        img.src = imglink[i].imgLink;
+        img.style.height = "100%";
+        d.appendChild(img);
+        div.appendChild(d);
+    }
+    
 }
 
-function addAllItemsInPromos(promos){
-    promotions = 0;
-    div.innerHTML="";
-    promos.forEach(element=>{
-        addDivToPromos(element.promo);
-    })
-}
+
 
 import {firebaseConfig} from './firebase_config.js';
   // Initialize Firebase
@@ -38,8 +39,8 @@ function getDataOnce(){
         snapshot.forEach(childSnapshot =>{
             p.push(childSnapshot.val());
         });
-
-        addAllItemsInPromos(p);
+        console.log(p)
+        addDivToPromos(p);
     })
 }
 

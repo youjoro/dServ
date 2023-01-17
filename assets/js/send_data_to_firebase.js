@@ -130,6 +130,7 @@
         point_2.value = '';
         point_3.value = '';
         imgDiv.innerHTML='';
+        window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
     }
 
 
@@ -193,12 +194,76 @@
         .then(res => {
             loc_data = res.lat+","+res.lon;
             city = res.city
-            console.log(city);
-            console.log(loc_data);
+            
+            document.getElementById("Location").innerHTML = loc_data;
+            document.getElementById("City").innerHTML = city;
+            
+            loadMap(loc_data);
+            
         }
         );
 
     }
+
+
+
+//map
+    function loadMap(loc_data){
+    var location_data = String(loc_data).split(',').map(Number);
+    var map = L.map('map').setView(location_data, 13);
+    var location_correction = "";
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    navigator.geolocation.getCurrentPosition(success,error);
+
+    let marker;
+    var markers=[];
+    var curr_Loc_Icon = L.icon({
+        iconUrl:'https://cdn-icons-png.flaticon.com/512/5693/5693831.png',
+        iconSize: [30, 30]
+    });
+    
+
+    function success(pos){
+        const lat = pos.coords.latitude;
+        const long = pos.coords.longitude;
+        
+
+        if(marker){
+            map.removeLayer(marker); 
+            map.removeLayer(circle);
+        }
+        loc_data =location_data;
+        marker = L.marker([lat,long],{icon: curr_Loc_Icon}).addTo(map)
+        .bindPopup("Your Location",{autoClose: false}).openPopup();
+        console.log(loc_data.toString());
+        location_correction = lat+","+long;
+        map.setView([lat,long]);
+        
+        
+    }
+
+    function error(err){
+
+        if (err.code === 1 ){
+            alert("Please allow geolocation access");
+        } else {
+            alert("Cannot get current location");
+        }
+    }
+    /*
+    L.marker(location_data).addTo(map)
+        .bindPopup("Previous location",{autoClose: false})
+        .openPopup();
+    */
+    
+}
+
+
+
 
 //IMPORTS AND CONFIG
 
@@ -227,7 +292,7 @@ const userID = sessionStorage.getItem("user");
             Points: getPoints(),
             LinksOfImagesArray: imageLinkArray,
             Location: city,
-            location_data:loc_data,
+            location_data:loc_data.toString(),
             Phone_Number: contact_Number.value,
             Owner: userID
             
@@ -241,7 +306,7 @@ const userID = sessionStorage.getItem("user");
             Points: getPoints(),
             LinksOfImagesArray: imageLinkArray,
             Location: city,
-            location_data:loc_data,
+            location_data:loc_data.toString(),
             Phone_Number: contact_Number.value
             })
             alert("Upload Succesful");
