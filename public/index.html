@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>dServ</title>
-
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo_smol.png" />
     
 
     <!--Google Fonts-->
@@ -158,23 +158,25 @@
                     <h2 class="text-center">Find Home Services Providers near you</h1>
                 </div>
                 
-                <div class="d-flex text-bg-light rounded my-1 justify-content-center align-items-center" style="width: 80%; margin:auto;">
+                <!--Search Bar-->
+                <div class=" d-flex text-bg-light rounded my-1 justify-content-center align-items-center" style="width: 80%; margin:auto;">
                     <div class="dropdown">
-                    <button class="btn btn-lg btn-light dropdown-toggle rounded-start" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        Search by 
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">City</a></li>
-                        <li><a class="dropdown-item" href="#">Service</a></li>
-                        <li><a class="dropdown-item" href="#">Rating</a></li>
-                    </ul>
+                        <div class="input-group">            
+                        <select class="form-select" id="categorySelected">
+                            <option selected>Choose...</option>
+                            <option value="name">Name</option>
+                            <option value="city">City</option>
+                            <option value="service">Service</option>
+                        </select>
+                        </div>
                     </div>
                     <form class="d-flex" role="search" style="width: 100%;">
-                        <input class="form-control form-control-lg " type="search" placeholder="Search for Home Services" aria-label="Search">
-                        <button class="btn btn-primary btn-floating rounded-end" type="submit"><span class="material-symbols-outlined">search</span></button>
+                        <input class="form-control form-control-lg" type="search" id="searchquery" placeholder="Search for Home Services" aria-label="Search">
+                        <button class="btn btn-primary btn-floating rounded-end" id="searchbtn" type="button"><span class="material-symbols-outlined">search</span></button>
                     </form>
                 </div>
-
+                        
+                
             </div>
             
         </div>
@@ -318,6 +320,7 @@
 
             <div class="my-lg-5"></div>
             <div class="my-lg-5"><br></div>
+            <!--
             <div class="my-3">
                 <h2>Service Providers available in:</h2>
                 <hr class="mx-n3">
@@ -347,6 +350,7 @@
                     
             </div>
         </div>
+        -->
     </div>    
 
     <!--Footer-->
