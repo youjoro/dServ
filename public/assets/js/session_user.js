@@ -24,9 +24,9 @@ const auth = getAuth();
       user_type = snapshot.val();
       console.log(user_type);
       if(user_type=="client"){
-        document.getElementById('profile_tab').href = "/view_profile/profile.html";
+        document.getElementById('profile_tab').href = "../view_profile/profile.html";
       }else{
-        document.getElementById('profile_tab').href = "/Service_Provider_Dashboard/index.html";
+        document.getElementById('profile_tab').href = "../Service_Provider_Dashboard/index.html";
       }
     })
     } ;
@@ -79,7 +79,7 @@ const signOutUser = async() =>{
     sessionStorage.clear();
     location.reload();
     sessionStorage.setItem("reloaded","yes");
-    window.location.replace("http://127.0.0.1:5500/index.html");
+    window.location.replace("http://127.0.0.1:5500/public/index.html");
 }
 document.getElementById('logOut').addEventListener('click', signOutUser);
 

@@ -15,12 +15,13 @@ import { getAuth,
 import {firebaseConfig} from './firebase_config.js';
 
 
-
+  
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
   const auth = getAuth();
-
+  window.onload = document.getElementById('loading').style.visibility = 'hidden';
   login.addEventListener('click',(e)=>{
+    document.getElementById('loading').style.visibility = 'visible';
     document.getElementById('login').disabled = true;
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
@@ -36,7 +37,7 @@ import {firebaseConfig} from './firebase_config.js';
     }).then(function(){
       
       alert('Logged In');
-      window.location.replace("http://127.0.0.1:5500/index.html");
+      window.location.replace("http://127.0.0.1:5500/public/index.html");
       
     }).catch(function(error){
        console.log('Synchronization failed');
@@ -47,6 +48,7 @@ import {firebaseConfig} from './firebase_config.js';
         const errorMessage = error.message;
         document.getElementById('login').disabled = false;
         alert(errorMessage);
+        window.onload = document.getElementById('loading').style.visibility = 'hidden';
     });
   });
 

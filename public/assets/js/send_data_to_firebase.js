@@ -130,7 +130,7 @@
         point_2.value = '';
         point_3.value = '';
         imgDiv.innerHTML='';
-        window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+        window.location.replace("http://127.0.0.1:5500/public/Service_Provider_Dashboard/index.html");
     }
 
 
