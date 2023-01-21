@@ -1,4 +1,4 @@
-import { getFirestore , collection, addDoc, doc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
+import { getFirestore , collection, addDoc, doc  } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import {firestoreConfig} from './firebase_config.js';
 
@@ -10,13 +10,14 @@ const db = getFirestore(app);
 var button = document.getElementById('sendRequest');
 
 //inputs
-var fName = document.getElementById('firstName');
-var lName = document.getElementById('lastName');
-var mobileNum = document.getElementById('number');
-var email = document.getElementById('email');
-var clients = document.getElementById('numberselected');
-var bundle = document.getElementById('BundleSelected');
-var remarks = document.getElementById('remarks');
+const fName = document.getElementById('firstName');
+const lName = document.getElementById('lastName');
+const mobileNum = document.getElementById('number');
+const email = document.getElementById('email');
+const clients = document.getElementById('numberselected');
+const bundle = document.getElementById('BundleSelected');
+const remarks = document.getElementById('remarks');
+const date = document.getElementById('date');
 
 //sessionID
 var userID = sessionStorage.getItem("user");
@@ -58,8 +59,8 @@ if(sessionData == null){
     button.disabled = true;
     sessOUT.style.display = '';
     sessIN.style.display = 'none';
-    //alert("Redirecting");
-    //window.location.replace("http://127.0.0.1:5500/public/index.html");
+    alert("Redirecting");
+    window.location.replace("http://127.0.0.1:5500/index.html");
 }else{
     fName.disabled = false;
     lName.disabled = false;
@@ -82,12 +83,14 @@ function InputClear(){
     clients.selected="Choose...";
     bundle.selected="Choose...";
     remarks.value="";
-
+    date.value="";
 }
+
+
 
 async function sendRequest(){
     try {
-        
+        const dt = new Date();
         const docRef = await addDoc(collection(db, "service",service.ServiceName,"transaction"), {
         ClientFirstName: fName.value,
         ClientLastName: lName.value,
@@ -96,7 +99,10 @@ async function sendRequest(){
         ClientSelectedBundle: bundle.value,
         clientNumber: clients.value,
         ClientRemarks: remarks.value,
-        clientID:userID
+        clientID:userID,
+        RequestedDate:date.value,
+        DateAdded:dt,
+        confirmStatus:'pending'
 
         });
     console.log("Document written with ID: ", docRef.id);
@@ -105,6 +111,7 @@ async function sendRequest(){
     } catch (e) {
     console.error("Error adding document: ", e);
     }
+    localStorage.removeItem("Service");
 }
 
 button.addEventListener('click',sendRequest);

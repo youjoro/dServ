@@ -27,6 +27,7 @@ function render() {
     });
     recaptchaVerifier.render();
 }
+
 var coderesult = "";
 // function for send OTP
 window.phoneAuth = function () {
@@ -87,7 +88,7 @@ createUserWithEmailAndPassword(auth, email, password)
     }).then(function(){
       
       alert('user created');
-      window.location.replace("http://127.0.0.1:5500/public/index.html");
+      window.location.replace("http://127.0.0.1:5500/index.html");
     }).catch(function(error){
        console.log('Synchronization failed');
     })

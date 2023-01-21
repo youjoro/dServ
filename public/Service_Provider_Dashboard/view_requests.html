@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
     <title>dServ Service Provider Dashboard</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/public/assets/img/logo_smol.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/logo_smol.png" />
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -49,7 +49,7 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <img src="/public/assets/img/logo_smol.png" class="img-logo" alt="">
+                    <img src="/assets/img/logo_smol.png" class="img-logo" alt="">
                 </div>
                 <div class="sidebar-brand-text mx-3">dServ</div>
             </a>
@@ -365,7 +365,9 @@
                                 </div>
                                 <div class="card-body">
                                     <div id="servicesBlock"></div>
-                                    <button>Chat</button>
+                                    <button id="chatClient">Chat</button>
+                                    <button id="acceptReq">Accept</button>
+                                    <button id="cancelReq">Cancel</button>
                                 </div>
                             </div>
 
@@ -419,8 +421,8 @@
     <script src="js/demo/chart-pie-demo.js"></script>
 
     <!--Firebase scripts-->
-    <script src="/public/assets/js/request_management.js" type="module"></script>
-    <script src="/public/assets/js/firebase_config.js" type="module"></script>
+    <script src="/assets/js/request_management.js" type="module"></script>
+    <script src="/assets/js/firebase_config.js" type="module"></script>
 </body>
 
 </html>

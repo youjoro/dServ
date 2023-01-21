@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Booking</title>
-        <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo_smol.png" />
+        <link rel="shortcut icon" type="image/x-icon" href="/assets/img/logo_smol.png" />
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,10 +19,16 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
         
         <!--custom css-->
-        <link rel="stylesheet" href="/public/assets/css/listing_test.css">
-        <link rel="stylesheet" href="/public/assets/css/custom.css">
-        <link rel="stylesheet" href="/public/assets/css/booking.css">
+        <link rel="stylesheet" href="/assets/css/listing_test.css">
+        <link rel="stylesheet" href="/assets/css/custom.css">
+        <link rel="stylesheet" href="/assets/css/booking.css">
 
+
+
+        <!--Calendar-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
@@ -34,6 +40,15 @@
                 
             });
         </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#datepicker').datepicker();
+                
+            });
+        </script>    
+        
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
   <body>
     <!--Navbar-->
     <header class="text-center">
@@ -47,19 +62,19 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav ms-auto mb-2 mb-md-0" id="navBar_list">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/public/index.html">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/public/Landing_Pages/signUp.html">Sign Up</a>
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/signUp.html">Sign Up</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/public/Landing_Pages/logIn.html">Log In</a>
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/logIn.html">Log In</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/public/Landing_Pages/becomeServProv.html">Become A Service Provider</a>
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/becomeServProv.html">Become A Service Provider</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/public/Landing_Pages/About.html">About</a>
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/About.html">About</a>
                 </li>
                 </ul>
                 
@@ -79,13 +94,13 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav ms-auto mb-2 mb-md-0" id="navBar_list">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/public/index.html">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/public/Landing_Pages/About.html">About</a>
+                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/About.html">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" id="profile_tab" aria-current="page" ><img src="/public/assets/img/profile_icon.png" class="img-thumbnail" alt=""></a>
+                    <a class="nav-link active" id="profile_tab" aria-current="page" ><img src="/assets/img/profile_icon.png" class="img-thumbnail" alt=""></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#"  id="logOut">Log Out</a>
@@ -106,7 +121,7 @@
                 <div class="col col-7 d-flex justify-content-center align-items-center side">
                     <div class="container rounded-3 ">
                         <div class="row row-cols-2">
-                            <div class="col col-6"><img class="w-100" src="/public/assets/img/logo.png" alt=""></div>
+                            <div class="col col-6"><img class="w-100" src="/assets/img/logo.png" alt=""></div>
                             <div class="col col-4 py-5">
                                 <div class="container" id="sessIn">
                                     <h2 class="text-white">Send request to Service Provider </h2>
@@ -168,7 +183,33 @@
                                 </div>
                             </div>
                         </div>
+                        <hr>
 
+                        
+                    <section class="container">
+                        <h3 class="pt-4 pb-2">Bootstrap Datepicker</h3>
+                        <form>
+                            <div class="row form-group">
+                                <label for="date" class="col-sm-1 col-form-label">Date</label>
+                                <div class="col-sm-6 ">
+                                    <div class="input-group date" id="datepicker">
+                                        <input type="text" class="form-control" id="date" readonly>
+                                        <span class="input-group-append">
+                                            <span class="input-group-text bg-white p-3">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+
+                    <script type="text/javascript">
+                        $(function() {
+                            $('#datepicker').datepicker();
+                        });
+                    </script> 
 
                         <hr>
                         <div class="container">
@@ -214,9 +255,11 @@
     </footer>
     </body>
     <script src="" async defer></script>
-    <script src="/public/assets/js/session_user.js" type="module"></script>
-    <script src="/public/assets/js/firebase_config.js" type="module"></script>
-    <script src="/public/assets/js/booking_sendRequest.js" type="module"></script>
+    <script src="/assets/js/session_user.js" type="module"></script>
+    <script src="/assets/js/firebase_config.js" type="module"></script>
+    <script src="/assets/js/booking_sendRequest.js" type="module"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    
 </html>

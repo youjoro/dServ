@@ -5,7 +5,7 @@ import { getAuth,
   signOut 
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { getDatabase, ref, child, onValue,get} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getFirestore , collection,getDoc, doc , getCountFromServer, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { getFirestore , collection,getDoc, doc , getCountFromServer, query, where, getDocs,updateDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
 import {firebaseConfig, firestoreConfig} from './firebase_config.js';
 
@@ -21,10 +21,19 @@ window.onload = document.getElementById("profile_content").style.visibility = "h
 var total_pending = 0;
 var jobs_completed = 0;
 
+
 //Documents
+const OuterDiv = document.getElementById('servicesBlock');
 const messagesTab =document.getElementById('messages');
 const requestnotif = document.getElementById('request_notif');
 const interactableMessages = document.getElementById('messagesInteractable');
+const cancelReq = document.getElementById('cancelReq');
+const acceptReq = document.getElementById('acceptReq');
+const chatClient = document.getElementById('chatClient');
+
+window.onload = cancelReq.style.display = "none";
+window.onload = acceptReq.style.display = "none";
+window.onload = chatClient.style.display = "none";
 
 //Session
 function getUserType(){
@@ -39,7 +48,7 @@ function getUserType(){
       console.log(user_type);
       if(user_type=="client" || user_type==null){
         alert("You are not supposed to be here");
-        window.location.replace("http://127.0.0.1:5500/public/index.html");
+        window.location.replace("http://127.0.0.1:5500/index.html");
       }else{
         document.getElementById("profile_content").style.visibility = "visible";
         document.getElementById('loading').remove();
@@ -87,7 +96,7 @@ const signOutUser = async() =>{
 
     await signOut(auth);
     alert("logged out");
-    window.location.replace("http://127.0.0.1:5500/public/index.html");
+    window.location.replace("http://127.0.0.1:5500/index.html");
     sessionStorage.clear();
     location.reload();
     
@@ -100,44 +109,94 @@ const signOutUser = async() =>{
 //Services
 
 //Firestore
+async function acceptRequest(){
+  let creds =localStorage.getItem('item');
+  creds = creds.split(',');
+  console.log(creds[1]);
+  const docRef = doc(firestoredb, "service",creds[1],"transaction",creds[0]);
+
+  // Set the "capital" field of the city 'DC'
+  await updateDoc(docRef, {
+    confirmStatus: 'Accepted'
+  });
+  alert("are you sure?");
+  location.reload();
+  
+}
+
+async function cancelRequest(){
+  let creds =localStorage.getItem('item');
+  creds = creds.split(',');
+  console.log(creds[1]);
+  const docRef = doc(firestoredb, "service",creds[1],"transaction",creds[0]);
+
+  // Set the "capital" field of the city 'DC'
+  await updateDoc(docRef, {
+    confirmStatus: 'Cancelled'
+  });
+  alert("are you sure?");
+  location.reload();
+  
+}
+
+async function getRequestData(serviceID,serviceName){
+  let datas =[];
+    const docRef = doc(firestoredb, "service",serviceName,"transaction",serviceID);
+    const docSnap = await getDoc(docRef);
+    
+    console.log(docSnap);
+    return docSnap.data();
+}
+
+
+
 async function getRequests(serviceName){
   let datas =[];
+  let id ="";
     const q = query(collection(firestoredb, "service",serviceName,"transaction"));
     
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       //console.log(doc.id, " => ", doc.data());
-      datas.push(doc.data());
+      id = doc.id;
+      let transactionobject = doc.data();
+      transactionobject['transactionID'] = id;
+
+      datas.push(transactionobject);
+      console.log(transactionobject);
     });
-    console.log(datas);
+    
     return datas;
 }
+
 
 async function getRequestsNum(serviceName){
   const coll = collection(firestoredb, "service",serviceName,"transaction");
   const snapshot = await getCountFromServer(coll);
 
   total_pending = total_pending + snapshot.data().count;
-  console.log('count: ', snapshot.data().count,'| Name:',serviceName);
   
   requestnotif.innerHTML = total_pending;
   return snapshot.data().count;
 }
 
+
 async function getFinished(serviceName){
   const coll = collection(firestoredb, "service",serviceName,"finished");
   const snapshot = await getCountFromServer(coll);
 
-  console.log('FInished count: ', snapshot.data().count,'| Name:',serviceName);
   jobs_completed = jobs_completed + snapshot.data().count;
 
   return snapshot.data().count;
 }
 
 
+
+
+
+
 //Services to HTML
-document.getElementById('logout').addEventListener('click', signOutUser);
 var servicesList=[];
 function loadServices(){
 
@@ -160,7 +219,6 @@ function loadServices(){
 function addAllServices(){
     let i = 0;
     servicesList.forEach(serv =>{
-        //addAService(serv, i++);
         addMessage(serv, i++);
     });
     
@@ -182,6 +240,7 @@ function addMessage(service,index){
       
       let lastName = requests[i].ClientLastName; 
       let firstName = requests[i].ClientFirstName;
+      let id = requests[i].transactionID;
 
       let desc = requests[i].ClientRemarks.substring(0,25);
       desc.replace(/[^a-zA-Z0-9]/g,"...");
@@ -244,7 +303,7 @@ function addMessage(service,index){
       sideDIVRequests.append(sidedivText);
 
       
-      sideDIVRequests.onclick = function() { alert(service); };
+      sideDIVRequests.onclick = function() { viewDetails(id,service.ServiceName); };
       messagesTab.append(requestbutton);
       interactableMessages.append(sideDIVRequests);
       
@@ -263,23 +322,41 @@ function addMessage(service,index){
 //  function loadMessage()
 
 
-/*function addAService(service,index){
-  
-  const getrequestPending = async()=>{
-    let requestnum = await getRequestsNum(service.ServiceName);
-    let finishedNum = await getFinished(service.ServiceName);
+function viewDetails(serviceID,serviceName){
+  OuterDiv.innerHTML = '';
+  window.onload = cancelReq.style.display = "";
+  window.onload = acceptReq.style.display = "";
+  window.onload = chatClient.style.display = "";
 
-    let desc = service.Description.substring(0,15);
-    desc.replace(/[^a-zA-Z0-9]/g,"...");
+  var items = [];
+
+function store(item_id) {
+    items.push(item_id);
+    localStorage.setItem("item", items);
+}
+store(serviceID);
+store(serviceName);
+  const getrequestPending = async()=>{
+    
+    let requestdata = await getRequestData(serviceID,serviceName);
+    let date = requestdata.DateAdded;
+    console.log(date)
+    let dateFormat = new Date(date.seconds*1000);
+    
       let html = 
       `
       <div class="container border border-dark my-2 rounded">
-      <h4 class="small font-weight-bold pt-1" >`+service.ServiceName+`</h4>
+      <h4 class="small font-weight-bold pt-1" >Client Email: `+requestdata.ClientEmail+`</h4>
       <div class="container">
-          <h5 class="small font-weight-bold">Desc: `+desc+`...</h5>
-          <h5 class="small font-weight-bold">Jobs Finished: `+finishedNum+`</h5>
-          <h5 class="small font-weight-bold">Requests Pending: `+requestnum+`</h5>
-          <a href="#!" id="delete`+index+`" class="mr-auto ">Edit</a>
+          <h5 class="small font-weight-bold">Client Name: `+requestdata.ClientFirstName+` `+requestdata.ClientLastName+`</h5>
+          <h5 class="small font-weight-bold">Contact Number:`+requestdata.ClientMobileNum+` </h5>
+          <h5 class="small font-weight-bold">Remarks: `+requestdata.ClientRemarks+`</h5>
+          <h5 class="small font-weight-bold">Selected Bundle: `+requestdata.ClientSelectedBundle+`</h5>
+          <h5 class="small font-weight-bold">ID: `+requestdata.clientID+`</h5>
+          <h5 class="small font-weight-bold">Number of Clientele: `+requestdata.clientNumber+`</h5>
+          <h5 class="small font-weight-bold">Requested Date: `+requestdata.RequestedDate+`</h5>
+          <h5 class="small font-weight-bold">Date added: `+dateFormat+`</h5>
+          <h5 class="small font-weight-bold">Status: `+requestdata.confirmStatus+`</h5>
       </div>
       
       </div>
@@ -296,4 +373,11 @@ function addMessage(service,index){
   getrequestPending();
 
 }
-*/
+
+
+
+
+document.getElementById('logout').addEventListener('click', signOutUser);
+cancelReq.addEventListener('click',cancelRequest);
+acceptReq.addEventListener('click',acceptRequest);
+//chatClient.addEventListener('click',);

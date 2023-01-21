@@ -97,7 +97,7 @@ const monitorAuthState = async(acc,pass) =>{
     }).then(function(){
       alert("Account Creation Succesful");
       sessionStorage.setItem("user","loggedIn");
-      window.location.replace("http://127.0.0.1:5500/public/Service_Provider_Dashboard/index.html");
+      window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
       localStorage.removeItem("Data");
       localStorage.removeItem("exp_entries");
     }).catch(function(error){
