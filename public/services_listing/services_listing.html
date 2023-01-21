@@ -40,7 +40,18 @@
         .bg-dark.scrolled{
             background: #000 !important;            
             transition: 0.75s ease;
+        }.loader {
+            position: relative;
+            border: 8px solid #f3f3f3;
+            border-radius: 100%;
+            border-top: 16px solid #3498db;
+            width: 60px;
+            height: 60px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+
         }
+
         
     </style>
 
@@ -60,7 +71,7 @@
     <nav class="navbar navbar-expand-md fixed-top bg-dark" id="nav_bar">
         <div class="container-fluid">
         
-        <a class="navbar-brand text-dark" href="#">dServ</a>
+        <a class="">dServ</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

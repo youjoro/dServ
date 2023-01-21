@@ -127,3 +127,8 @@ function loadMap(){
 
     
 }
+
+
+
+var bookingselected = document.getElementById('bookingPressed');
+bookingselected.href="/public/Booking/booking_page.html";

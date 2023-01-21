@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getAuth, createUserWithEmailAndPassword, RecaptchaVerifier } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, RecaptchaVerifier,sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import {firebaseConfig} from './firebase_config.js';
 
   const app = initializeApp(firebaseConfig);
@@ -75,7 +75,10 @@ createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
-    
+    sendEmailVerification(auth.currentUser)
+      .then(() => {
+        alert('Email verification sent!');
+      });
     set(ref(database, 'users/' + user.uid),{
         username: username,
         email: email,

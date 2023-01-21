@@ -54,7 +54,7 @@ function getAllServices(){
             
             document.getElementById("empty_list").style.display = 'none';
         }else{
-            document.getElementById("empty_list").style.visibility = 'visible';
+            document.getElementById("empty_list").style.display = '';
         }
         
     })

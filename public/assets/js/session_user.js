@@ -24,9 +24,9 @@ const auth = getAuth();
       user_type = snapshot.val();
       console.log(user_type);
       if(user_type=="client"){
-        document.getElementById('profile_tab').href = "../view_profile/profile.html";
+        document.getElementById('profile_tab').href = "/public/view_profile/profile.html";
       }else{
-        document.getElementById('profile_tab').href = "../Service_Provider_Dashboard/index.html";
+        document.getElementById('profile_tab').href = "/public/Service_Provider_Dashboard/index.html";
       }
     })
     } ;
@@ -55,6 +55,7 @@ if(sessionData == "loggedIn"){
 const monitorAuthState = async() =>{
     onAuthStateChanged(auth,user=>{
       if(user){
+        console.log(user.emailVerified);
         sessionStorage.setItem("user",user.uid);
         sessionStorage.setItem("sessionCheck","loggedIn");
         console.log(user);

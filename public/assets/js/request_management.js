@@ -22,11 +22,9 @@ var total_pending = 0;
 var jobs_completed = 0;
 
 //Documents
-const OuterDiv = document.getElementById('servicesBlock');
 const messagesTab =document.getElementById('messages');
-const pend_text = document.getElementById('pendingRequests');
-const jobCompletetext = document.getElementById('jobs_completed');
 const requestnotif = document.getElementById('request_notif');
+const interactableMessages = document.getElementById('messagesInteractable');
 
 //Session
 function getUserType(){
@@ -105,22 +103,24 @@ const signOutUser = async() =>{
 async function getRequests(serviceName){
   let datas =[];
     const q = query(collection(firestoredb, "service",serviceName,"transaction"));
-
+    
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
+      //console.log(doc.id, " => ", doc.data());
       datas.push(doc.data());
     });
+    console.log(datas);
     return datas;
 }
 
 async function getRequestsNum(serviceName){
   const coll = collection(firestoredb, "service",serviceName,"transaction");
   const snapshot = await getCountFromServer(coll);
+
   total_pending = total_pending + snapshot.data().count;
   console.log('count: ', snapshot.data().count,'| Name:',serviceName);
-  pend_text.innerHTML = total_pending;
+  
   requestnotif.innerHTML = total_pending;
   return snapshot.data().count;
 }
@@ -128,9 +128,10 @@ async function getRequestsNum(serviceName){
 async function getFinished(serviceName){
   const coll = collection(firestoredb, "service",serviceName,"finished");
   const snapshot = await getCountFromServer(coll);
+
   console.log('FInished count: ', snapshot.data().count,'| Name:',serviceName);
   jobs_completed = jobs_completed + snapshot.data().count;
-  jobCompletetext.innerHTML = jobs_completed;
+
   return snapshot.data().count;
 }
 
@@ -139,7 +140,8 @@ async function getFinished(serviceName){
 document.getElementById('logout').addEventListener('click', signOutUser);
 var servicesList=[];
 function loadServices(){
-  var servs="";
+
+
   var userID = sessionStorage.getItem("user");
   const getService = ref(realdb, 'ProviderProfile/'+userID+'/Services');
 
@@ -158,7 +160,7 @@ function loadServices(){
 function addAllServices(){
     let i = 0;
     servicesList.forEach(serv =>{
-        addAService(serv, i++);
+        //addAService(serv, i++);
         addMessage(serv, i++);
     });
     
@@ -168,24 +170,35 @@ function addAllServices(){
 
 
 
-
+let countReq = 0;
 function addMessage(service,index){
   
   const getrequestPending = async()=>{    
     let requests = await getRequests(service.ServiceName);
+    let requestnum = await getRequestsNum(service.ServiceName);
 
-    for(var i = 0; i<requests.length; i++){
-      console.log(requests[i].ClientFirstName);
+    for(var i = 0; i<requests.length; i++){   
+      countReq +=1;
+      
+      let lastName = requests[i].ClientLastName; 
+      let firstName = requests[i].ClientFirstName;
 
       let desc = requests[i].ClientRemarks.substring(0,25);
       desc.replace(/[^a-zA-Z0-9]/g,"...");
 
       let img = document.createElement('img');
+
+
       img.classList.add('rounded-circle');
       img.src="img/undraw_profile_1.svg";
-      let requestbutton = document.createElement('a');
-      requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
 
+
+      let requestbutton = document.createElement('a');
+      let sideDIVRequests = document.createElement('a');
+      
+
+      requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
+      sideDIVRequests.classList.add('dropdown-item', 'd-flex', 'align-items-center', 'button-'+countReq+'','reqbutton');
 
       let dropdownIMG = document.createElement('div');
       dropdownIMG.classList.add('dropdown-list-image', 'mr-3');
@@ -194,32 +207,47 @@ function addMessage(service,index){
       let status = document.createElement('div');
       status.classList.add('status-indicator','bg-success');
 
-
+      //for notif bar
       let divText = document.createElement('div');
       divText.classList.add('font-weight-bold');
+      //for sidebar
+      let sidedivText = document.createElement('div');
+      sidedivText.classList.add('font-weight-bold');
 
-
+      //for notif bar
       let remarkText = document.createElement('div');
       remarkText.classList.add('text-truncate');
+      //side bar
+      let sideremarkText = document.createElement('div');
+      sideremarkText.classList.add('text-truncate');
 
-
+      //for notif bar
       let clientName = document.createElement('div');
       clientName.classList.add('small','text-gray-500');
-
+      //for sidebar
+      let sideclientName = document.createElement('div');
+      sideclientName.classList.add('small','text-gray-500');
 
       dropdownIMG.append(img,status);
 
-
-      clientName.innerHTML = requests[i].ClientLastName +" "+requests[i].ClientFirstName;
+      
+      clientName.innerHTML = lastName+" "+ firstName;
       remarkText.innerHTML = desc+"...";
 
-      divText.append(remarkText,clientName);
+      sideclientName.innerHTML = lastName+" "+ firstName;
+      sideremarkText.innerHTML = desc+"...";
 
+      sidedivText.append(sideremarkText,sideclientName);
+      divText.append(remarkText,clientName);
+      
       requestbutton.append(dropdownIMG,divText);
-      /*let newServ = document.createElement('div');
-      newServ.classList.add('container');
-      newServ.innerHTML = html;*/
+      sideDIVRequests.append(sidedivText);
+
+      
+      sideDIVRequests.onclick = function() { alert(service); };
       messagesTab.append(requestbutton);
+      interactableMessages.append(sideDIVRequests);
+      
     }
 
 
@@ -232,7 +260,10 @@ function addMessage(service,index){
 }
 
 
-function addAService(service,index){
+//  function loadMessage()
+
+
+/*function addAService(service,index){
   
   const getrequestPending = async()=>{
     let requestnum = await getRequestsNum(service.ServiceName);
@@ -265,3 +296,4 @@ function addAService(service,index){
   getrequestPending();
 
 }
+*/
