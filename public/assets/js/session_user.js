@@ -80,7 +80,7 @@ const signOutUser = async() =>{
     sessionStorage.clear();
     location.reload();
     sessionStorage.setItem("reloaded","yes");
-    window.location.replace("http://127.0.0.1:5500/index.html");
+    window.location.replace("https://test-75edb.web.app/index.html");
 }
 document.getElementById('logOut').addEventListener('click', signOutUser);
 
