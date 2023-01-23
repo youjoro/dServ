@@ -57,18 +57,18 @@
 
             <div class="container vstack p-2 ms-5" >
                 
-                <label>Service Name</label> <input class="form-control" type="text" name="" id="servnameInp" required>
+                <label>Service Name</label> <input class="form-control" type="text" name="" id="servnameInp" required/>
 
-                <label>Service Price/ per hour</label> <input class="form-control" type="text" name="" id="servPrice" required>
+                <label>Service Price/ per hour</label> <input class="form-control" type="text" name="" id="servPrice" required/>
 
-                <label>Contact Number</label> <input class="form-control" type="text" name="" id="servNum" required>
+                <label>Contact Number</label> <input class="form-control" type="text" name="" id="servNum" required/>
 
                 <label id="Location"></label>
                 <label id="City"></label>
                 <div id="map" class="py-3"></div>
                 <button id="getLocation" class="btn btn-primary m-2">Get Location</button>
 
-                <label>Times Available</label> <input class="form-control" type="text" name="" id="timeAvailInp" required>
+                <label>Times Available</label> <input class="form-control" type="text" name="" id="timeAvailInp" required/>
 
                 <label>Category</label>
                 <select id="Cate_Inp" class="form-select" required>
@@ -83,9 +83,9 @@
                 
                 <hr class="mx-n3">
                 <p>Quick descriptions and Hooklines of the Service</p>
-                <label>Points *1</label> <input class="form-control" type="text" id="Point1_Inp" required>
-                <label>Points *2</label> <input class="form-control" type="text" id="Point2_Inp" required>
-                <label>Points *3</label> <input class="form-control" type="text" id="Point3_Inp" required>
+                <label>Points *1</label> <input class="form-control" type="text" id="Point1_Inp" required/>
+                <label>Points *2</label> <input class="form-control" type="text" id="Point2_Inp" required/>
+                <label>Points *3</label> <input class="form-control" type="text" id="Point3_Inp" required/>
 
                 <hr class="mx-n3">
                 <h3>Images</h3>
@@ -94,8 +94,8 @@
 
                 <div id="controlDiv" class="py-3">
                     <label id="Loadlab">Adding pics </label>
-                    <button id="Serv_imgs" class="btn btn-primary m-2">Select Images</button>
-                    <button id="addServButton" class="btn btn-primary m-2">Add Service</button>
+                    <button id="Serv_imgs" type="submit" class="btn btn-primary m-2">Select Images</button>
+                    <button id="addServButton" type="submit" class="btn btn-primary m-2">Add Service</button>
                     
                 </div>
             </div>
@@ -116,7 +116,7 @@
 
   </body>
 <script src="/assets/js/serviceProvider_session.js" type="module"></script>
-<script type="module" src="/assets/js/send_data_to_firebase.js"></script>
+<script type="module" src="/assets/js/addService.js"></script>
 <script src="/assets/js/firebase_config.js" type="module"></script>
 
 

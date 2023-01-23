@@ -60,3 +60,8 @@ transition: 0.75s ease;
     width: 70vw;
 }
 }
+body{
+    background-image: url("/assets/img/bg_light.png");
+    background-position: center;
+    background-repeat: no-repeat;
+}

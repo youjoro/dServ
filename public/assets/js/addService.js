@@ -23,7 +23,7 @@
     const point_2 = document.getElementById('Point2_Inp');
     const point_3 = document.getElementById('Point3_Inp');
     
-
+    
 
 
 
@@ -50,7 +50,7 @@
             Files.push(theFiles[i]);
         }
 
-        if(num>10) alert("maximum of 10 images are allowed");
+        if(num>7) alert("maximum of 7 images are allowed");
     }
 
 
@@ -77,6 +77,7 @@
         lab.style = 'cursor:pointer;display:block;color:navy;font-size:12px;';
         lab.addEventListener('click',ClearImages);
         imgDiv.append(lab);
+        
     }
 
 
@@ -119,6 +120,7 @@
 
 
     function RestoreBack(){
+        console.log('how');
         addImg.disabled = false;
         selectImg.disabled = false;
         service_name.value = '';
@@ -137,13 +139,48 @@
     //Events
 
     selectImg.addEventListener('click', OpenFileDialog);
-    addImg.addEventListener('click', uploadAllImages);
+    addImg.addEventListener('click', validateForm);
     locationbutton.addEventListener('click', getLocation);
+
+    function validateForm() {
+        // This function deals with validation of the form fields
+        var x, y, i, valid = true;
+        
+        y = document.getElementsByTagName("input");
+        var d = service_desc;
+        
+        //check if description and experience/expertise is empty
+        if(d.value.length == 0){
+                d.classList.add("border-danger");
+                valid = false;
+                    }
+        // A loop that checks every input field in the current tab:
+        for (i = 0; i < y.length; i++) {
+            // If a field is empty...
+            if (y[i].value == "") {
+
+            // add an "invalid" class to the field:
+            y[i].className += " invalid";
+            
+            // and set the current valid status to false
+            valid = false;
+            }
+            
+        }
+        // If the valid status is true, mark the step as finished and valid:
+        if (valid) {
+
+            uploadAllImages();
+        }
+        
+}
+
+
+
     //Functions
 
     function uploadAllImages(){
-        addImg.disabled = true;
-        selectImg.disabled = true;
+        
 
         imageLinkArray=[];
 
@@ -179,7 +216,7 @@
                 imageLinkArray.push(downloadURL);
                 if(isAllImagesUploaded()){
                     progLabel.innerHTML = "All images Uploaded";
-                    UploadAService();
+                    monitorAuthState();
                 }
             });
         }
@@ -273,14 +310,29 @@ import {getStorage, ref as sRef, uploadBytesResumable, getDownloadURL}
     from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
 import { getDatabase, ref, set, child, update, remove }
     from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getAuth, 
+  onAuthStateChanged, 
 
+} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
 import {firebaseConfig} from './firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
 const userID = sessionStorage.getItem("user");
+const auth = getAuth();
 
+const monitorAuthState = async() =>{
+    onAuthStateChanged(auth,user=>{
+        if(user){
+        console.log(user);
+        UploadAService();
+        }else{
+        console.log("no user");
+        
+        }
+    });
+}
 
     function UploadAService(){
         set(ref(realdb,"Services/"+getShortTitle()),{

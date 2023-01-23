@@ -187,3 +187,6 @@ h1{
     transform: translate3d(-80%, 0, 0);
   }
 }
+.invalid {
+    border: 1px solid #ffaba5;
+}

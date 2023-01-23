@@ -1,12 +1,14 @@
 import { getFirestore , collection, addDoc, doc  } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import {firestoreConfig} from './firebase_config.js';
+import { getAuth, 
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
 
-
-const app = initializeApp(firestoreConfig);
+const app = initializeApp(firestoreConfig,"secondary");
 const db = getFirestore(app);
-
+const fireauth = getAuth(app);
 var button = document.getElementById('sendRequest');
 
 //inputs
@@ -36,6 +38,7 @@ window.onload = sessIN.style.display = 'none';
 window.onload = function(){
     checkSession();
     service = localStorage.Service;
+    
     if (service){
         service = JSON.parse(service);
         
@@ -60,7 +63,7 @@ if(sessionData == null){
     sessOUT.style.display = '';
     sessIN.style.display = 'none';
     alert("Redirecting");
-    window.location.replace("https://test-75edb.web.app/index.html");
+    window.location.replace("http://127.0.0.1:5500/index.html");
 }else{
     fName.disabled = false;
     lName.disabled = false;
@@ -86,12 +89,27 @@ function InputClear(){
     date.value="";
 }
 
+const monitorAuthState = async() =>{
+
+    onAuthStateChanged(fireauth,user=>{
+        if(user){
+        console.log(user.uid);
+        sendRequest();
+        }else{
+        console.log("no user");
+        
+        }
+    });
+}
 
 
 async function sendRequest(){
+    console.log(service);
+    
     try {
+        
         const dt = new Date();
-        const docRef = await addDoc(collection(db, "service",service.ServiceName,"transaction"), {
+    const docRef = await addDoc(collection(db, "service",service.ServiceName,"transaction"), {
         ClientFirstName: fName.value,
         ClientLastName: lName.value,
         ClientMobileNum: mobileNum.value,
@@ -114,4 +132,6 @@ async function sendRequest(){
     localStorage.removeItem("Service");
 }
 
-button.addEventListener('click',sendRequest);
+
+
+button.addEventListener('click',monitorAuthState);

@@ -1,16 +1,29 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword, RecaptchaVerifier,sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-import {firebaseConfig} from './firebase_config.js';
+import { getFirestore} from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import {firebaseConfig, firestoreConfig} from './firebase_config.js'; 
 
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
-  const auth = getAuth();
+  const firestoreapp = initializeApp(firestoreConfig,"secondary");
+  const firestoredb = getFirestore(firestoreapp); 
+  const fireauth = getAuth(firestoreapp);
+  const auth = getAuth(app);
+
+
+
+
 window.onload = document.getElementById('signUp').disabled= true;
 window.onload = document.getElementById('loading').style.visibility = 'hidden';
 window.onload = document.getElementById('OTP').style.visibility = 'hidden';
 window.onload = document.getElementById('sendNum').disabled= true;
 window.onload = document.getElementById("recaptcha-container").style.visibility ='visible';
+
+
+
+
+
   // render recaptcha verifier
 window.onload = render();
 function render() {
@@ -74,7 +87,20 @@ signUp.addEventListener('click',(e) => {
 
 createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
-    // Signed in 
+    //sign in with firestore transactions
+    createUserWithEmailAndPassword(fireauth, email, password)
+    .then((userCredential) => {
+      const transactionUser = userCredential.user;
+
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorCode,errorMessage);
+    });
+
+
+    // Signed in dServ
     const user = userCredential.user;
     sendEmailVerification(auth.currentUser)
       .then(() => {
@@ -88,7 +114,7 @@ createUserWithEmailAndPassword(auth, email, password)
     }).then(function(){
       
       alert('user created');
-      window.location.replace("https://test-75edb.web.app/index.html");
+      window.location.replace("http://127.0.0.1:5500/index.html");
     }).catch(function(error){
        console.log('Synchronization failed');
     })
