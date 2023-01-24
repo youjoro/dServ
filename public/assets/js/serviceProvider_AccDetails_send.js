@@ -1,12 +1,16 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getDatabase, set, ref,update  } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-import {firebaseConfig} from './firebase_config.js';
+import { getFirestore,doc, addDoc , setDoc, collection} from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import {firebaseConfig, firestoreConfig} from './firebase_config.js';
 
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
   const auth = getAuth();
 
+  const firestoreapp = initializeApp(firestoreConfig,"secondary");
+  const firestoredb = getFirestore(firestoreapp); 
+  const fireauth = getAuth(firestoreapp);
 /*window.onload = renderCaptcha();
 function renderCaptcha() {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
@@ -30,7 +34,41 @@ document.getElementById("final_submit").style.visibility = "hidden";
 var data = localStorage.getItem("Data");
 data = data.split(',');
 var exp = localStorage.getItem("exp_entries");
+let fireUser = "";
 
+    const createAccFirestore =async() =>{
+      await createUserWithEmailAndPassword(fireauth, data[15], data[16])
+        .then((fireStoreuserCredential) => {
+            // Signed in 
+            const fireuser = fireStoreuserCredential.user;
+            sessionStorage.setItem("fireuser", fireuser.uid);
+            fireUser = fireuser.uid;
+            alert(fireUser);
+        }).then(()=>{
+          // Add a new document with a generated id.
+          try {
+            const docRef =  setDoc(doc(firestoredb, "user",fireUser), {
+              username: data[2],
+              email: data[15],
+              phone_number: data[4],
+              user_type: "provider"
+            });
+
+            
+            
+          } catch (error) {
+            console.log(error);
+            location.reload();
+          }
+          
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          alert(errorMessage);
+        });
+  }
+const createServiceProviderProfile = async() =>{
 createUserWithEmailAndPassword(auth, data[15], data[16])
   .then((userCredential) => {
     // Signed in 
@@ -79,6 +117,14 @@ createUserWithEmailAndPassword(auth, data[15], data[16])
     
     // ..
   });
+}
+
+  createAccFirestore();
+  createServiceProviderProfile();
+
+
+
+
 
 })
 

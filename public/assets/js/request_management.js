@@ -51,7 +51,7 @@ function getUserType(){
         window.location.replace("http://127.0.0.1:5500/index.html");
       }else{
         document.getElementById("profile_content").style.visibility = "visible";
-        document.getElementById('loading').remove();
+        document.getElementById('loading').style.display = "none";
         loadServices();
       }
     })
@@ -80,7 +80,7 @@ const monitorAuthState = async() =>{
     onAuthStateChanged(auth,user=>{
       if(user){
         sessionStorage.setItem("user",user.uid);
-        console.log(user);
+        console.log(user.uid);
         checkSession(user); 
       }else{
         console.log("no user");
@@ -114,11 +114,13 @@ async function acceptRequest(){
   creds = creds.split(',');
   console.log(creds[1]);
   const docRef = doc(firestoredb, "service",creds[1],"transaction",creds[0]);
-
-  // Set the "capital" field of the city 'DC'
+  monitorAuthState();
+  
+  //update doc
   await updateDoc(docRef, {
     confirmStatus: 'Accepted'
   });
+  
   alert("are you sure?");
   location.reload();
   
@@ -129,8 +131,9 @@ async function cancelRequest(){
   creds = creds.split(',');
   console.log(creds[1]);
   const docRef = doc(firestoredb, "service",creds[1],"transaction",creds[0]);
-
-  // Set the "capital" field of the city 'DC'
+  monitorAuthState();
+  
+  //update doc
   await updateDoc(docRef, {
     confirmStatus: 'Cancelled'
   });
@@ -144,7 +147,7 @@ async function getRequestData(serviceID,serviceName){
     const docRef = doc(firestoredb, "service",serviceName,"transaction",serviceID);
     const docSnap = await getDoc(docRef);
     
-    console.log(docSnap);
+    
     return docSnap.data();
 }
 
@@ -164,7 +167,7 @@ async function getRequests(serviceName){
       transactionobject['transactionID'] = id;
 
       datas.push(transactionobject);
-      console.log(transactionobject);
+      
     });
     
     return datas;
@@ -340,7 +343,7 @@ store(serviceName);
     
     let requestdata = await getRequestData(serviceID,serviceName);
     let date = requestdata.DateAdded;
-    console.log(date)
+    console.log(date);
     let dateFormat = new Date(date.seconds*1000);
     
       let html = 
