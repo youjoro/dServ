@@ -14,6 +14,7 @@ const firestoreapp = initializeApp(firestoreConfig,"secondary");
 const firestoredb = getFirestore(firestoreapp);
 const realdb = getDatabase(app);
 const auth = getAuth();
+const fireauth = getAuth(firestoreapp);
 
 window.onload = document.getElementById("profile_content").style.visibility = "hidden";
 
@@ -39,16 +40,16 @@ window.onload = chatClient.style.display = "none";
 function getUserType(){
   var user_type="";
     var userID = sessionStorage.getItem("user");
-    console.log(userID);
+
     
     const getType = ref(realdb, 'users/'+userID+'/user_type');
     const type = async() =>{
       onValue(getType, (snapshot) => {
       user_type = snapshot.val();
-      console.log(user_type);
+
       if(user_type=="client" || user_type==null){
         alert("You are not supposed to be here");
-        window.location.replace("http://127.0.0.1:5500/index.html");
+        window.location.replace("https://test-75edb.web.app/index.html");
       }else{
         document.getElementById("profile_content").style.visibility = "visible";
         document.getElementById('loading').style.display = "none";
@@ -76,11 +77,29 @@ if(sessionData != null){
 }
 }
 
+
+const monitorFireAuth = async() =>{
+
+    onAuthStateChanged(fireauth,user=>{
+      if(user){
+        console.log(user.emailVerified);
+        sessionStorage.setItem("fireuser",user.uid);
+        
+        
+        checkSession();
+      }else{
+        console.log("no user");                    
+      }
+    });
+  
+}
+
+
 const monitorAuthState = async() =>{
     onAuthStateChanged(auth,user=>{
       if(user){
         sessionStorage.setItem("user",user.uid);
-        console.log(user.uid);
+        
         checkSession(user); 
       }else{
         console.log("no user");
@@ -96,7 +115,7 @@ const signOutUser = async() =>{
 
     await signOut(auth);
     alert("logged out");
-    window.location.replace("http://127.0.0.1:5500/index.html");
+    window.location.replace("https://test-75edb.web.app/index.html");
     sessionStorage.clear();
     location.reload();
     
@@ -114,7 +133,7 @@ async function acceptRequest(){
   creds = creds.split(',');
   console.log(creds[1]);
   const docRef = doc(firestoredb, "service",creds[1],"transaction",creds[0]);
-  monitorAuthState();
+  monitorFireAuth();
   
   //update doc
   await updateDoc(docRef, {
@@ -131,7 +150,7 @@ async function cancelRequest(){
   creds = creds.split(',');
   console.log(creds[1]);
   const docRef = doc(firestoredb, "service",creds[1],"transaction",creds[0]);
-  monitorAuthState();
+  monitorFireAuth();
   
   //update doc
   await updateDoc(docRef, {

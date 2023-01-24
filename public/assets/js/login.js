@@ -54,7 +54,7 @@ login.addEventListener('click',(e)=>{
         try{
           const dt = new Date();
 
-            alert("oi3");
+            
             const docRef =async()=>{
               await updateDoc(doc(firestoredb, "user",fireUser), {
                 LastLogin:dt 

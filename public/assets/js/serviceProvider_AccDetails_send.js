@@ -43,7 +43,7 @@ let fireUser = "";
             const fireuser = fireStoreuserCredential.user;
             sessionStorage.setItem("fireuser", fireuser.uid);
             fireUser = fireuser.uid;
-            alert(fireUser);
+            
         }).then(()=>{
           // Add a new document with a generated id.
           try {
