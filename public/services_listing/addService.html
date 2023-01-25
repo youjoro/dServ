@@ -17,39 +17,12 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
     
+    <link rel="stylesheet" href="/assets/css/addserviceCSS.css">
 
-    <style>
-        #map{
-            width: 100%;
-            height: 40vh;
-            z-index: 1;
-        }
-        .imgsDivStyle{
-            margin-top: 1vh;
-            width: 600px;
-            border: 1px black solid;
-            padding: 5px;
-        }
-        .img{
-            height: 80px;
-            width: 100px;
-            border: 1px black dashed;
-            margin:5px;
-        }
-
-        label,p,select,h3{
-            font-family: 'Urbanist', sans-serif;
-            padding-top: 1vh;
-            font-size: 1.3em;
-        }
-        h1{
-            font-family: 'Paytone One', sans-serif;
-            text-shadow: 5px;
-        }
-    </style>
   </head>
   <body>
-    <div class="container">
+    <div class="container bg-light">
+        <a href="/Service_Provider_Dashboard/index.html" class="btn btn-lg btn-outline float-start text-black my-3">Return</a>
         <p id="session">u are not logged in</p>
         <div class="row py-lg-4">
             <h1>Set Up Service</h1>
@@ -68,7 +41,50 @@
                 <div id="map" class="py-3"></div>
                 <button id="getLocation" class="btn btn-primary m-2">Get Location</button>
 
-                <label>Times Available</label> <input class="form-control" type="text" name="" id="timeAvailInp" required/>
+                <h4>Available time</h4>
+                <div class="row row-cols-3 py-2">                    
+                    <div class="col-5">
+                        <div class="input-group mb-3">
+                            <select class="form-select" id="amSelector">
+                                <option selected>Choose...</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <label class="input-group-text" for="inputGroupSelect02">am</label>
+                        </div>
+                    </div>
+                    <div class="col-1"> <p>to</p></div>
+                    <div class="col-5">
+                        <div class="input-group mb-3">
+                            <select class="form-select" id="pmSelector">
+                                <option selected>Choose...</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <label class="input-group-text" for="inputGroupSelect02">pm</label>
+                        </div>
+                    </div>
+                </div>
 
                 <label>Category</label>
                 <select id="Cate_Inp" class="form-select" required>

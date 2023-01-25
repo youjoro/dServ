@@ -75,6 +75,14 @@ function genImgs(){
     });
 }
 
+
+
+
+
+
+
+
+
 function loadMap(){
     let data = service.location_data;
     var location_data = String(data).split(',').map(Number);

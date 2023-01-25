@@ -14,7 +14,8 @@
     //Text Input
     const service_name = document.getElementById('servnameInp');
     const service_price = document.getElementById('servPrice');
-    const service_times = document.getElementById('timeAvailInp');
+    const amTime = document.getElementById('amSelector');
+    const pmTime = document.getElementById('pmSelector');
     const service_desc = document.getElementById('desArea');
     const service_category = document.getElementById('Cate_Inp');
     const contact_Number = document.getElementById('servNum');
@@ -24,7 +25,7 @@
     const point_3 = document.getElementById('Point3_Inp');
     
     
-
+    let servicetime = "";
 
 
 
@@ -44,7 +45,7 @@
 
     function AssignImgsToFilesArray(theFiles){
         let num = Files.length + theFiles.length;
-        let looplim = (num<=10) ? theFiles.length : (10-Files.length);
+        let looplim = (num<=7) ? theFiles.length : (7-Files.length);
 
         for (let i = 0; i < looplim; i++){
             Files.push(theFiles[i]);
@@ -120,19 +121,19 @@
 
 
     function RestoreBack(){
-        console.log('how');
         addImg.disabled = false;
         selectImg.disabled = false;
         service_name.value = '';
         service_price.value = '';
-        service_times.value = '';
+        amTime.value = '';
+        pmTime.value = '';
         service_desc.value = '';
         service_category.value = '';
         point_1.value = '';
         point_2.value = '';
         point_3.value = '';
         imgDiv.innerHTML='';
-        window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+
     }
 
 
@@ -198,7 +199,7 @@
 
         const storage = getStorage();
 
-        const imageAddress = "Images_" + getShortTitle() + "/img#" + (imgNo+1); 
+        const imageAddress = "Images_" + getShortTitle()+userID + "/img#" + (imgNo+1); 
 
         const storageRef = sRef(storage,imageAddress);
 
@@ -335,35 +336,43 @@ const monitorAuthState = async() =>{
 }
 
     function UploadAService(){
-        set(ref(realdb,"Services/"+getShortTitle()),{
-            ServiceName: service_name.value,
-            ServicePrice: service_price.value,
-            ServiceTimes: service_times.value,
-            ServiceCategory: service_category.value,
-            Description: service_desc.value,
-            Points: getPoints(),
-            LinksOfImagesArray: imageLinkArray,
-            Location: city,
-            location_data:loc_data.toString(),
-            Phone_Number: contact_Number.value,
-            Owner: userID
-            
-        }).then(function(){
-            set(ref(realdb, 'ProviderProfile/' + userID + '/Services/' + service_name.value),{
-            ServiceName: service_name.value,
-            ServicePrice: service_price.value,
-            ServiceTimes: service_times.value,
-            ServiceCategory: service_category.value,
-            Description: service_desc.value,
-            Points: getPoints(),
-            LinksOfImagesArray: imageLinkArray,
-            Location: city,
-            location_data:loc_data.toString(),
-            Phone_Number: contact_Number.value
-            })
-            alert("Upload Succesful");
+        servicetime = amTime.value+'am to '+pmTime.value+'pm';
+        try{
+            set(ref(realdb,"Services/"+getShortTitle()+'-'+userID),{
+                ServiceName: service_name.value,
+                ServicePrice: service_price.value,
+                ServiceTimes: servicetime,
+                ServiceCategory: service_category.value,
+                Description: service_desc.value,
+                Points: getPoints(),
+                LinksOfImagesArray: imageLinkArray,
+                Location: city,
+                location_data:loc_data.toString(),
+                Phone_Number: contact_Number.value,
+                Owner: userID
+                
+            }).then(function(){
+                set(ref(realdb, 'ProviderProfile/' + userID + '/Services/' + service_name.value+'-'+userID),{
+                ServiceName: service_name.value,
+                ServicePrice: service_price.value,
+                ServiceTimes: servicetime,
+                ServiceCategory: service_category.value,
+                Description: service_desc.value,
+                Points: getPoints(),
+                LinksOfImagesArray: imageLinkArray,
+                Location: city,
+                location_data:loc_data.toString(),
+                Phone_Number: contact_Number.value
+                })
+                alert("Upload Succesful");
+                window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+                
+            });
+        }catch(error){
+            alert(error);
             RestoreBack();
-        });
+        }
+        
 
         
     }

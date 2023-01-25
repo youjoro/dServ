@@ -54,7 +54,10 @@ h1{
   color:#fff;
 }
 
-
+.notifIcon{
+  width: 2.4em;
+  height: 2.4em;
+}
 .navbar .navbar-nav .nav-link {
   padding: 0.6em;
   font-family: 'Raleway', sans-serif;

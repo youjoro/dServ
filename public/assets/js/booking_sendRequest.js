@@ -109,7 +109,7 @@ async function sendRequest(){
     try {
         
         const dt = new Date();
-    const docRef = await addDoc(collection(db, "service",service.ServiceName,"transaction"), {
+    const docRef = await setDoc(collection(db, "service",service.ServiceName,"transactions", service.Owner), {
         ClientFirstName: fName.value,
         ClientLastName: lName.value,
         ClientMobileNum: mobileNum.value,

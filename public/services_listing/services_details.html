@@ -19,63 +19,7 @@
     
     
     <!--Style-->
-    <style>
-        .material-symbols-outlined {
-        font-variation-settings:
-        'FILL' 0,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 48
-        }
-        #map{
-            width: 100%;
-            height: 40vh;
-            z-index: 1;
-        }
-        .navbar-brand{
-            font-size: 29px;
-            letter-spacing: 0.02em;
-            font-style: normal;
-            font-weight: 900;
-        }
-        h2,h3,h4,p{
-            font-family: 'Raleway', sans-serif;
-        }
-        h2{
-            font-size: 2.8em;
-        }
-        h3,h4{
-            font-size: 1.3em;
-            font-weight: 300;
-        }
-        p{
-            font-size: 1em;
-            font-weight: 400;
-        }
-        img{
-            border-radius: 1em;
-        }
-        .float{
-            position:fixed;
-            width:15em;
-            height:60px;
-            bottom:40px;
-            right:40px;
-            background-color:#0C9;
-            color:#FFF;
-            border-radius:1em;
-            display:flex;/*CSS3*/
-            align-items:center;/*Vertical align*/
-            justify-content:center;/*horizontal align*/
-            box-shadow: 2px 2px 3px #999;
-            font-size: 1.4em;
-            font-family: 'Raleway', sans-serif;
-            letter-spacing: 0.05em;
-            border-radius: 0.5em;
-            z-index: 2;
-        }
-    </style>
-
+    <link rel="stylesheet" href="/assets/css/service-details.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
 </head>
 <body>
@@ -210,8 +154,8 @@
     <div class="container">
         <div class="container py-3">
             <h2>Overview</h2>
-                <div class="row row-cols-2">
-                    <div class="col-7">
+                <div class="row row-cols-2 ">
+                    <div class="col-7 columnRow">
                         <p id="desc"></p>
                         <hr>
                         <h3>Price:</h3>                    
@@ -223,8 +167,8 @@
 
 
                     <!--Sidebar-->
-                    <div class="col-4 mx-lg-5">
-                        <div class="container shadow p-3 mb-5 bg-body rounded">
+                    <div class="col-4 mx-lg-5 columnRow">
+                        <div class="container shadow p-3 mb-5 bg-body rounded columnRow">
                             <h3>Call</h3>
                             <h3 class=" text-danger" id="number"></h3>
                             <hr>
@@ -237,7 +181,50 @@
                 </div>
         </div>
         <div class="container">
-            <h2>Reviews</h2>
+            <h3 class=" fw-normal fs-3">About The Provider</h3>
+            <div class="container py-3" id="providerProfile">
+                <!--Provider Details-->
+                <div class="container">
+                    <div class="container">
+
+                        <div class="row row-cols-2 py-3">
+                            <div class="col-3">
+                                <img src="/assets/img/1.png" class="profileImg" alt="">
+                            </div>
+                            <div class="col-9 ">
+                                <div class="container me-5">
+                                    <h3>Name</h3>
+                                    <h3>Specialization</h3>
+                                    <h3>Review</h3>
+                                    <button class="btn btn-outline-dark">Contact me</button>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="row row-cols-2">
+                        <div class="col-7 extraDetails">
+                            <div class="container border border-2 rounded-1 infoBox">
+                                <hr>
+                                <p> </p>
+                            </div>
+                        </div>
+                        <div class="col-5 spacing"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="container py-3">
+            <h3 class=" fw-normal fs-3">Bundles</h3>
+            <div class="container">
+                <!---->
+            </div>
+        </div>
+        <div class="container">
+            <h3 class=" fw-normal fs-3">Reviews</h3>
             <div class="container">
                 <!---->
             </div>
@@ -258,4 +245,6 @@
 <script src="/assets/js/session_user.js" type="module"></script>
 <script src="/assets/js/service_details.js" type="module"></script>
 <script src="/assets/js/firebase_config.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 </html>
