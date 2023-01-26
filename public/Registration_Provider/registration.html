@@ -280,7 +280,7 @@
 
                               <input class="form-control form-control-lg" id="formFileLg" type="file" />
                               <div class="small text-muted mt-2">Upload your CV/Resume or any other relevant file. Max file
-                                size 50 MB</div>
+                                size 10 MB</div>
                                 
                                 <button onclick="skipCV()">Skip this part</button>
                             </div>
@@ -328,7 +328,8 @@
                            <div class="col-md-3 ps-5">
 
                               <h6 class="mb-0">Describe the business</h6>
-                              <p class=" text-muted fs-5">Give a little description</p>
+                              <h6 class="mb-0 text-muted" style="font-size: 13px;">Give a little description</h6>
+
                             </div>
                             <div class="col-md-9 pe-5">
 
@@ -341,13 +342,55 @@
                           <div class="row align-items-center py-3">
                             <div class="col-md-3 ps-5">
 
-                              <h6 class="mb-0">Times Available</h6>
+                              <h6>Available time</h6>                    
 
                             </div>
                             <div class="col-md-9 pe-5">
 
 
-                              <input type="text" class="form-control form-control-lg" id="availability" placeholder="7:00am to 9:00pm"required/>
+                              <div class="row row-cols-3 py-2">                    
+                                  <div class="col-5">
+                                      <div class="input-group mb-3">
+                                          <select class="form-select" id="amSelector">
+                                              <option selected>Choose...</option>
+                                              <option value="1">1</option>
+                                              <option value="2">2</option>
+                                              <option value="3">3</option>
+                                              <option value="4">4</option>
+                                              <option value="5">5</option>
+                                              <option value="6">6</option>
+                                              <option value="7">7</option>
+                                              <option value="8">8</option>
+                                              <option value="9">9</option>
+                                              <option value="10">10</option>
+                                              <option value="11">11</option>
+                                              <option value="12">12</option>
+                                          </select>
+                                          <label class="input-group-text" for="inputGroupSelect02">am</label>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 px-1"> <p>to</p></div>
+                                  <div class="col-5">
+                                      <div class="input-group mb-3">
+                                          <select class="form-select" id="pmSelector">
+                                              <option selected>Choose...</option>
+                                              <option value="1">1</option>
+                                              <option value="2">2</option>
+                                              <option value="3">3</option>
+                                              <option value="4">4</option>
+                                              <option value="5">5</option>
+                                              <option value="6">6</option>
+                                              <option value="7">7</option>
+                                              <option value="8">8</option>
+                                              <option value="9">9</option>
+                                              <option value="10">10</option>
+                                              <option value="11">11</option>
+                                              <option value="12">12</option>
+                                          </select>
+                                          <label class="input-group-text" for="inputGroupSelect02">pm</label>
+                                      </div>
+                                  </div>
+                              </div>
 
 
                             </div>

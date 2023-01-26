@@ -1,28 +1,29 @@
 //import { send } from "./serviceProvider_AccDetails_send";
 
 //get data from fields
-var fName = document.getElementById("firstName");
-var lName = document.getElementById("lastName");
-var username = document.getElementById("username");
-var businessEmail = document.getElementById("businessEmail");
-var phoneNumber = document.getElementById("phone_number");
-var address = document.getElementById("address");
-var address2 = document.getElementById("address2");
-var city = document.getElementById("city");
-var zip = document.getElementById("zip");
-var individual = document.getElementById("individual");
-var company = document.getElementById("company");
+const fName = document.getElementById("firstName");
+const lName = document.getElementById("lastName");
+const username = document.getElementById("username");
+const businessEmail = document.getElementById("businessEmail");
+const phoneNumber = document.getElementById("phone_number");
+const address = document.getElementById("address");
+const address2 = document.getElementById("address2");
+const city = document.getElementById("city");
+const zip = document.getElementById("zip");
+const individual = document.getElementById("individual");
+const company = document.getElementById("company");
 
-var selfDescription = document.getElementById("selfDescription");
-var CV = document.getElementById("formFileLg");
+const selfDescription = document.getElementById("selfDescription");
+const CV = document.getElementById("formFileLg");
 
-var brand_name = document.getElementById("firstName");
-var brand_desc = document.getElementById("brandDescription");
-var availability = document.getElementById("availability");
+const brand_name = document.getElementById("firstName");
+const brand_desc = document.getElementById("brandDescription");
+const amTime = document.getElementById('amSelector');
+const pmTime = document.getElementById('pmSelector');
 
-var acc_email = document.getElementById("acc_email");
-var acc_pass = document.getElementById("password");
-
+const acc_email = document.getElementById("acc_email");
+const acc_pass = document.getElementById("password");
+let servicetime = "";
 var typeOfProvider = "";
 
 if (individual.checked){
@@ -146,6 +147,7 @@ window.nextPrev = function (n){
   // if you have reached the end of the form...
   if (currentTab >= x.length) {
     // ... the form gets submitted:
+    servicetime = amTime.value+'am to '+pmTime.value+'pm';
     checkData();
     var send_data = [
       fName.value,
@@ -162,7 +164,7 @@ window.nextPrev = function (n){
       CV.value,
       brand_name.value,
       brand_desc.value,
-      availability.value,
+      servicetime,
       acc_email.value,
       acc_pass.value
     ];

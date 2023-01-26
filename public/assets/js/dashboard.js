@@ -28,61 +28,7 @@ const pend_text = document.getElementById('pendingRequests');
 const jobCompletetext = document.getElementById('jobs_completed');
 const requestnotif = document.getElementById('request_notif');
 
-//Session
-function getUserType(){
-  var user_type="";
-    var userID = sessionStorage.getItem("user");
-    console.log(userID);
-    
-    const getType = ref(realdb, 'users/'+userID+'/user_type');
-    const type = async() =>{
-      onValue(getType, (snapshot) => {
-      user_type = snapshot.val();
-      console.log(user_type);
-      if(user_type=="client" || user_type==null){
-        alert("You are not supposed to be here");
-        window.location.replace("http://127.0.0.1:5500/index.html");
-      }else{
-        document.getElementById("profile_content").style.visibility = "visible";
-        document.getElementById('loading').remove();
-        loadServices();
-      }
-    })
-    } ;
-    
-    type();
-    
-}
 
-
-function checkSession(user){
-
-var sessionData=sessionStorage.getItem("user");
-console.log(sessionData);
-
-if(sessionData != null){
-    document.getElementById('prov_name').innerHTML=user.email; 
-   getUserType();
-}else{
-    console.log("no user");
-    
-}
-}
-
-const monitorAuthState = async() =>{
-    onAuthStateChanged(auth,user=>{
-      if(user){
-        sessionStorage.setItem("user",user.uid);
-        console.log(user);
-        checkSession(user); 
-      }else{
-        console.log("no user");
-        getUserType();
-      }
-    });
-  }
-
-monitorAuthState();
 
 
 const signOutUser = async() =>{
@@ -154,7 +100,7 @@ function loadServices(){
     
     services();
 }
-
+loadServices();
 function addAllServices(){
     let i = 0;
     servicesList.forEach(serv =>{

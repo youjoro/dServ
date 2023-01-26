@@ -199,7 +199,7 @@
 
         const storage = getStorage();
 
-        const imageAddress = "Images_" + getShortTitle()+userID + "/img#" + (imgNo+1); 
+        const imageAddress = "Images_" + getShortTitle()+ "/img#" + (imgNo+1); 
 
         const storageRef = sRef(storage,imageAddress);
 
@@ -320,23 +320,28 @@ import {firebaseConfig} from './firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
-const userID = sessionStorage.getItem("user");
+
 const auth = getAuth();
+let check = sessionStorage.getItem("user");
 
-const monitorAuthState = async() =>{
-    onAuthStateChanged(auth,user=>{
-        if(user){
-        console.log(user);
-        UploadAService();
-        }else{
-        console.log("no user");
-        
-        }
-    });
-}
+    if (check !=null){
+        document.getElementById('session').style.visibility  = "hidden";
+    }
 
-    function UploadAService(){
-        servicetime = amTime.value+'am to '+pmTime.value+'pm';
+    const monitorAuthState = async() =>{
+        onAuthStateChanged(auth,user=>{
+            if(user){
+                console.log(user);
+                UploadAService(user.uid);
+            }else{
+                console.log("no user");
+            
+            }
+        });
+    }
+
+    function UploadAService(userID){
+            
         try{
             set(ref(realdb,"Services/"+getShortTitle()+'-'+userID),{
                 ServiceName: service_name.value,
