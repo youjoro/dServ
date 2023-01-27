@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, ref,onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getDatabase, ref,onValue,get,child } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 import { getAuth,onAuthStateChanged,signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { getFirestore} from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 import {firebaseConfig, firestoreConfig} from './firebase_config.js'; 
@@ -11,6 +11,28 @@ const firestoredb = getFirestore(firestoreapp);
 const fireauth = getAuth(firestoreapp);
 const auth = getAuth(app);
 const checkifFirstLoggedIn = sessionStorage.getItem("IsThisFirstTime_Log_From_LiveServer");
+
+
+
+
+
+function getProfileIMG(userID){
+  var dbRef = ref(realdb);
+  let pfp = document.getElementById('profileIMG');
+  let currentPFP = document.getElementById('myImg');
+  get(child(dbRef,"users/"+userID+"/profilePic")).then((snapshot)=>{
+    if(snapshot.exists()){
+      pfp.src = snapshot.val().imgLink;
+      currentPFP.src = snapshot.val().imgLink;
+      
+    }else{
+      pfp.src = "/assets/img/profile_icon.png";
+      currentPFP.src = "/assets/img/profile_icon.png";
+    }
+  });
+}
+
+
 
  function getUserType(){
   var user_type="";
@@ -58,7 +80,7 @@ const monitorFireAuth = async() =>{
           console.log(user.emailVerified);
           sessionStorage.setItem("fireuser",user.uid);
           
-          console.log(user.uid);
+          
           checkSession();
         }else{
           console.log("no user");                    
@@ -80,6 +102,7 @@ const monitorAuthState = async() =>{
         sessionStorage.setItem("sessionCheck","loggedIn");
         console.log(user.uid);
         checkSession();
+        getProfileIMG(user.uid);
       }else{
         console.log("no user");
         document.getElementById("nav_barLoggedIn").style.display="none";

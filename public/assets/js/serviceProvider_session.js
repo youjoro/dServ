@@ -47,13 +47,15 @@ function getUserType(){
 
 function getProfileIMG(userID){
   var dbRef = ref(realdb);
-  let pfp = document.getElementById('profileIMG')
+  let pfp = document.getElementById('profileIMG');
+  let currentPFP = document.getElementById('myImg');
   get(child(dbRef,"users/"+userID+"/profilePic")).then((snapshot)=>{
     if(snapshot.exists()){
       pfp.src = snapshot.val().imgLink;
-      
+      currentPFP.src = snapshot.val().imgLink;
     }else{
-      pfp.src = "/Service_Provider_Dashboard/profile.html";
+      pfp.src = "img/abstract-user-flat-4.png";
+      currentPFP.src = "img/abstract-user-flat-4.png";
     }
   });
 }
