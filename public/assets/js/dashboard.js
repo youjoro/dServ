@@ -13,6 +13,7 @@ const app = initializeApp(firebaseConfig);
 const firestoreapp = initializeApp(firestoreConfig,"secondary");
 const firestoredb = getFirestore(firestoreapp);
 const realdb = getDatabase(app);
+const fireauth = getAuth(firestoreapp);
 const auth = getAuth();
 
 window.onload = document.getElementById("profile_content").style.visibility = "hidden";
@@ -48,9 +49,26 @@ const signOutUser = async() =>{
 //Services
 
 //Firestore
+  const monitorFireAuth = async() =>{
+
+      onAuthStateChanged(fireauth,user=>{
+        if(user){
+
+          
+          
+          
+        }else{
+          console.log("no user");                    
+        }
+      });
+  
+    }
+
+monitorFireAuth();
+
 async function getRequests(serviceName){
   let datas =[];
-    const q = query(collection(firestoredb, "service",serviceName,"transaction"));
+    const q = query(collection(firestoredb, "user",fireuserID,"services",serviceName,"transactions"));
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
@@ -62,7 +80,8 @@ async function getRequests(serviceName){
 }
 
 async function getRequestsNum(serviceName){
-  const coll = collection(firestoredb, "service",serviceName,"transaction");
+  var fireuserID = sessionStorage.getItem("fireuser")
+  const coll = collection(firestoredb, "user",fireuserID,"services",serviceName,"transactions");
   const snapshot = await getCountFromServer(coll);
   total_pending = total_pending + snapshot.data().count;
   console.log('count: ', snapshot.data().count,'| Name:',serviceName);
@@ -72,7 +91,8 @@ async function getRequestsNum(serviceName){
 }
 
 async function getFinished(serviceName){
-  const coll = collection(firestoredb, "service",serviceName,"finished");
+  var fireuserID = sessionStorage.getItem("fireuser")
+  const coll = collection(firestoredb, "user",fireuserID,"services",serviceName,"finished");
   const snapshot = await getCountFromServer(coll);
   console.log('FInished count: ', snapshot.data().count,'| Name:',serviceName);
   jobs_completed = jobs_completed + snapshot.data().count;
@@ -100,6 +120,7 @@ function loadServices(){
     
     services();
 }
+
 loadServices();
 function addAllServices(){
     let i = 0;
@@ -118,7 +139,7 @@ function addAllServices(){
 function addMessage(service,index){
   
   const getrequestPending = async()=>{    
-    let requests = await getRequests(service.ServiceName);
+    let requests = await getRequests(service.uid);
 
     for(var i = 0; i<requests.length; i++){
       console.log(requests[i].ClientFirstName);

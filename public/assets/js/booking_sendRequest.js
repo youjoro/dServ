@@ -125,7 +125,7 @@ async function sendRequest(userID){
         console.log("Document written with ID: ", docRef.id);
         alert("Request Sent");
         await updateRequestList_client(userID,docRef.id);
-        await updateRequestList_ServiceProvider(service.TransactionID,docRef.id);
+        await updateRequestList_ServiceProvider(service.TransactionID,service.ServiceName,docRef.id);
         
     } catch (e) {
     console.error("Error adding document: ", e);
@@ -157,17 +157,17 @@ async function updateRequestList_client(userID,docID){
 
 
 
-async function updateRequestList_ServiceProvider(userID,docID){
+async function updateRequestList_ServiceProvider(userID,serviceName,docID){
     console.log(userID,docID);
     
     try {
         
         const dt = new Date();
-        const docRef = await setDoc(doc(db, "user",userID,"transactions", docID), {
+        const docRef = await setDoc(doc(db, "user",userID,"services",serviceName,"transactions", docID), {
             RequestID: docID,
             RequestedDate:date.value,
-            DateAdded:dt
-
+            DateAdded:dt,
+            ServiceName:serviceName
             });
         console.log("Document written with ID: ", docRef.id);
         alert("Request Sent");

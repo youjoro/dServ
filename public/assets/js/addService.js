@@ -361,8 +361,9 @@ let check = sessionStorage.getItem("user");
     }
 
     async function UploadAService(userID){
-            var fireID = sessionStorage.getItem("fireuser");
-            servicetime = amTime.value+"am to "+pmTime.value+"pm";
+        monitorFireAuth();
+        var fireID = sessionStorage.getItem("fireuser");
+        servicetime = amTime.value+"am to "+pmTime.value+"pm";
         try{
             set(ref(realdb,"Services/"+getShortTitle()+'-'+userID),{
                 ServiceName: service_name.value,
