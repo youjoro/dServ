@@ -31,7 +31,7 @@ if (individual.checked){
 }else if(company.checked){
   typeOfProvider = "company";
 }
-window.onload =localStorage.clear();
+//window.onload =localStorage.clear();
 window.onload = document.getElementById("final_submit").style.visibility="hidden";
 
 

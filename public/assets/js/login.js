@@ -1,8 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import { getDatabase, 
-  set, 
-  ref, 
-  update 
+  set, ref, update,onValue
+
 } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 
 import { doc, getFirestore, updateDoc,setDoc } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
@@ -31,6 +30,26 @@ import {firebaseConfig, firestoreConfig} from './firebase_config.js';
     await signOut(fireauth);
     sessionStorage.clear();
   }
+
+
+   async function getUserType(userID){
+    const getType = ref(database, 'users/'+userID+'/user_type');
+    const type = async() =>{
+      onValue(getType, (snapshot) => {
+      let user_type = snapshot.val();
+      console.log(user_type);
+      if(user_type=="client"){
+        window.location.replace("http://127.0.0.1:5500/index.html");
+      }else{
+        window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+      }
+    })
+    } ;
+    
+    type();
+    
+}
+
 
 login.addEventListener('click',(e)=>{
   
@@ -81,19 +100,21 @@ login.addEventListener('click',(e)=>{
 
 
   const loginRealTime = async()=>{
+    let userID ="";
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
 
           // Signed in 
           const user = userCredential.user;
           sessionStorage.setItem = user.uid;
+          userID = user.uid;
           const dt = new Date();
           update(ref(database, 'users/' + user.uid),{
           last_login: dt
       }).then(function(){
       
           alert('Logged In');
-          window.location.replace("http://127.0.0.1:5500/index.html");
+          getUserType(userID);
         
       }).catch(function(error){
         console.log('Synchronization failed');

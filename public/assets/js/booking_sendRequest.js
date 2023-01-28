@@ -1,4 +1,4 @@
-import { getFirestore , collection, addDoc, doc  } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
+import { getFirestore , collection, addDoc, doc,setDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import {firestoreConfig} from './firebase_config.js';
 import { getAuth, 
@@ -21,11 +21,10 @@ const bundle = document.getElementById('BundleSelected');
 const remarks = document.getElementById('remarks');
 const date = document.getElementById('date');
 
-//sessionID
-var userID = sessionStorage.getItem("user");
+
 
 //localstorage
-let service = null;
+var service = null;
 
 //text
 var sessIN = document.getElementById('sessIn');
@@ -38,10 +37,10 @@ window.onload = sessIN.style.display = 'none';
 window.onload = function(){
     checkSession();
     service = localStorage.Service;
-    
+    console.log(service);
     if (service){
         service = JSON.parse(service);
-        
+        console.log(service.TransactionID);
     }
 }
 
@@ -94,7 +93,7 @@ const monitorAuthState = async() =>{
     onAuthStateChanged(fireauth,user=>{
         if(user){
         console.log(user.uid);
-        sendRequest();
+        sendRequest(user.uid);
         }else{
         console.log("no user");
         
@@ -103,34 +102,82 @@ const monitorAuthState = async() =>{
 }
 
 
-async function sendRequest(){
-    console.log(service);
+async function sendRequest(userID){
+    console.log(userID);
     
     try {
         
         const dt = new Date();
-    const docRef = await setDoc(collection(db, "service",service.ServiceName,"transactions", service.Owner), {
-        ClientFirstName: fName.value,
-        ClientLastName: lName.value,
-        ClientMobileNum: mobileNum.value,
-        ClientEmail: email.value,
-        ClientSelectedBundle: bundle.value,
-        clientNumber: clients.value,
-        ClientRemarks: remarks.value,
-        clientID:userID,
-        RequestedDate:date.value,
-        DateAdded:dt,
-        confirmStatus:'pending'
+        const docRef = await addDoc(collection(db, "transactions"), {
+            ClientFirstName: fName.value,
+            ClientLastName: lName.value,
+            ClientMobileNum: mobileNum.value,
+            ClientEmail: email.value,
+            ClientSelectedBundle: bundle.value,
+            clientNumber: clients.value,
+            ClientRemarks: remarks.value,
+            clientID:userID,
+            RequestedDate:date.value,
+            DateAdded:dt,
+            confirmStatus:'pending'
 
-        });
-    console.log("Document written with ID: ", docRef.id);
-    alert("Request Sent");
-    InputClear();
+            });
+        console.log("Document written with ID: ", docRef.id);
+        alert("Request Sent");
+        await updateRequestList_client(userID,docRef.id);
+        await updateRequestList_ServiceProvider(service.TransactionID,docRef.id);
+        
     } catch (e) {
     console.error("Error adding document: ", e);
     }
     localStorage.removeItem("Service");
 }
+
+
+async function updateRequestList_client(userID,docID){
+    console.log(userID,docID);
+    
+    try {
+        
+        const dt = new Date();
+        const docRef = await setDoc(doc(db, "user",userID,"transactions", docID), {
+            RequestID: docID,
+            RequestedDate:date.value,
+            DateAdded:dt
+
+            });
+        console.log("Document written with ID: ", docRef.id);
+        alert("Request Sent");
+        InputClear();
+    } catch (e) {
+    console.error("Error adding document: ", e);
+    }
+    
+}
+
+
+
+async function updateRequestList_ServiceProvider(userID,docID){
+    console.log(userID,docID);
+    
+    try {
+        
+        const dt = new Date();
+        const docRef = await setDoc(doc(db, "user",userID,"transactions", docID), {
+            RequestID: docID,
+            RequestedDate:date.value,
+            DateAdded:dt
+
+            });
+        console.log("Document written with ID: ", docRef.id);
+        alert("Request Sent");
+        InputClear();
+    } catch (e) {
+    console.error("Error adding document: ", e);
+    }
+    
+}
+
 
 
 

@@ -23,12 +23,7 @@ window.onload = function(){
         LoadService();
     }
 }
-window.onbeforeunload = function() {
-  if(!location.reload){
-    localStorage.clear();
-    return '';
-  }
-};
+
 
 function LoadService(){
     document.getElementById('titleTop').innerHTML = service.ServiceName;

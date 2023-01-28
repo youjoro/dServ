@@ -17,19 +17,31 @@ const checkifFirstLoggedIn = sessionStorage.getItem("IsThisFirstTime_Log_From_Li
 
 
 function getProfileIMG(userID){
+
+  var pfpLink = sessionStorage.getItem("pfpIMGLink");
   var dbRef = ref(realdb);
   let pfp = document.getElementById('profileIMG');
   let currentPFP = document.getElementById('myImg');
-  get(child(dbRef,"users/"+userID+"/profilePic")).then((snapshot)=>{
-    if(snapshot.exists()){
-      pfp.src = snapshot.val().imgLink;
-      currentPFP.src = snapshot.val().imgLink;
+
+  if (pfpLink == null){
+    get(child(dbRef,"users/"+userID+"/profilePic")).then((snapshot)=>{
       
-    }else{
-      pfp.src = "/assets/img/profile_icon.png";
-      currentPFP.src = "/assets/img/profile_icon.png";
-    }
-  });
+      if(snapshot.exists()){
+
+        sessionStorage.setItem("pfpIMGLink",snapshot.val().imgLink);
+        pfp.src = snapshot.val().imgLink;
+        currentPFP.src = snapshot.val().imgLink;
+        
+      }else{
+        pfp.src = "/assets/img/profile_icon.png";
+        currentPFP.src = "/assets/img/profile_icon.png";
+      }
+    });
+  }else{
+    pfp.src = pfpLink;
+    currentPFP.src = pfpLink;
+  }
+
 }
 
 

@@ -316,17 +316,37 @@ import { getAuth,
 
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
-import {firebaseConfig} from './firebase_config.js';
+import { getFirestore} from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+
+import {firebaseConfig, firestoreConfig} from './firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
-
+const firestoreapp = initializeApp(firestoreConfig,"secondary");
+const fireauth = getAuth(firestoreapp);
 const auth = getAuth();
 let check = sessionStorage.getItem("user");
 
     if (check !=null){
         document.getElementById('session').style.visibility  = "hidden";
     }
+
+    const monitorFireAuth = async() =>{
+
+      onAuthStateChanged(fireauth,user=>{
+        if(user){
+          console.log(user.emailVerified);
+          sessionStorage.setItem("fireuser",user.uid);
+          
+          
+          
+        }else{
+          console.log("no user");                    
+        }
+      });
+  
+    }
+
 
     const monitorAuthState = async() =>{
         onAuthStateChanged(auth,user=>{
@@ -340,8 +360,9 @@ let check = sessionStorage.getItem("user");
         });
     }
 
-    function UploadAService(userID){
-            
+    async function UploadAService(userID){
+            var fireID = sessionStorage.getItem("fireuser");
+            servicetime = amTime.value+"am to "+pmTime.value+"pm";
         try{
             set(ref(realdb,"Services/"+getShortTitle()+'-'+userID),{
                 ServiceName: service_name.value,
@@ -354,7 +375,8 @@ let check = sessionStorage.getItem("user");
                 Location: city,
                 location_data:loc_data.toString(),
                 Phone_Number: contact_Number.value,
-                Owner: userID
+                Owner: userID,
+                TransactionID:fireID
                 
             }).then(function(){
                 set(ref(realdb, 'ProviderProfile/' + userID + '/Services/' + service_name.value+'-'+userID),{
@@ -367,7 +389,8 @@ let check = sessionStorage.getItem("user");
                 LinksOfImagesArray: imageLinkArray,
                 Location: city,
                 location_data:loc_data.toString(),
-                Phone_Number: contact_Number.value
+                Phone_Number: contact_Number.value,
+                TransactionID:fireID
                 })
                 alert("Upload Succesful");
                 window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");

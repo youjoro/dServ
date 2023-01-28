@@ -5,13 +5,12 @@ import { getAuth,
   signOut 
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { getDatabase, ref, child, onValue,get} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getFirestore , collection,getDoc, doc , getCountFromServer, query, where, getDocs,updateDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { getFirestore} from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
 import {firebaseConfig, firestoreConfig} from './firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
 const firestoreapp = initializeApp(firestoreConfig,"secondary");
-const firestoredb = getFirestore(firestoreapp);
 const realdb = getDatabase(app);
 const auth = getAuth();
 const fireauth = getAuth(firestoreapp);
@@ -34,7 +33,7 @@ function getUserType(){
         window.location.replace("http://127.0.0.1:5500/index.html");
       }else{
         document.getElementById("profile_content").style.visibility = "visible";
-        document.getElementById('loading').remove();
+        document.getElementById("loading").remove();
         
       }
     })
@@ -89,7 +88,24 @@ const monitorAuthState = async() =>{
       }
     });
   }
+const monitorFireAuth = async() =>{
 
+      onAuthStateChanged(fireauth,user=>{
+        if(user){
+          console.log(user.emailVerified);
+          sessionStorage.setItem("fireuser",user.uid);
+          
+          
+          checkSession();
+        }else{
+          console.log("no user");                    
+        }
+      });
+  
+}
+
+
+monitorFireAuth();
 monitorAuthState();
 
 
