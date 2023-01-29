@@ -4,10 +4,10 @@ import { getAuth,
   onAuthStateChanged, 
   signOut 
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-import { getDatabase, ref, child, onValue,get} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getFirestore , collection,getDoc, doc , getCountFromServer, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { getDatabase, ref, onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getFirestore , collection, getCountFromServer, query, getDocs } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
-import {firebaseConfig, firestoreConfig} from './firebase_config.js';
+import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
 const firestoreapp = initializeApp(firestoreConfig,"secondary");
@@ -68,7 +68,7 @@ monitorFireAuth();
 
 async function getRequests(serviceName){
   let datas =[];
-    const q = query(collection(firestoredb, "user",fireuserID,"services",serviceName,"transactions"));
+    const q = query(collection(firestoredb, "users",fireuserID,"services",serviceName,"transactions"));
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
@@ -81,7 +81,7 @@ async function getRequests(serviceName){
 
 async function getRequestsNum(serviceName){
   var fireuserID = sessionStorage.getItem("fireuser")
-  const coll = collection(firestoredb, "user",fireuserID,"services",serviceName,"transactions");
+  const coll = collection(firestoredb, "users",fireuserID,"services",serviceName,"transactions");
   const snapshot = await getCountFromServer(coll);
   total_pending = total_pending + snapshot.data().count;
   console.log('count: ', snapshot.data().count,'| Name:',serviceName);
@@ -92,7 +92,7 @@ async function getRequestsNum(serviceName){
 
 async function getFinished(serviceName){
   var fireuserID = sessionStorage.getItem("fireuser")
-  const coll = collection(firestoredb, "user",fireuserID,"services",serviceName,"finished");
+  const coll = collection(firestoredb, "users",fireuserID,"services",serviceName,"finished");
   const snapshot = await getCountFromServer(coll);
   console.log('FInished count: ', snapshot.data().count,'| Name:',serviceName);
   jobs_completed = jobs_completed + snapshot.data().count;

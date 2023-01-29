@@ -1,8 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, ref,onValue,get,child } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getDatabase, ref,get,child,onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 import { getAuth,onAuthStateChanged,signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-import { getFirestore} from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
-import {firebaseConfig, firestoreConfig} from './firebase_config.js'; 
+import {  getFirestore , collection, getCountFromServer } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import {firebaseConfig, firestoreConfig} from '../firebase_config.js'; 
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
@@ -12,8 +12,7 @@ const fireauth = getAuth(firestoreapp);
 const auth = getAuth(app);
 const checkifFirstLoggedIn = sessionStorage.getItem("IsThisFirstTime_Log_From_LiveServer");
 
-
-
+const notifNUM = document.getElementById('notif_Num');
 
 
 function getProfileIMG(userID){
@@ -71,7 +70,7 @@ function getProfileIMG(userID){
 function checkSession(){
   
 var sessionData=sessionStorage.getItem("sessionCheck");
-console.log(sessionData);
+
 if(sessionData == "loggedIn"){
     document.getElementById("nav_bar").style.display="none";
     document.getElementById("nav_barLoggedIn").style.display="block";
@@ -83,6 +82,21 @@ if(sessionData == "loggedIn"){
 }
 }
 
+var total_pending = 0; 
+
+async function getRequestsNum(UID){
+    try{
+      console.log(UID);
+      const coll = collection(firestoredb, "users",UID,"transactions");
+      const snapshot =  await getCountFromServer(coll);
+      total_pending = total_pending + snapshot.data().count;
+      console.log(snapshot.data());
+      notifNUM.innerHTML = total_pending;
+    }catch(e){
+      console.log(e);
+    }
+}
+
 
 const monitorFireAuth = async() =>{
   if (checkifFirstLoggedIn == true);
@@ -91,9 +105,9 @@ const monitorFireAuth = async() =>{
         if(user){
           console.log(user.emailVerified);
           sessionStorage.setItem("fireuser",user.uid);
+          //getRequestsNum(user.uid);
+            
           
-          
-          checkSession();
         }else{
           console.log("no user");                    
         }

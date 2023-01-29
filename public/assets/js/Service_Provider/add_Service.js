@@ -318,7 +318,7 @@ import { getAuth,
 
 import { getFirestore} from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
-import {firebaseConfig, firestoreConfig} from './firebase_config.js';
+import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);

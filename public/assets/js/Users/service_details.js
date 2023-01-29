@@ -17,14 +17,23 @@ if(sessionData == "loggedIn"){
 
 window.onload = function(){
     checkSession();
+    localStorage.setItem("test",'test');
     service = localStorage.Service;
     if (service){
         service = JSON.parse(service);
         LoadService();
     }
 }
-
-
+/*
+window.addEventListener("beforeunload", function(e){
+    if(this.location.reload){
+        
+    }
+    else{
+        this.localStorage.clear();
+    }
+})
+*/
 function LoadService(){
     document.getElementById('titleTop').innerHTML = service.ServiceName;
     document.getElementById('categoryLink').innerHTML = service.ServiceCategory;

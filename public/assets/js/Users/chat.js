@@ -7,7 +7,7 @@ import {
   signInWithPopup,
   signOut,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-import { chatConfig } from "./firebase_chat_config.js";
+import { chatConfig } from "../firebase_chat_config.js";
 import {   
   getFirestore,
   collection,

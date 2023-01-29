@@ -3,7 +3,7 @@
     from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
     import { getDatabase, ref, set, child, update, remove }
     from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-    import {firebaseConfig} from "../js/firebase_config.js";
+    import {firebaseConfig} from "../firebase_config.js";
     import { getAuth, 
     onAuthStateChanged
 

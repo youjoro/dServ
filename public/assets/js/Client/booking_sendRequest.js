@@ -1,6 +1,6 @@
 import { getFirestore , collection, addDoc, doc,setDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import {firestoreConfig} from './firebase_config.js';
+import {firestoreConfig} from '../firebase_config.js';
 import { getAuth, 
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
@@ -41,6 +41,9 @@ window.onload = function(){
     if (service){
         service = JSON.parse(service);
         console.log(service.TransactionID);
+        localStorage.setItem("service",service);
+    }else{
+        alert("o no");
     }
 }
 
@@ -140,7 +143,7 @@ async function updateRequestList_client(userID,docID){
     try {
         
         const dt = new Date();
-        const docRef = await setDoc(doc(db, "user",userID,"transactions", docID), {
+        const docRef = await setDoc(doc(db, "users",userID,"transactions", docID), {
             RequestID: docID,
             RequestedDate:date.value,
             DateAdded:dt
@@ -163,7 +166,7 @@ async function updateRequestList_ServiceProvider(userID,serviceName,docID){
     try {
         
         const dt = new Date();
-        const docRef = await setDoc(doc(db, "user",userID,"services",serviceName,"transactions", docID), {
+        const docRef = await setDoc(doc(db, "users",userID,"services",serviceName,"transactions", docID), {
             RequestID: docID,
             RequestedDate:date.value,
             DateAdded:dt,

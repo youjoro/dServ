@@ -1,18 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { getDatabase, 
-  set, ref, update,onValue
-
+import { getDatabase,  ref, update,onValue
 } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
-
-import { doc, getFirestore, updateDoc,setDoc } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
-import { getAuth, 
-  signInWithEmailAndPassword, 
-  onAuthStateChanged, 
-  signOut 
+import { doc, getFirestore, updateDoc } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
+import { getAuth, signInWithEmailAndPassword, signOut 
 } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 
 
-import {firebaseConfig, firestoreConfig} from './firebase_config.js'; 
+import {firebaseConfig, firestoreConfig} from '../firebase_config.js'; 
 
   const firestoreapp = initializeApp(firestoreConfig,"secondary");
   const fireauth = getAuth(firestoreapp);
@@ -57,7 +51,7 @@ login.addEventListener('click',(e)=>{
   document.getElementById('login').disabled = true;
   var email = document.getElementById('email').value;
   var password = document.getElementById('password').value;
-  let fireUser = "";
+
   let firestoreUpdated = false;
   
   const loginFirestore = async() =>{
@@ -67,15 +61,11 @@ login.addEventListener('click',(e)=>{
         // Signed in 
         const fireuser = userCredential.user;
         sessionStorage.setItem("fireuser", fireuser.uid);                            
-        fireUser = fireuser.uid;
-      }).then(()=>{
-        // Add a new document with a generated id.
         try{
           const dt = new Date();
 
-            
             const docRef =async()=>{
-              await updateDoc(doc(firestoredb, "user",fireUser), {
+              await updateDoc(doc(firestoredb, "users",fireuser.uid), {
                 LastLogin:dt 
               });
               firestoreUpdated = true;  
@@ -87,9 +77,9 @@ login.addEventListener('click',(e)=>{
           console.log(error);
           location.reload();
         }
-        
-        
+
       })
+      
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;

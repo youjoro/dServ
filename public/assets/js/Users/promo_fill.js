@@ -23,7 +23,7 @@ function addDivToPromos(imglink){
 
 
 
-import {firebaseConfig} from './firebase_config.js';
+import {firebaseConfig} from '../firebase_config.js';
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = getDatabase();

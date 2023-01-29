@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebas
 import { getDatabase, set, ref,update  } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { getFirestore,doc, addDoc , setDoc, collection} from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
-import {firebaseConfig, firestoreConfig} from './firebase_config.js';
+import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
 
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
@@ -34,7 +34,7 @@ document.getElementById("final_submit").style.visibility = "hidden";
 var data = localStorage.getItem("Data");
 data = data.split(',');
 var exp = localStorage.getItem("exp_entries");
-let fireUser = "";
+
 
     const createAccFirestore =async() =>{
       await createUserWithEmailAndPassword(fireauth, data[15], data[16])
@@ -42,25 +42,21 @@ let fireUser = "";
             // Signed in 
             const fireuser = fireStoreuserCredential.user;
             sessionStorage.setItem("fireuser", fireuser.uid);
-            fireUser = fireuser.uid;
-            
-        }).then(()=>{
-          // Add a new document with a generated id.
-          try {
-            const docRef =  setDoc(doc(firestoredb, "user",fireUser), {
-              username: data[2],
-              email: data[15],
-              phone_number: data[4],
-              user_type: "provider"
-            });
 
-            
-            
-          } catch (error) {
-            console.log(error);
-            location.reload();
-          }
-          
+            try {
+              const docRef =  setDoc(doc(firestoredb, "users",fireuser.uid), {
+                username: data[2],
+                email: data[15],
+                phone_number: data[4],
+                user_type: "provider"
+              });
+
+              
+              
+            } catch (error) {
+              console.log(error);
+              location.reload();
+            }
         })
         .catch((error) => {
           const errorCode = error.code;
