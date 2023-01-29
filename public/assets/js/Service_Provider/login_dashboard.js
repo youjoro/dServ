@@ -29,14 +29,14 @@ import {firebaseConfig} from '../firebase_config.js';
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        sessionStorage.setItem = user.uid;
+        sessionStorage.user = user.uid;
         const dt = new Date();
         update(ref(database, 'users/' + user.uid),{
         last_login: dt
     }).then(function(){
       
       alert('Logged In');
-      window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+      window.location.replace("https://test-75edb.web.app/Service_Provider_Dashboard/index.html");
       
     }).catch(function(error){
        console.log('Synchronization failed');
@@ -55,7 +55,7 @@ const monitorAuthState = async() =>{
     onAuthStateChanged(auth,user=>{
       if(user){
         console.log(user);
-        sessionStorage.setItem("user","loggedIn");
+        sessionStorage.status="loggedIn";
       }else{
         console.log("no user");
         

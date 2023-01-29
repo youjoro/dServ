@@ -33,9 +33,9 @@ import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
       let user_type = snapshot.val();
       console.log(user_type);
       if(user_type=="client"){
-        window.location.replace("http://127.0.0.1:5500/index.html");
+        window.location.replace("https://test-75edb.web.app/index.html");
       }else{
-        window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+        window.location.replace("https://test-75edb.web.app/Service_Provider_Dashboard/index.html");
       }
     })
     } ;
@@ -60,7 +60,7 @@ login.addEventListener('click',(e)=>{
       .then((userCredential) => {
         // Signed in 
         const fireuser = userCredential.user;
-        sessionStorage.setItem("fireuser", fireuser.uid);                            
+        sessionStorage.fireuser = fireuser.uid;                            
         try{
           const dt = new Date();
 
@@ -96,7 +96,7 @@ login.addEventListener('click',(e)=>{
 
           // Signed in 
           const user = userCredential.user;
-          sessionStorage.setItem = user.uid;
+          sessionStorage.user = user.uid;
           userID = user.uid;
           const dt = new Date();
           update(ref(database, 'users/' + user.uid),{
@@ -108,6 +108,7 @@ login.addEventListener('click',(e)=>{
         
       }).catch(function(error){
         console.log('Synchronization failed');
+        console.log(error);
         signOutUser();
       })
         })

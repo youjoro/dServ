@@ -336,7 +336,7 @@ let check = sessionStorage.getItem("user");
       onAuthStateChanged(fireauth,user=>{
         if(user){
           console.log(user.emailVerified);
-          sessionStorage.setItem("fireuser",user.uid);
+          sessionStorage.fireuser = user.uid;
           
           
           
@@ -394,7 +394,7 @@ let check = sessionStorage.getItem("user");
                 TransactionID:fireID
                 })
                 alert("Upload Succesful");
-                window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+                window.location.replace("https://test-75edb.web.app/Service_Provider_Dashboard/index.html");
                 
             });
         }catch(error){

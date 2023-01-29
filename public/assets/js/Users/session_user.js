@@ -27,7 +27,7 @@ function getProfileIMG(userID){
       
       if(snapshot.exists()){
 
-        sessionStorage.setItem("pfpIMGLink",snapshot.val().imgLink);
+        sessionStorage.pfpIMGLink = snapshot.val().imgLink;
         pfp.src = snapshot.val().imgLink;
         currentPFP.src = snapshot.val().imgLink;
         
@@ -104,7 +104,7 @@ const monitorFireAuth = async() =>{
       onAuthStateChanged(fireauth,user=>{
         if(user){
           console.log(user.emailVerified);
-          sessionStorage.setItem("fireuser",user.uid);
+          sessionStorage.fireuser = user.uid;
           //getRequestsNum(user.uid);
             
           
@@ -124,8 +124,8 @@ const monitorAuthState = async() =>{
       if(user){
 
         console.log(user.emailVerified);
-        sessionStorage.setItem("user",user.uid);
-        sessionStorage.setItem("sessionCheck","loggedIn");
+        sessionStorage.user = user.uid;
+        sessionStorage.sessionCheck = "loggedIn";
         console.log(user.uid);
         checkSession();
         getProfileIMG(user.uid);
@@ -155,8 +155,8 @@ const signOutUser = async() =>{
     document.getElementById("nav_bar").style.display="block";
     sessionStorage.clear();
     location.reload();
-    sessionStorage.setItem("reloaded","yes");
-    window.location.replace("http://127.0.0.1:5500/index.html");
+    sessionStorage.reloaded = "yes";
+    window.location.replace("https://test-75edb.web.app/index.html");
 }
 document.getElementById('logOut').addEventListener('click', signOutUser);
 

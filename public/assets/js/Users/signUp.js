@@ -107,7 +107,7 @@ signUp.addEventListener('click',(e) => {
       .then((fireStoreuserCredential) => {
           // Signed in 
           const fireuser = fireStoreuserCredential.user;
-          sessionStorage.setItem("fireuser", fireuser.uid);
+          sessionStorage.fireuser = fireuser.uid;
           
           try {
             const docRef =  setDoc(doc(firestoredb, "users",fireuser.uid), {
@@ -149,7 +149,7 @@ signUp.addEventListener('click',(e) => {
         }).then(function(){
           
           alert('user created');
-          window.location.replace("http://127.0.0.1:5500/index.html");
+          window.location.replace("https://test-75edb.web.app/index.html");
         }).catch(function(error){
           console.log('Synchronization failed');
         })

@@ -30,7 +30,7 @@ function getUserType(){
       console.log(user_type);
       if(user_type=="client" || user_type==null){
         alert("You are not supposed to be here");
-        window.location.replace("http://127.0.0.1:5500/index.html");
+        window.location.replace("https://test-75edb.web.app/index.html");
       }else{
         document.getElementById("profile_content").style.visibility = "visible";
         document.getElementById("loading").remove();
@@ -77,7 +77,7 @@ const monitorAuthState = async() =>{
     onAuthStateChanged(auth,user=>{
       if(user){
         document.getElementById('prov_name').innerHTML=user.email;         
-        sessionStorage.setItem("user",user.uid);
+        sessionStorage.user = user.uid;
         getProfileIMG(user.uid);
         
         console.log(user);
@@ -93,7 +93,7 @@ const monitorFireAuth = async() =>{
       onAuthStateChanged(fireauth,user=>{
         if(user){
           console.log(user.emailVerified);
-          sessionStorage.setItem("fireuser",user.uid);
+          sessionStorage.fireuser = user.uid;
           
           
           checkSession();
@@ -113,7 +113,7 @@ const signOutUser = async() =>{
 
     await signOut(auth);
     alert("logged out");
-    window.location.replace("http://127.0.0.1:5500/index.html");
+    window.location.replace("https://test-75edb.web.app/index.html");
     sessionStorage.clear();
     location.reload();
     

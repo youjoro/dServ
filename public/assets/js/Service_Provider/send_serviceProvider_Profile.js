@@ -41,7 +41,7 @@ var exp = localStorage.getItem("exp_entries");
         .then((fireStoreuserCredential) => {
             // Signed in 
             const fireuser = fireStoreuserCredential.user;
-            sessionStorage.setItem("fireuser", fireuser.uid);
+            sessionStorage.fireuser = fireuser.uid;
 
             try {
               const docRef =  setDoc(doc(firestoredb, "users",fireuser.uid), {
@@ -138,8 +138,8 @@ const monitorAuthState = async(acc,pass) =>{
         last_login: dt
     }).then(function(){
       alert("Account Creation Succesful");
-      sessionStorage.setItem("user","loggedIn");
-      window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+      sessionStorage.status = "loggedIn";
+      window.location.replace("https://test-75edb.web.app/Service_Provider_Dashboard/index.html");
       localStorage.removeItem("Data");
       localStorage.removeItem("exp_entries");
     }).catch(function(error){
