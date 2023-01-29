@@ -394,7 +394,7 @@ let check = sessionStorage.getItem("user");
                 TransactionID:fireID
                 })
                 alert("Upload Succesful");
-                window.location.replace("https://test-75edb.web.app/Service_Provider_Dashboard/index.html");
+                window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
                 
             });
         }catch(error){

@@ -3,9 +3,7 @@ import {initializeApp} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-
 import {
   getAuth,
   onAuthStateChanged,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
+  signOut
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { chatConfig } from "../firebase_chat_config.js";
 import {   
@@ -27,59 +25,92 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
+import {firebaseConfig,firestoreConfig} from "../firebase_config.js";
 
-// Initialize Firebase
-const firebaseAppConfig = getFirebaseConfig();
-initializeApp(firebaseAppConfig);
+//Initialize realtime database
+const app = initializeApp(firebaseConfig);
+const realdb = getDatabase(app);
+const auth = getAuth(app);
 
-var myName = prompt("Enter your name");
 
-submit.addEventListener('click', (e) => {
-// Saves a new message to Cloud Firestore.
-async function saveMessage(messageText) {
-  // Add a new message entry to the Firebase database.
-    try {
-        await addDoc(collection(getFirestore(), 'messages'), {
-        name: getUserName(),
-        text: messageText,
-        profilePicUrl: getProfilePicUrl(),
-        timestamp: serverTimestamp()
-        });
-    }
-    catch(error) {
-        console.error('Error writing new message to Firebase Database', error);
-    }
-    }
-saveMessage();
-});
 
-const newMsg = ref(database, 'messages/');
-onChildAdded(newMsg, (data) => {
-    if(data.val().name != myName) {
-        var divData = '<div class="d-flex justify-content-start mb-4" id="fromDiv">\n' +
-            '                        <div class="img_cont_msg">\n' +
-            '                            <img src="/assets/img/1.png"\n' +
-            '                                 class="rounded-circle user_img_msg">\n' +
-            '                        </div>\n' +
-            '                        <div class="msg_cotainer" >\n' +
-            '                            '+data.val().message+'' +
-            '                            <span class="msg_time"></span>\n' +
-            '                        </div>\n' +
-            '                    </div>';
-        var d1 = document.getElementById('bodyContent');
-        d1.insertAdjacentHTML('beforebegin', divData);
-    }else{
-        var divData = '<div class="d-flex justify-content-end mb-4">\n' +
-            '                        <div class="msg_cotainer_send" id="sendDiv">\n' +
-            '                            '+data.val().message+'' +
-            '                            <span class="msg_time_send">8:55 AM, Today</span>\n' +
-            '                        </div>\n' +
-            '                        <div class="img_cont_msg">\n' +
-            '                            <img src="/assets/img/1.png"\n' +
-            '                                 class="rounded-circle user_img_msg">\n' +
-            '                        </div>\n' +
-            '                    </div>';
-        var d1 = document.getElementById('bodyContent');
-        d1.insertAdjacentHTML('beforebegin', divData);
-    }
-});
+// Initialize firestore
+const firestoreapp = initializeApp(firestoreConfig,"secondary");
+const fireauth = getAuth(firestoreapp);
+const firestoredb = getFirestore(firestoreapp); 
+
+
+const checkifFirstLoggedIn = sessionStorage.getItem("IsThisFirstTime_Log_From_LiveServer");
+
+
+//Retrieve profileImg
+function getProfileIMG(userID){
+
+  var pfpLink = sessionStorage.getItem("pfpIMGLink");
+  var dbRef = ref(realdb);
+  let pfp = document.getElementById('profileIMG');
+  let currentPFP = document.getElementById('myImg');
+
+  if (pfpLink == null){
+    get(child(dbRef,"users/"+userID+"/profilePic")).then((snapshot)=>{
+      
+      if(snapshot.exists()){
+
+        sessionStorage.pfpIMGLink = snapshot.val().imgLink;
+        pfp.src = snapshot.val().imgLink;
+        currentPFP.src = snapshot.val().imgLink;
+        
+      }else{
+        pfp.src = "/assets/img/profile_icon.png";
+        currentPFP.src = "/assets/img/profile_icon.png";
+      }
+    });
+  }else{
+    pfp.src = pfpLink;
+    currentPFP.src = pfpLink;
+  }
+
+}
+
+
+
+//check fireStore Auth
+const monitorFireAuth = async() =>{
+  if (checkifFirstLoggedIn == true);
+  else{
+      onAuthStateChanged(fireauth,user=>{
+        if(user){
+          console.log(user.emailVerified);
+          sessionStorage.fireuser = user.uid;
+          //getRequestsNum(user.uid);
+            
+          
+        }else{
+          console.log("no user");                    
+        }
+      });
+  }
+}
+
+//check realtimeDatabase
+const monitorAuthState = async() =>{
+  if (checkifFirstLoggedIn == true);
+  else{
+    onAuthStateChanged(auth,user=>{
+      if(user){
+
+        console.log(user.emailVerified);
+        sessionStorage.user = user.uid;
+        sessionStorage.sessionCheck = "loggedIn";
+        console.log(user.uid);
+        checkSession();
+        getProfileIMG(user.uid);
+      }else{
+        console.log("no user");
+        document.getElementById("nav_barLoggedIn").style.display="none";
+      }
+    });
+        
+  }
+
+}

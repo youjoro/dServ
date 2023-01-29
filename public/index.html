@@ -63,6 +63,8 @@
             padding-right: 5px;
             max-height: 300px;
             max-width: 800pzx;
+        }.top-50{
+            top: 20% !important;
         }
     </style>
     <!--Stylesheet and Logo-->
@@ -132,14 +134,13 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/Landing_Pages/About.html">About</a>
                 </li>
+                
                 <li class="nav-item">
                     <!-- Icon -->
                     <div class="dropdown">
-                        <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="">
-                                <img src="/assets/icons/notifications_FILL0_wght400_GRAD0_opsz48.png" class="notifIcon" alt="">
-                            </i>
-                            <span class="badge rounded-pill badge-notification bg-danger" id="notif_Num"></span>
+                        <a class="btn position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">                                                        
+                            <img src="/assets/icons/notifications_FILL0_wght400_GRAD0_opsz48.png" class="notifIcon" alt="">
+                            <span class="position-absolute top-50 start-75 translate-middle badge rounded-pill bg-danger" id="notif_Num"><span class="visually-hidden">unread messages</span></span>                            
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Action</a></li>
@@ -148,6 +149,7 @@
                         </ul>
                     </div>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link active" id="profile_tab" aria-current="page" ><img id="profileIMG" class="img-thumbnail rounded-5" alt=""></a>
                 </li>

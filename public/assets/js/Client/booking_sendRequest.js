@@ -65,7 +65,7 @@ if(sessionData == null){
     sessOUT.style.display = '';
     sessIN.style.display = 'none';
     alert("Redirecting");
-    window.location.replace("https://test-75edb.web.app/index.html");
+    window.location.replace("http://127.0.0.1:5500/index.html");
 }else{
     fName.disabled = false;
     lName.disabled = false;
