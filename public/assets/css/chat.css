@@ -33,7 +33,8 @@
     padding: 8px;
     border-radius: 10px;
     color: white;
-    width: 30%;
+    min-width: 30%;
+    max-width: 40%;
 }
 
 .receivedMessage span {
@@ -49,12 +50,72 @@
     color: white;
     margin-bottom: 10px;
     border-radius: 10px;
-    margin-left: 70%;
+    margin-right: 0.5em;
+    margin-left: 55%;
     padding: 8px;    
-    width: 30%;
+    min-width: 30%;
+    max-width: 50%;
 }
 
 .sentMessage span {
     margin-left: 5px;
     color: #6929ca;
+}
+.chatScreen{
+    position: absolute;
+    bottom: 3em;
+    left: 1em;
+    right: 1em;
+    max-width: 52em;
+    max-height: 27em;
+    margin-bottom: 10px;
+    overflow:scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-align: end; 
+    scroll-behavior: smooth;
+}
+
+
+.viewchats {
+    width: 50px;
+    height: 50px;
+}
+
+@media screen and (max-width:1368px) {
+    .chatScreen{
+    max-width: 44.5em;    
+}
+
+}
+
+@media screen and (max-width:1168px) {
+    .chatScreen{
+    max-width: 37em;    
+}
+
+}
+
+@media screen and (max-width:1024px) {
+    .chatScreen{
+    max-width: 37em;    
+}.chatDIV{
+    padding-top: 2em;
+}
+
+}
+
+
+@media screen and (max-width:968px) {
+    .chatScreen{
+    max-width: 42em;    
+}
+
+}
+
+@media screen and (max-width:762px) {
+    .chatScreen{
+    max-width: 31em;    
+}
+
 }

@@ -86,11 +86,10 @@ var total_pending = 0;
 
 async function getRequestsNum(UID){
     try{
-      console.log(UID);
+
       const coll = collection(firestoredb, "users",UID,"transactions");
       const snapshot =  await getCountFromServer(coll);
       total_pending = total_pending + snapshot.data().count;
-      console.log(snapshot.data());
       notifNUM.innerHTML = total_pending;
     }catch(e){
       console.log(e);
@@ -126,7 +125,7 @@ const monitorAuthState = async() =>{
         console.log(user.emailVerified);
         sessionStorage.user = user.uid;
         sessionStorage.sessionCheck = "loggedIn";
-        console.log(user.uid);
+
         checkSession();
         getProfileIMG(user.uid);
       }else{

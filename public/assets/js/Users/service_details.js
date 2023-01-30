@@ -1,5 +1,7 @@
 let service = null;
 
+const chatProvider = document.getElementById('chatProvider');
+
 
 function checkSession(){
   
@@ -8,9 +10,11 @@ console.log(sessionData);
 if(sessionData == "loggedIn"){
     document.getElementById("bookButton").style.display="block";
     document.getElementById("signupbutton").style.display="none";
+    chatProvider.disabled = false;
 }else{
     document.getElementById("bookButton").style.display="none";
     document.getElementById("signupbutton").style.display="block";
+    chatProvider.disabled = true;
 }
 }
 
@@ -19,9 +23,12 @@ window.onload = function(){
     checkSession();
     localStorage.setItem("test",'test');
     service = localStorage.Service;
+    
     if (service){
         service = JSON.parse(service);
+        loadServiceProviderProfile();
         LoadService();
+            
     }
 }
 /*
@@ -140,7 +147,103 @@ function loadMap(){
     
 }
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+import { getDatabase,  ref, get,child} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+import {firebaseConfig} from '../firebase_config.js'; 
+
+const app = initializeApp(firebaseConfig);
+const realdb = getDatabase(app);
+
+async function loadServiceProviderProfile(){
+    var providerID = service.Owner;
+    var providerData = []; 
+
+    getProfileIMG(providerID);
+    getProfileDetails(providerID);
+    const dbRef = ref(realdb);
+    await get(child(dbRef, `users/${providerID}`)).then((snapshot) => {
+    if (snapshot.exists()) {
+        
+        providerData = snapshot.val();
+        
+    } else {
+        console.log("No data available");
+    }
+    }).catch((error) => {
+    console.error(error);
+    });
+}
+
+let profileIMG = document.getElementById("serviceProviderIMG");
+let profileName = document.getElementById('providerName');
+let profileNumber = document.getElementById('providerNumber');
+let profileDesc = document.getElementById('selfDesc');
+
+let providerCity = document.getElementById('city');
+let providerBrand = document.getElementById('brandname');
+let providerEmail = document.getElementById('contactEmail');
+let providerTimes = document.getElementById('times');
+let providerDesc = document.getElementById('brandDesc');
+
+function getProfileDetails(userID){
+
+  var pfpLink = sessionStorage.getItem("pfpIMGLink");
+  var dbRef = ref(realdb);
+  
+    get(child(dbRef,"ProviderProfile/"+userID)).then((snapshot)=>{
+      
+      if(snapshot.exists()){
+        let fullname = snapshot.val().FirstName +" "+snapshot.val().lastName;
+        profileName.innerHTML = fullname;
+        profileNumber.innerHTML = snapshot.val().phoneNumber;
+        profileDesc.innerHTML = snapshot.val().selfDescription;
+
+        providerCity.innerHTML = snapshot.val().city;
+        providerBrand.innerHTML = snapshot.val().brand_name;
+        providerEmail.innerHTML = snapshot.val().businessEmail;
+        providerTimes.innerHTML = snapshot.val().availability;
+        providerDesc.innerHTML = snapshot.val().brand_desc;
+        
+      }else{        
+        profileIMG.src = "/assets/img/profile_icon.png";
+      }
+    });
+  
+
+}
+
+
+
+
+function getProfileIMG(userID){
+
+  var pfpLink = sessionStorage.getItem("pfpIMGLink");
+  var dbRef = ref(realdb);
+  
+    get(child(dbRef,"users/"+userID+"/profilePic")).then((snapshot)=>{
+      
+      if(snapshot.exists()){
+        profileIMG.src = snapshot.val().imgLink;
+        sessionStorage.providerImgLink = snapshot.val().imgLink;        
+        
+      }else{        
+        profileIMG.src = "/assets/img/profile_icon.png";
+      }
+    });
+
+
+}
+
 
 
 var bookingselected = document.getElementById('bookingPressed');
 bookingselected.href="/Booking/booking_page.html";
+
+
+function sendToChat(){
+    var providerID = service.Owner;
+    sessionStorage.providerID = providerID;
+    window.location.replace("http://127.0.0.1:5500/chat/chat.html");
+}
+
+chatProvider.addEventListener('click',sendToChat);

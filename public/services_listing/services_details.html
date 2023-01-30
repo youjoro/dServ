@@ -189,14 +189,14 @@
 
                         <div class="row row-cols-2 py-3">
                             <div class="col-3">
-                                <img src="/assets/img/1.png" class="profileImg" alt="">
+                                <img id="serviceProviderIMG" class="profileImg" alt="">
                             </div>
                             <div class="col-9 ">
                                 <div class="container me-5">
-                                    <h3>Name</h3>
-                                    <h3>Specialization</h3>
-                                    <h3>Review</h3>
-                                    <button class="btn btn-outline-dark">Contact me</button>
+                                    <h3 id="providerName">|</h3>
+                                    <h3 id="providerNumber">|</h3>
+                                    <h3 id="selfDesc">|</h3>
+                                    <button class="btn btn-outline-dark" id="chatProvider">Chat with them</button>
                                 </div>
                                 
                             </div>
@@ -206,9 +206,20 @@
                     </div>
                     <div class="row row-cols-2">
                         <div class="col-7 extraDetails">
-                            <div class="container border border-2 rounded-1 infoBox">
+                            <div class="container p-3 border border-2 rounded-1 infoBox">
+
+                                <div class="row row-cols-2"> 
+                                    <div class="col infoText">From<p id="city" class=" fw-semibold">test</p></div>
+                                    <div class="col infoText">Brand Name<p id="brandname" class=" fw-semibold">test</p></div>
+                                </div>
+
+                                <div class="row row-cols-2">
+                                    <div class="col infoText text-truncate">Email<p id="contactEmail" class=" fw-semibold">test</p></div>
+                                    <div class="col infoText text-truncate">Available times<p id="times" class=" fw-semibold">test</p></div>
+                                </div>
+
                                 <hr>
-                                <p> </p>
+                                <p id="brandDesc" class="descDIV"></p>
                             </div>
                         </div>
                         <div class="col-5 spacing"></div>
@@ -218,10 +229,10 @@
             </div>
         </div>
         <div class="container py-3">
-            <h3 class=" fw-normal fs-3">Bundles</h3>
+            <!--<h3 class=" fw-normal fs-3">Bundles</h3>
             <div class="container">
-                <!---->
-            </div>
+                
+            </div>-->
         </div>
         <div class="container">
             <h3 class=" fw-normal fs-3">Reviews</h3>
