@@ -5,7 +5,7 @@ import { getAuth,
   signOut 
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { getDatabase, ref, onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getFirestore , collection, getCountFromServer, query, getDocs } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { getFirestore , collection, getCountFromServer, query, getDocs,doc,getDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
 import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
 
@@ -66,37 +66,68 @@ const signOutUser = async() =>{
 
 monitorFireAuth();
 
-async function getRequests(serviceName){
-  let datas =[];
-    const q = query(collection(firestoredb, "users",fireuserID,"services",serviceName,"transactions"));
 
+async function getRequestsID(serviceName){
+  let IDs = []
+  var fireuserID = sessionStorage.getItem('fireuser');
+    const q = query(collection(firestoredb, "users",fireuserID,"services",serviceName,"transactions"));
+    
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-      datas.push(doc.data());
+      
+      
+      IDs.push(doc.data().RequestID);
     });
+
+
+    return IDs;
+}
+
+
+
+async function getRequests(serviceName){
+  let datas =[];
+
+  let requestID = await getRequestsID(serviceName);
+  
+    
+    const q = doc(firestoredb,"transactions",requestID[0]);
+  
+    const querySnapshot = await getDoc(q);
+    
+    console.log(querySnapshot.id, " => ", querySnapshot.data());
+    datas.push(querySnapshot.data());
+    createMessages(querySnapshot.data());
     return datas;
 }
 
 async function getRequestsNum(serviceName){
   var fireuserID = sessionStorage.getItem("fireuser")
   const coll = collection(firestoredb, "users",fireuserID,"services",serviceName,"transactions");
+
   const snapshot = await getCountFromServer(coll);
   total_pending = total_pending + snapshot.data().count;
+
   console.log('count: ', snapshot.data().count,'| Name:',serviceName);
   pend_text.innerHTML = total_pending;
+
   requestnotif.innerHTML = total_pending;
+
+
   return snapshot.data().count;
 }
 
 async function getFinished(serviceName){
   var fireuserID = sessionStorage.getItem("fireuser")
   const coll = collection(firestoredb, "users",fireuserID,"services",serviceName,"finished");
+
   const snapshot = await getCountFromServer(coll);
   console.log('FInished count: ', snapshot.data().count,'| Name:',serviceName);
+
   jobs_completed = jobs_completed + snapshot.data().count;
   jobCompletetext.innerHTML = jobs_completed;
+
+
   return snapshot.data().count;
 }
 
@@ -127,6 +158,7 @@ function addAllServices(){
     servicesList.forEach(serv =>{
         addAService(serv, i++);
         addMessage(serv, i++);
+        
     });
     
 }
@@ -136,66 +168,63 @@ function addAllServices(){
 
 
 
-function addMessage(service,index){
+function addMessage(service){
   
   const getrequestPending = async()=>{    
-    let requests = await getRequests(service.uid);
-
-    for(var i = 0; i<requests.length; i++){
-      console.log(requests[i].ClientFirstName);
-
-      let desc = requests[i].ClientRemarks.substring(0,25);
-      desc.replace(/[^a-zA-Z0-9]/g,"...");
-
-      let img = document.createElement('img');
-      img.classList.add('rounded-circle');
-      img.src="img/undraw_profile_1.svg";
-      let requestbutton = document.createElement('a');
-      requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
-
-
-      let dropdownIMG = document.createElement('div');
-      dropdownIMG.classList.add('dropdown-list-image', 'mr-3');
-
-
-      let status = document.createElement('div');
-      status.classList.add('status-indicator','bg-success');
-
-
-      let divText = document.createElement('div');
-      divText.classList.add('font-weight-bold');
-
-
-      let remarkText = document.createElement('div');
-      remarkText.classList.add('text-truncate');
-
-
-      let clientName = document.createElement('div');
-      clientName.classList.add('small','text-gray-500');
-
-
-      dropdownIMG.append(img,status);
-
-
-      clientName.innerHTML = requests[i].ClientLastName +" "+requests[i].ClientFirstName;
-      remarkText.innerHTML = desc+"...";
-
-      divText.append(remarkText,clientName);
-
-      requestbutton.append(dropdownIMG,divText);
-      /*let newServ = document.createElement('div');
-      newServ.classList.add('container');
-      newServ.innerHTML = html;*/
-      messagesTab.append(requestbutton);
-    }
-
-
     
-    
+    await getRequests(service.ServiceName);
+
   }
 
   getrequestPending();
 
+}
+
+
+function createMessages(requests){
+  let desc = requests.ClientRemarks.substring(0,25);
+  desc.replace(/[^a-zA-Z0-9]/g,"...");
+
+  let img = document.createElement('img');
+  img.classList.add('rounded-circle');
+  img.src="img/undraw_profile_1.svg";
+  let requestbutton = document.createElement('a');
+  requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
+
+
+  let dropdownIMG = document.createElement('div');
+  dropdownIMG.classList.add('dropdown-list-image', 'mr-3');
+
+
+  let status = document.createElement('div');
+  status.classList.add('status-indicator','bg-success');
+
+
+  let divText = document.createElement('div');
+  divText.classList.add('font-weight-bold');
+
+
+  let remarkText = document.createElement('div');
+  remarkText.classList.add('text-truncate');
+
+
+  let clientName = document.createElement('div');
+  clientName.classList.add('small','text-gray-500');
+
+
+  dropdownIMG.append(img,status);
+
+
+  clientName.innerHTML = requests.ClientLastName +" "+requests.ClientFirstName;
+  remarkText.innerHTML = desc+"...";
+
+  divText.append(remarkText,clientName);
+
+  requestbutton.append(dropdownIMG,divText);
+  /*let newServ = document.createElement('div');
+  newServ.classList.add('container');
+  newServ.innerHTML = html;*/
+  messagesTab.append(requestbutton);
 }
 
 

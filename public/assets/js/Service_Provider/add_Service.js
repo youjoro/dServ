@@ -19,6 +19,7 @@
     const service_desc = document.getElementById('desArea');
     const service_category = document.getElementById('Cate_Inp');
     const contact_Number = document.getElementById('servNum');
+    const cityChoice = document.getElementById('city');
     //Points
     const point_1 = document.getElementById('Point1_Inp');
     const point_2 = document.getElementById('Point2_Inp');
@@ -227,19 +228,25 @@
     var loc_data = "";
     var city = "";
     function getLocation(){
-        fetch('http://ip-api.com/json/?fields=61439')
-        .then(res => res.json())
-        .then(res => {
-            loc_data = res.lat+","+res.lon;
-            city = res.city
-            
-            document.getElementById("Location").innerHTML = loc_data;
-            document.getElementById("City").innerHTML = city;
-            
-            loadMap(loc_data);
-            
+        try{
+            fetch('https://ipapi.co/json/')
+            .then(res => res.json())
+            .then(res => {
+                loc_data = res.latitude+","+res.longitude;
+                city = res.city
+                
+                document.getElementById("Location").innerHTML = loc_data;
+                document.getElementById("City").innerHTML = city;
+                
+                loadMap(loc_data);
+                document.getElementById('city').value = city;
+
+            }   
+            );
+        }catch(e){
+            console.log(e);
         }
-        );
+
 
     }
 
@@ -329,6 +336,9 @@ let check = sessionStorage.getItem("user");
 
     if (check !=null){
         document.getElementById('session').style.visibility  = "hidden";
+    }else{
+        alert("You are not allowed here");
+        window.location.replace("http://127.0.0.1:5500/index.html");
     }
 
     const monitorFireAuth = async() =>{
@@ -373,7 +383,7 @@ let check = sessionStorage.getItem("user");
                 Description: service_desc.value,
                 Points: getPoints(),
                 LinksOfImagesArray: imageLinkArray,
-                Location: city,
+                Location: document.getElementById('city').value ,
                 location_data:loc_data.toString(),
                 Phone_Number: contact_Number.value,
                 Owner: userID,
@@ -388,7 +398,7 @@ let check = sessionStorage.getItem("user");
                 Description: service_desc.value,
                 Points: getPoints(),
                 LinksOfImagesArray: imageLinkArray,
-                Location: city,
+                Location: document.getElementById('city').value ,
                 location_data:loc_data.toString(),
                 Phone_Number: contact_Number.value,
                 TransactionID:fireID

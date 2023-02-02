@@ -23,14 +23,22 @@ const pmTime = document.getElementById('pmSelector');
 
 const acc_email = document.getElementById("acc_email");
 const acc_pass = document.getElementById("password");
+const employeedata = document.getElementById('addEmployeedata');
+
+employeedata.style.visibility = "none";
+
 let servicetime = "";
 var typeOfProvider = "";
 
 if (individual.checked){
   typeOfProvider = "individual";
+  employeedata.style.display = "none";
 }else if(company.checked){
   typeOfProvider = "company";
+  employeedata.style.display = "";
 }
+
+
 //window.onload =localStorage.clear();
 window.onload = document.getElementById("final_submit").style.visibility="hidden";
 
@@ -57,9 +65,59 @@ function checkPass(){
   }
 }
 
+
+
 //adding fields
 var row_num = 0;
+var employeerow_num =0;
 var exp_dataEntries = [];
+var employeeDetails = [];
+
+
+
+
+function employeedataAdd(){
+  
+  for (let i=1;i<row_num+1;i++){
+    var j = document.getElementById('name-'+i+'').value;
+    var y = document.getElementById('email-'+i+'').value;
+    
+    employeeDetails.push("Employee Name: "+j+"| Email:"+y);
+  }
+  
+}
+
+window.addEmployeeFields = function(){
+  employeerow_num +=1;
+  var container = document.getElementById('employee_fields');
+  var jobs = document.createElement("input");
+  var years = document.createElement("input");
+  var row = document.createElement("div");
+  var col_job = document.createElement("div");
+  var col_year = document.createElement("div");
+
+  jobs.type = "text";
+  years.type = "text";
+
+  row.classList.add("row","row-cols-2");
+  col_job.classList.add("col-8");
+  col_year.classList.add("col-4");
+  jobs.classList.add("form-control","jobs");
+  years.classList.add("form-control","years");
+  jobs.setAttribute('id','name-'+row_num+'');
+  years.setAttribute('id','email-'+row_num+'');
+  jobs.placeholder = "Employee Name";
+  years.placeholder = "Employee Email";
+
+  col_job.appendChild(jobs);
+  col_year.appendChild(years);
+  row.appendChild(col_job);
+  row.appendChild(col_year);
+  
+  container.appendChild(row);
+
+  container.appendChild(document.createElement("hr"));
+}
 
 function checkData(){
   
@@ -71,7 +129,6 @@ function checkData(){
   }
   
 }
-
 window.addFields = function (){
   row_num +=1;
   var container = document.getElementById('experience_expertise');
@@ -136,6 +193,8 @@ var currTab = 0;
 
 
 window.nextPrev = function (n){
+
+
   // This function will figure out which tab to display
   var x = document.getElementsByClassName("step");
   // Exit the function if any field in the current tab is invalid:
@@ -147,8 +206,14 @@ window.nextPrev = function (n){
   // if you have reached the end of the form...
   if (currentTab >= x.length) {
     // ... the form gets submitted:
+    if (typeOfProvider == "individual");
+    else{
+      employeedataAdd();
+    }
+
     servicetime = amTime.value+'am to '+pmTime.value+'pm';
     checkData();
+    
     var send_data = [
       fName.value,
       lName.value,
@@ -171,7 +236,8 @@ window.nextPrev = function (n){
     localStorage.setItem("Data",send_data);
     localStorage.setItem("exp_entries",
     exp_dataEntries);
-    
+    localStorage.setItem("employee_data",
+    employeeDetails);
     
     return false;
   }

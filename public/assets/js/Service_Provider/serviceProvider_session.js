@@ -21,13 +21,13 @@ const fireauth = getAuth(firestoreapp);
 function getUserType(){
   var user_type="";
     var userID = sessionStorage.getItem("user");
-    console.log(userID);
+    
     
     const getType = ref(realdb, 'users/'+userID+'/user_type');
     const type = async() =>{
       onValue(getType, (snapshot) => {
       user_type = snapshot.val();
-      console.log(user_type);
+      
       if(user_type=="client" || user_type==null){
         alert("You are not supposed to be here");
         window.location.replace("http://127.0.0.1:5500/index.html");
@@ -62,7 +62,7 @@ function getProfileIMG(userID){
 function checkSession(user){
 
 var sessionData=sessionStorage.getItem("user");
-console.log(sessionData);
+
 
   if(sessionData != null){
       
@@ -80,7 +80,7 @@ const monitorAuthState = async() =>{
         sessionStorage.user = user.uid;
         getProfileIMG(user.uid);
         
-        console.log(user);
+        
         checkSession(user); 
       }else{
         console.log("no user");
@@ -92,7 +92,7 @@ const monitorFireAuth = async() =>{
 
       onAuthStateChanged(fireauth,user=>{
         if(user){
-          console.log(user.emailVerified);
+          
           sessionStorage.fireuser = user.uid;
           
           

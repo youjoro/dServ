@@ -13,7 +13,7 @@ import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
   const auth = getAuth();
 
 
-  window.onload = document.getElementById('signUp').disabled= false;
+  window.onload = document.getElementById('signUp').disabled= true;
   window.onload = document.getElementById('loading').style.visibility = 'hidden';
   window.onload = document.getElementById('OTP').style.visibility = 'hidden';
   window.onload = document.getElementById('sendNum').disabled = true;
@@ -28,8 +28,8 @@ import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
   var sendnumber = document.getElementById('sendNum');
   var numInput = document.getElementById('phone_number');
 
-
-  numInput.oninput = sendnumber.disabled=false;
+  sendnumber.disabled = true;
+  
 
     // render recaptcha verifier
   window.onload = render();
@@ -52,9 +52,18 @@ import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
   var coderesult = "";
   // function for send OTP
   window.phoneAuth = function () {
-      var number = document.getElementById('phone_number').value;
-      console.log(number);
-      firebase.auth().signInWithPhoneNumber(number, window.recaptchaVerifier).then(function (confirmationResult) {
+
+    const number = document.getElementById('phone_number');
+    let num = number.value;
+    let validationString = number.value;
+    let validationArray = validationString.split("");
+    num = parseInt(num);  
+    let convertedNUM = ''; 
+    
+
+    const authenticateNum = async() =>{
+      console.log(convertedNUM);
+      firebase.auth().signInWithPhoneNumber(convertedNUM, window.recaptchaVerifier).then(function (confirmationResult) {
           window.confirmationResult = confirmationResult;
           coderesult = confirmationResult;
           console.log('OTP Sent');
@@ -64,14 +73,31 @@ import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
           // error in sending OTP
           window.onload = document.getElementById('sendNum').disabled= true;
           alert(error.message);
-          alert(number);
+          alert(convertedNUM);
       });
+    }
+    
+
+    if (Number.isInteger(num) && validationString.length == 11 && validationArray[1].trim().toString() == "9"){
+      let nums = Array.from(num.toString()).map(Number);
+      nums = "+63 "+nums[0]+nums[1]+nums[2]+" "+nums[3]+nums[4]+nums[5]+" "+nums[6]+nums[7]+nums[8]+nums[9];
+      convertedNUM = nums.toString();
+      authenticateNum();
+      
+    }else{
+      alert ("no");
+      number.value = '';
+      
+    }
+
+
+
       
   }
 
 
   // function for OTP verify
-  window.codeverify = function () {
+  function codeverify() {
       var code = document.getElementById('otp_verify').value;
       
       coderesult.confirm(code).then(function () {
@@ -84,7 +110,7 @@ import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
   }
 
 
-
+document.getElementById('OTPVerify').addEventListener('click',codeverify);
 
 
 
@@ -137,10 +163,14 @@ signUp.addEventListener('click',(e) => {
       .then((userCredential) => {
         // Signed in dServ
         const user = userCredential.user;
-        sendEmailVerification(auth.currentUser)
+
+        const sendEMAILVERIFY = async() =>{
+          sendEmailVerification(auth.currentUser)
           .then(() => {
             alert('Email verification sent!');
-          });
+          });}
+          sendEMAILVERIFY();
+
         set(ref(database, 'users/' + user.uid),{
             username: username,
             email: email,

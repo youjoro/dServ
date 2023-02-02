@@ -52,7 +52,7 @@ function getUserType(){
         window.location.replace("http://127.0.0.1:5500/index.html");
       }else{
         document.getElementById("profile_content").style.visibility = "visible";
-        document.getElementById('loading').style.display = "none";
+        //document.getElementById('loading').style.display = "none";
         loadServices();
       }
     })
@@ -175,7 +175,8 @@ async function getRequestData(serviceID,serviceName){
 async function getRequests(serviceName){
   let datas =[];
   let id ="";
-    const q = query(collection(firestoredb, "service",serviceName,"transaction"));
+  let userID = sessionStorage.getItem('fireuser');
+    const q = query(collection(firestoredb,"users",userID, "service",serviceName,"transaction"));
     
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {

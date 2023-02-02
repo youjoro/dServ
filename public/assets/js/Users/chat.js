@@ -18,7 +18,8 @@ import {
   updateDoc,
   doc,
   serverTimestamp,  
-  getDocs 
+  getDocs,
+  getDoc 
 } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
 import { getDatabase, ref,get,child,onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
@@ -43,34 +44,83 @@ const sendBtn = document.getElementById('message-btn');
 const chatArea = document.getElementById('messages');
 const inbox = document.getElementById('chatInbox');
 
+//session Element
+var userID = sessionStorage.getItem('fireuser');
+var recipientFireID = sessionStorage.getItem('providerfireID');
 
-//Retrieve profileImg
-function getProfileIMG(userID){
 
-  var pfpLink = sessionStorage.getItem("pfpIMGLink");
-  var dbRef = ref(realdb);
-  let pfp = document.getElementById('profileIMG');
-  let currentPFP = document.getElementById('myImg');
+let docRef = '';
+async function addChatID(chatID){
 
-  if (pfpLink == null){
-    get(child(dbRef,"users/"+userID+"/profilePic")).then((snapshot)=>{
-      
-      if(snapshot.exists()){
-
-        sessionStorage.pfpIMGLink = snapshot.val().imgLink;
-        pfp.src = snapshot.val().imgLink;
-        currentPFP.src = snapshot.val().imgLink;
-        
-      }else{
-        pfp.src = "/assets/img/profile_icon.png";
-        currentPFP.src = "/assets/img/profile_icon.png";
+    try {
+      const date = new Date();
+      console.log("convo started");
+      const collectionRef = collection(firestoredb, "chat");
+      docRef = doc(collectionRef,chatID); 
+      const docID = docRef.id;
+       await updateDoc(docRef, {
+        dateStarted:date
+      });
+      if(docRef != null){
+        await loadMessages();
+        await setUserChatID(docRef.id);
       }
-    });
-  }else{
-    pfp.src = pfpLink;
-    currentPFP.src = pfpLink;
-  }
+      
+    } catch (error) {
+      console.log(error);
 
+    }
+
+}
+
+
+async function setUserChatID(docRef){
+  
+  try{
+    const date = new Date();
+    let clientChatID = async() =>{
+      
+      await updateDoc(doc(firestoredb, "users",userID,"chat",docRef), {
+      chatID:docRef,
+      dateStarted:date
+    });
+    }  
+
+    let providertChatID = async() =>{
+      
+      await updateDoc(doc(firestoredb, "users",recipientFireID,"chat",docRef), {
+      chatID:docRef,
+      dateStarted:date
+    });
+    }  
+
+    clientChatID();
+    providertChatID();
+  }catch(error){
+    console.log(error);
+  }
+}
+
+
+
+
+async function getProfileIMG(chatID){
+  
+//Retrieve profileImg
+  const q = query(doc(firestoredb, "chat",chatID));
+  const querySnapshot = await getDoc(q);
+  
+  let pfp = document.getElementById('recipientIMG');
+
+
+  if(querySnapshot.data().serviceProviderImgLink!= null){
+
+    pfp.src = querySnapshot.data().serviceProviderImgLink;    
+    document.getElementById('recipientName').innerHTML = querySnapshot.data().serviceProviderName;
+  }else{
+    pfp.src = "/assets/img/profile_icon.png";
+    
+  }
 }
 
 
@@ -81,8 +131,14 @@ const monitorFireAuth = async() =>{
   else{
       onAuthStateChanged(fireauth,user=>{
         if(user){          
-          sessionStorage.fireuser = user.uid;          
+             
           getChats(user.uid);
+
+          let chatID = recipientFireID+"-"+userID;
+          sessionStorage.chatID = chatID;
+          addChatID(chatID);
+          getProfileIMG(chatID);
+          
           messageSent.disabled = false;
           sendBtn.disabled = false;      
         }else{
@@ -118,48 +174,44 @@ monitorFireAuth();
 monitorAuthState();
 
 async function getChats(userID){
-  const q = query(collection(firestoredb, "chats",userID,"messages"));
+  const q = query(collection(firestoredb, "users",userID,"chat"));
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     
-    
-    getRecipientInfo(userID);
+    getChatInfo(doc.id);
   });
 }
 
-var userInfo = [];
-var recipientInfo = [];
-
-async function getUserInfo(userID){
-
-}
-
-async function getRecipientInfo(userID){
-    
 
 
-
- /* var recipientID = sessionStorage.getItem('providerID');
-  //var userID = sessionStorage.getItem('user');
-
-  var username = "";
-  await onValue(ref(realdb, 'users/' + recipientID), (snapshot) => {
-  username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
-  // ...
-    loadInbox(username);
+async function getChatInfo(chatID){
+  const q = query(doc(firestoredb, "chat",chatID));
+  const querySnapshot = await getDoc(q);
   
-}, {
-  onlyOnce: true
-});
-
-  return username;*/
+  
+  getRecipientInfo(querySnapshot.data().transactionProviderID,querySnapshot.data().serviceProviderImgLink);
+  console.log(querySnapshot.data().transactionProviderID);
 }
 
-async function loadInboxItem (username){
+
+
+
+async function getRecipientInfo(userID,imgLINK){
+    
+  const q = query(doc(firestoredb, "users",userID));
+  const querySnapshot = await getDoc(q);
+
+  loadInboxItem(querySnapshot.data().username,imgLINK);
+  
+
+}
+
+// loading chat inbox
+async function loadInboxItem (username,imgLINK){
 
     var pfpImg = document.createElement('img');
-    pfpImg.classList.add("viewchats");
+    pfpImg.classList.add("viewchats","rounded-5");
 
     let inboxInfo = document.createElement('div');
     inboxInfo.classList.add("container");
@@ -172,13 +224,13 @@ async function loadInboxItem (username){
     let html = 
     `
     <div class="row">
-      <p class="mb-0">`+username+`</p>
+      <p class="mb-0"> Username: `+username+`</p>
     </div>
     <div class="row">
       <p class=" text-muted"></p>
     </div>
     `
-    pfpImg.src="/assets/img/6.png";
+    pfpImg.src=imgLINK;
     inboxInfo.innerHTML = html;
     inboxItem.appendChild(pfpImg);
     inboxItem.appendChild(inboxInfo);
@@ -187,20 +239,86 @@ async function loadInboxItem (username){
 }
 
 
+// Saves a new message to Cloud Firestore.
+async function saveMessage() {
+  // Add a new message entry to the Firebase database.
+  let message = messageSent.value;
+  const date = new Date();
+  try {
+    await addDoc(collection(firestoredb,"chat",docRef.id,"messages"), {
+      userID: userID,
+      text: message,      
+      timestamp: date
+    });
+  }
+  catch(error) {
+    console.error('Error writing new message to Firebase Database', error);
+  }
+}
 
 
-async function sendMessage(){
-  if(sessionStorage.getItem('sessionCheck')){
-      console.log("test");
-      let message =  messageSent.value;
-      var chatItem = document.createElement('li');
-      chatItem.classList.add("sentMessage","list-group-item")
-      chatItem.innerHTML = message;
-      chatArea.append(chatItem);
-      document.getElementById('messages').scrollTop += 1000; 
+
+
+
+
+// Loads chat messages history and listens for upcoming ones.
+function loadMessages() {
+  console.log(docRef.id);
+  // Create the query to load the last 12 messages and listen for new ones.
+  const recentMessagesQuery = query(collection(firestoredb,"chat",docRef.id,"messages"), orderBy('timestamp'), limit(12));
+  try{
+  // Start listening to the query.
+  onSnapshot(recentMessagesQuery, function(snapshot) {
+    snapshot.docChanges().forEach(function(change) {
+      if (change.type === 'removed') {
+        deleteMessage(change.doc.id);
+      } else {        
+        if(change.doc.data().userID == userID){
+          sentMessages(change.doc.data().text);
+        }else{
+          console.log(change.doc.data().text);
+          receivedMessages(change.doc.data().text);
+        }
+
+      }
+    });
+  });
+  }catch(error){
+    console.log(error);
   }
 
 }
 
 
-sendBtn.addEventListener('click',sendMessage);
+
+
+
+//for rendering sent messages
+async function sentMessages(text){
+
+      console.log("test");
+      var chatItem = document.createElement('li');
+      chatItem.classList.add("sentMessage","list-group-item")
+      chatItem.innerHTML = text;
+      chatArea.append(chatItem);
+      messageSent.value = '';
+      document.getElementById('messages').scrollTop += 1000; 
+  
+
+}
+
+// for rendering received messages
+async function receivedMessages(text){
+
+      console.log("test");
+      var chatItem = document.createElement('li');
+      chatItem.classList.add("receivedMessage","list-group-item")
+      chatItem.innerHTML = text;
+      chatArea.append(chatItem);
+      messageSent.value = '';
+      document.getElementById('messages').scrollTop += 1000; 
+  
+
+}
+
+sendBtn.addEventListener('click',saveMessage);

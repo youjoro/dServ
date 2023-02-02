@@ -107,7 +107,7 @@ const monitorAuthState = async() =>{
 
 async function sendRequest(userID){
     console.log(userID);
-    
+    button.disabled = true;
     try {
         
         const dt = new Date();
@@ -134,6 +134,7 @@ async function sendRequest(userID){
     console.error("Error adding document: ", e);
     }
     localStorage.removeItem("Service");
+    window.location.replace("http://127.0.0.1:5500/index.html");
 }
 
 

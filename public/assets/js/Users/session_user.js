@@ -54,11 +54,13 @@ function getProfileIMG(userID){
     const type = async() =>{
       onValue(getType, (snapshot) => {
       user_type = snapshot.val();
-      console.log(user_type);
+      
       if(user_type=="client"){
         document.getElementById('profile_tab').href = "/view_profile/profile.html";
+        sessionStorage.userTYPE = "client";
       }else{
         document.getElementById('profile_tab').href = "/Service_Provider_Dashboard/index.html";
+        sessionStorage.userTYPE = "serviceProvider";
       }
     })
     } ;
@@ -108,7 +110,9 @@ const monitorFireAuth = async() =>{
             
           
         }else{
-          console.log("no user");                    
+          console.log("no user");                
+          signOut(auth);
+          signOut(fireauth);    
         }
       });
   }
@@ -129,6 +133,8 @@ const monitorAuthState = async() =>{
         checkSession();
         getProfileIMG(user.uid);
       }else{
+        signOut(auth);
+        signOut(fireauth);
         console.log("no user");
         document.getElementById("nav_barLoggedIn").style.display="none";
       }
@@ -153,6 +159,7 @@ const signOutUser = async() =>{
     document.getElementById("nav_barLoggedIn").style.display="none";
     document.getElementById("nav_bar").style.display="block";
     sessionStorage.clear();
+    localStorage.clear();
     location.reload();
     sessionStorage.reloaded = "yes";
     window.location.replace("http://127.0.0.1:5500/index.html");

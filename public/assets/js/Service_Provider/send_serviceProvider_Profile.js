@@ -34,7 +34,7 @@ document.getElementById("final_submit").style.visibility = "hidden";
 var data = localStorage.getItem("Data");
 data = data.split(',');
 var exp = localStorage.getItem("exp_entries");
-
+var employees = localStorage.getItem("employee_data");
 
     const createAccFirestore =async() =>{
       await createUserWithEmailAndPassword(fireauth, data[15], data[16])
@@ -87,7 +87,8 @@ createUserWithEmailAndPassword(auth, data[15], data[16])
         brand_desc: data[13],
         availability: data[14],
         acc_email: data[15],
-        expertise: exp.split(',')
+        expertise: exp.split(','),
+        employees:employees.split(',')
         
     }).then(function(){
         set(ref(database, 'users/' + user.uid),{
@@ -142,6 +143,7 @@ const monitorAuthState = async(acc,pass) =>{
       window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
       localStorage.removeItem("Data");
       localStorage.removeItem("exp_entries");
+      localStorage.removeItem("employee_data");
     }).catch(function(error){
        console.log('Synchronization failed');
     })

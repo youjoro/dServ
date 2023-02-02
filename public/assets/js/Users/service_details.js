@@ -2,7 +2,7 @@ let service = null;
 
 const chatProvider = document.getElementById('chatProvider');
 
-
+chatProvider.disabled = true;
 function checkSession(){
   
 var sessionData=sessionStorage.getItem("sessionCheck");
@@ -10,11 +10,11 @@ console.log(sessionData);
 if(sessionData == "loggedIn"){
     document.getElementById("bookButton").style.display="block";
     document.getElementById("signupbutton").style.display="none";
-    chatProvider.disabled = false;
+    
 }else{
     document.getElementById("bookButton").style.display="none";
     document.getElementById("signupbutton").style.display="block";
-    chatProvider.disabled = true;
+    
 }
 }
 
@@ -148,31 +148,153 @@ function loadMap(){
 }
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 import { getDatabase,  ref, get,child} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
-import {firebaseConfig} from '../firebase_config.js'; 
+import {   
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  limit,
+  onSnapshot,
+  setDoc,
+  updateDoc,
+  doc,
+  serverTimestamp,  
+  getDocs,
+  getDoc 
+} from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
+import {firebaseConfig,firestoreConfig} from '../firebase_config.js'; 
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
+const auth = getAuth(app);
+// Initialize firestore
+const firestoreapp = initializeApp(firestoreConfig,"secondary");
+const fireauth = getAuth(firestoreapp);
+const firestoredb = getFirestore(firestoreapp); 
+
+var userID = sessionStorage.getItem('fireuser');
+var username='';
+var fullname ='';
+
+let docRef = '';
+async function addChatID(chatID){
+    var providerID = service.Owner;
+    sessionStorage.providerID = providerID;
+    sessionStorage.providerfireID = service.TransactionID;
+    try {
+        let username = await getName(userID);
+        console.log(username);
+        const date = new Date();
+        console.log("convo started");
+
+
+        const collectionRef = collection(firestoredb, "chat");
+        docRef = doc(collectionRef,chatID); 
+        const docID = docRef.id;
+        await setDoc(docRef, {
+            clientID:userID,
+            clientUsername:username,
+            clientPic:sessionStorage.getItem("pfpIMGLink"),
+            
+            serviceProviderName:fullname,
+            transactionProviderID:service.TransactionID,
+            serviceProviderImgLink:providerIMGLink,
+            dateStarted:date
+        });
+      setUserChatID(docID);
+    } catch (error) {
+      console.log(error);
+
+    }
+
+}
+
+
+async function setUserChatID(docRef){
+  
+  try{
+    const date = new Date();
+    let clientChatID = async() =>{
+      
+      await setDoc(doc(firestoredb, "users",userID,"chat",docRef), {
+      chatID:docRef,
+      dateStarted:date
+    });
+    }  
+
+    let providertChatID = async() =>{
+      
+      await setDoc(doc(firestoredb, "users",service.TransactionID,"chat",docRef), {
+      chatID:docRef,
+      dateStarted:date
+    });
+    }  
+
+    clientChatID();
+    providertChatID();
+    sendToChat();
+  }catch(error){
+    console.log(error);
+  }
+}
+
+
+async function getName(ID){
+    let username = '';
+    try{
+
+        //Retrieve profileImg
+        const q = query(doc(firestoredb, "users",ID));
+        const querySnapshot = await getDoc(q);
+
+        username = querySnapshot.data().username;
+    }catch(e){
+        console.log(e);
+    }
+    console.log(username);
+    return username;
+}
+
+//check fireStore Auth
+const monitorFireAuth = async() =>{
+  
+  
+      onAuthStateChanged(fireauth,user=>{
+        if(user){                  
+            
+          let chatID = service.TransactionID+"-"+userID;
+          sessionStorage.chatID = chatID;
+          addChatID(chatID);
+   
+        }else{
+          console.log("no user");          
+
+        }
+      });
+  }
+
+
+
+
+
 
 async function loadServiceProviderProfile(){
     var providerID = service.Owner;
-    var providerData = []; 
 
     getProfileIMG(providerID);
     getProfileDetails(providerID);
-    const dbRef = ref(realdb);
-    await get(child(dbRef, `users/${providerID}`)).then((snapshot) => {
-    if (snapshot.exists()) {
-        
-        providerData = snapshot.val();
-        
-    } else {
-        console.log("No data available");
-    }
-    }).catch((error) => {
-    console.error(error);
-    });
+
 }
+
+
+
 
 let profileIMG = document.getElementById("serviceProviderIMG");
 let profileName = document.getElementById('providerName');
@@ -187,13 +309,13 @@ let providerDesc = document.getElementById('brandDesc');
 
 function getProfileDetails(userID){
 
-  var pfpLink = sessionStorage.getItem("pfpIMGLink");
+  
   var dbRef = ref(realdb);
   
     get(child(dbRef,"ProviderProfile/"+userID)).then((snapshot)=>{
       
       if(snapshot.exists()){
-        let fullname = snapshot.val().FirstName +" "+snapshot.val().lastName;
+        fullname = snapshot.val().FirstName +" "+snapshot.val().lastName;
         profileName.innerHTML = fullname;
         profileNumber.innerHTML = snapshot.val().phoneNumber;
         profileDesc.innerHTML = snapshot.val().selfDescription;
@@ -203,9 +325,10 @@ function getProfileDetails(userID){
         providerEmail.innerHTML = snapshot.val().businessEmail;
         providerTimes.innerHTML = snapshot.val().availability;
         providerDesc.innerHTML = snapshot.val().brand_desc;
-        
+        chatProvider.disabled =false;
       }else{        
         profileIMG.src = "/assets/img/profile_icon.png";
+        chatProvider.disabled = true;
       }
     });
   
@@ -214,17 +337,17 @@ function getProfileDetails(userID){
 
 
 
-
+ var providerIMGLink ='';
 function getProfileIMG(userID){
 
-  var pfpLink = sessionStorage.getItem("pfpIMGLink");
+
   var dbRef = ref(realdb);
   
     get(child(dbRef,"users/"+userID+"/profilePic")).then((snapshot)=>{
       
       if(snapshot.exists()){
         profileIMG.src = snapshot.val().imgLink;
-        sessionStorage.providerImgLink = snapshot.val().imgLink;        
+        providerIMGLink = snapshot.val().imgLink;
         
       }else{        
         profileIMG.src = "/assets/img/profile_icon.png";
@@ -241,9 +364,8 @@ bookingselected.href="/Booking/booking_page.html";
 
 
 function sendToChat(){
-    var providerID = service.Owner;
-    sessionStorage.providerID = providerID;
+
     window.location.replace("http://127.0.0.1:5500/chat/chat.html");
 }
 
-chatProvider.addEventListener('click',sendToChat);
+chatProvider.addEventListener('click',monitorFireAuth);
