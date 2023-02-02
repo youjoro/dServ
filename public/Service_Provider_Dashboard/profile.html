@@ -325,8 +325,7 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Profile Management</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> </a>
+
                     </div>
 
 
@@ -336,23 +335,21 @@
                     <div class="row">
 
                         <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
+                        <div class="col-lg-3 mb-4">
 
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Account</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Profile Image</h6>
                                 </div>
-                                <div class="card-body" id="servicesBlock">
+                                <div class="card-body flex d-flex align-content-center justify-content-center" id="servicesBlock">
                                     
-                                <input type="text" id="namebox" style="visibility: hidden;"><label id = "extlab"></label><br><br>
-                                <img id="myImg" class="img_tab" src="img/abstract-user-flat-4.png"><label id="uploadProgress"></label><br><br>
-
+                                <input type="text" id="namebox" style="display: none;" class=" mw-25"><label id = "extlab" style="display: none;"></label><br>
+                                <img id="myImg" class="img_tab border border-2" src="img/abstract-user-flat-4.png"><br><label id="uploadProgress" style="display: none;"></label><br>
+                                
+                                </div>
                                 <button id="selBtn" class="btn btn-outline-dark ">Select Image</button>
                                 <button id="upBtn"  class="btn btn-outline-dark ">Upload Image</button>
-                                
-                                    
-                                </div>
                             </div>
 
                         </div>
@@ -362,14 +359,44 @@
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Services</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Account</h6>
                                 </div>
-                                <div class="card-body">
-                                    <div class="text-center">
+                                <div class="text-center py-2">
                                         User Details
                                     </div>
-                                    <p>Add Services now to start your dServ business and ready yourself to take up
-                                        requests. </p>
+                                <div class="card-body">                                    
+                                    <div class="row px-2">
+                                        <p>Username  </p>
+                                        <p id="username"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Full Name  </p>
+                                        <p id="fullname"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Address  </p>
+                                        <p id="address"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Business Email  </p>
+                                        <p id="businessEmail"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Self Description  </p>
+                                        <p id="selfDescription"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Brand Name  </p>
+                                        <p id="brandName"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Times Available  </p>
+                                        <p id="availability"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Brand Description  </p>
+                                        <p id="brand_desc"></p>
+                                    </div>
                                     
                                 </div>
                             </div>

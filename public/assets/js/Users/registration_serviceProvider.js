@@ -30,13 +30,7 @@ employeedata.style.visibility = "none";
 let servicetime = "";
 var typeOfProvider = "";
 
-if (individual.checked){
-  typeOfProvider = "individual";
-  employeedata.style.display = "none";
-}else if(company.checked){
-  typeOfProvider = "company";
-  employeedata.style.display = "";
-}
+
 
 
 //window.onload =localStorage.clear();
@@ -77,18 +71,23 @@ var employeeDetails = [];
 
 
 function employeedataAdd(){
-  
-  for (let i=1;i<row_num+1;i++){
+  console.log(employeerow_num);
+  for (let i=1;i<employeerow_num+1;i++){
     var j = document.getElementById('name-'+i+'').value;
     var y = document.getElementById('email-'+i+'').value;
     
     employeeDetails.push("Employee Name: "+j+"| Email:"+y);
   }
   
+  console.log(employeeDetails);
 }
 
 window.addEmployeeFields = function(){
   employeerow_num +=1;
+  console.log(employeerow_num);
+
+
+
   var container = document.getElementById('employee_fields');
   var jobs = document.createElement("input");
   var years = document.createElement("input");
@@ -100,12 +99,12 @@ window.addEmployeeFields = function(){
   years.type = "text";
 
   row.classList.add("row","row-cols-2");
-  col_job.classList.add("col-8");
-  col_year.classList.add("col-4");
+  col_job.classList.add("col-6");
+  col_year.classList.add("col-6");
   jobs.classList.add("form-control","jobs");
   years.classList.add("form-control","years");
-  jobs.setAttribute('id','name-'+row_num+'');
-  years.setAttribute('id','email-'+row_num+'');
+  jobs.setAttribute('id','name-'+employeerow_num+'');
+  years.setAttribute('id','email-'+employeerow_num+'');
   jobs.placeholder = "Employee Name";
   years.placeholder = "Employee Email";
 
@@ -194,7 +193,13 @@ var currTab = 0;
 
 window.nextPrev = function (n){
 
-
+  if (individual.checked){
+  typeOfProvider = "individual";
+  employeedata.style.display = "none";
+}else if(company.checked){
+  typeOfProvider = "company";
+  employeedata.style.display = "";
+}
   // This function will figure out which tab to display
   var x = document.getElementsByClassName("step");
   // Exit the function if any field in the current tab is invalid:

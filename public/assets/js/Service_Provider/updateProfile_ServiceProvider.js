@@ -1,7 +1,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
     import {getStorage, ref as sRef, uploadBytesResumable, getDownloadURL}
     from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
-    import { getDatabase, ref, set, child, update, remove }
+    import { getDatabase, ref, set, child, update, remove,get }
     from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
     import {firebaseConfig} from "../firebase_config.js";
     import { getAuth, 
@@ -13,23 +13,56 @@
     const realdb = getDatabase(app);
     const auth = getAuth();
 
-
-
     var files = [];
     var reader = new FileReader();
 
-    var namebox = document.getElementById('namebox'); 
-    var extlab = document.getElementById('extlab'); 
-    var myImg = document.getElementById('myImg'); 
-    var progLab = document.getElementById('uploadProgress'); 
-    var selBtn = document.getElementById('selBtn'); 
-    var upBtn = document.getElementById('upBtn'); 
-    var downBtn = document.getElementById('downBtn'); 
+    const namebox = document.getElementById('namebox'); 
+    const extlab = document.getElementById('extlab'); 
+    const myImg = document.getElementById('myImg'); 
+    const progLab = document.getElementById('uploadProgress'); 
+    const selBtn = document.getElementById('selBtn'); 
+    const upBtn = document.getElementById('upBtn'); 
+    const downBtn = document.getElementById('downBtn'); 
+
+
+    const username = document.getElementById('username');
+    const fullname = document.getElementById('fullname');
+    const address = document.getElementById('address');
+    const businessEmail = document.getElementById('businessEmail');
+    const selfDescription = document.getElementById('selfDescription');
+    const brandName = document.getElementById('brandName');
+    const availability = document.getElementById('availability');
+    const brand_desc = document.getElementById('brand_desc');
 
     var input =document.createElement('input');
     input.type = 'file';
 
 
+    //window.onload
+
+    function loadData(userID){
+        var dbRef = ref(realdb);
+        
+            get(child(dbRef,"ProviderProfile/"+userID)).then((snapshot)=>{
+            
+            if(snapshot.exists()){
+                let profilefullname =":  "+ snapshot.val().FirstName +" "+snapshot.val().lastName;
+                fullname.innerHTML =": "+ profilefullname;
+                username.innerHTML = ": "+snapshot.val().username;
+                address.innerHTML = ": "+snapshot.val().address;
+
+                businessEmail.innerHTML =":  "+ snapshot.val().businessEmail;
+                brandName.innerHTML = ": "+snapshot.val().brand_name;
+                selfDescription.innerHTML = ": "+snapshot.val().selfDescription;
+                availability.innerHTML = ": "+snapshot.val().availability;
+                brand_desc.innerHTML = ": "+snapshot.val().brand_desc;
+                
+            }
+            });
+    }
+
+    var userID = sessionStorage.getItem("user");
+    loadData(userID);
     const monitorAuthState = async() =>{
         onAuthStateChanged(auth,user=>{
             if(user){
