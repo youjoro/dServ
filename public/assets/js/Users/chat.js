@@ -46,12 +46,14 @@ const inbox = document.getElementById('chatInbox');
 
 //session Element
 var userID = sessionStorage.getItem('fireuser');
-var recipientFireID = sessionStorage.getItem('providerfireID');
-
+//var recipientFireID = sessionStorage.getItem('providerfireID');
+let userTYPE = sessionStorage.getItem('userTYPE');
 
 let docRef = '';
+let refID ='';
 async function addChatID(chatID){
 
+  console.log()
     try {
       const date = new Date();
       console.log("convo started");
@@ -62,8 +64,10 @@ async function addChatID(chatID){
         dateStarted:date
       });
       if(docRef != null){
-        await loadMessages();
-        await setUserChatID(docRef.id);
+        await getProfileIMG(docID);
+        await loadMessages(docID);
+        await setUserChatID(docID);
+        refID = docID;
       }
       
     } catch (error) {
@@ -75,7 +79,10 @@ async function addChatID(chatID){
 
 
 async function setUserChatID(docRef){
-  
+  let splitDOC = docRef.split("-");
+  var userID = splitDOC[1];
+  var recipientFireID = splitDOC[0];
+  console.log(recipientFireID,userID);
   try{
     const date = new Date();
     let clientChatID = async() =>{
@@ -111,12 +118,19 @@ async function getProfileIMG(chatID){
   const querySnapshot = await getDoc(q);
   
   let pfp = document.getElementById('recipientIMG');
-
+  
+  
 
   if(querySnapshot.data().serviceProviderImgLink!= null){
+    if (userTYPE == "client"){
+      pfp.src = querySnapshot.data().serviceProviderImgLink;    
+      document.getElementById('recipientName').innerHTML = querySnapshot.data().serviceProviderName;
+    }else if (userTYPE == "serviceProvider"){
+      pfp.src = querySnapshot.data().clientPic;    
+      document.getElementById('recipientName').innerHTML = querySnapshot.data().clientUsername;
+    }
 
-    pfp.src = querySnapshot.data().serviceProviderImgLink;    
-    document.getElementById('recipientName').innerHTML = querySnapshot.data().serviceProviderName;
+    
   }else{
     pfp.src = "/assets/img/profile_icon.png";
     
@@ -134,10 +148,6 @@ const monitorFireAuth = async() =>{
              
           getChats(user.uid);
 
-          let chatID = recipientFireID+"-"+userID;
-          sessionStorage.chatID = chatID;
-          addChatID(chatID);
-          getProfileIMG(chatID);
           
           messageSent.disabled = false;
           sendBtn.disabled = false;      
@@ -152,33 +162,17 @@ const monitorFireAuth = async() =>{
 }
 
 
-//check realtimeDatabase
-const monitorAuthState = async() =>{
-  if (checkifFirstLoggedIn == true);
-  else{
-    onAuthStateChanged(auth,user=>{
-      if(user){
-        sessionStorage.sessionCheck = "loggedIn";
-        
-      }else{
-        console.log("no user");
 
-      }
-    });
-        
-  }
-
-}
 
 monitorFireAuth();
-monitorAuthState();
+
 
 async function getChats(userID){
   const q = query(collection(firestoredb, "users",userID,"chat"));
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    
+    console.log(doc.id);
     getChatInfo(doc.id);
   });
 }
@@ -189,26 +183,31 @@ async function getChatInfo(chatID){
   const q = query(doc(firestoredb, "chat",chatID));
   const querySnapshot = await getDoc(q);
   
+  if (userTYPE == "client"){
+    getRecipientInfo(querySnapshot.data().transactionProviderID,querySnapshot.data().serviceProviderImgLink,chatID);
+    
+  }else if (userTYPE == "serviceProvider"){
+    getRecipientInfo(querySnapshot.data().clientID,querySnapshot.data().clientPic,chatID);
+  }
   
-  getRecipientInfo(querySnapshot.data().transactionProviderID,querySnapshot.data().serviceProviderImgLink);
   console.log(querySnapshot.data().transactionProviderID);
 }
 
 
 
 
-async function getRecipientInfo(userID,imgLINK){
+async function getRecipientInfo(userID,imgLINK,chatID){
     
   const q = query(doc(firestoredb, "users",userID));
   const querySnapshot = await getDoc(q);
 
-  loadInboxItem(querySnapshot.data().username,imgLINK);
+  loadInboxItem(querySnapshot.data().username,imgLINK,chatID);
   
 
 }
 
 // loading chat inbox
-async function loadInboxItem (username,imgLINK){
+async function loadInboxItem (username,imgLINK,chatID){
 
     var pfpImg = document.createElement('img');
     pfpImg.classList.add("viewchats","rounded-5");
@@ -219,7 +218,7 @@ async function loadInboxItem (username,imgLINK){
     let inboxItem = document.createElement('li');
     inboxItem.classList.add("list-group-item" ,"d-flex" ,"mt-1"
      ,"rounded-3" ,"justify-content-start" ,
-     "align-items-center", "p-3", "border", "border-1");
+     "align-items-center", "p-3", "border", "border-1","inboxEntry");
 
     let html = 
     `
@@ -227,33 +226,48 @@ async function loadInboxItem (username,imgLINK){
       <p class="mb-0"> Username: `+username+`</p>
     </div>
     <div class="row">
-      <p class=" text-muted"></p>
+      <p class=" text-muted" id="recentMessage"></p>
     </div>
     `
     pfpImg.src=imgLINK;
     inboxInfo.innerHTML = html;
     inboxItem.appendChild(pfpImg);
     inboxItem.appendChild(inboxInfo);
+    inboxItem.addEventListener('click',function() {
+      console.log(chatID);
+      addChatID(chatID)
+    })
     inbox.append(inboxItem);
-
+    AssignAllEvents(chatID);
+    
 }
-
+function AssignAllEvents(chatID){
+    var listITEM = document.getElementsByClassName('inboxEntry');
+    //listITEM.addEventListener('click',addChatID(chatID));
+    console.log(listITEM.length);
+}
 
 // Saves a new message to Cloud Firestore.
 async function saveMessage() {
   // Add a new message entry to the Firebase database.
+  console.log(refID);
   let message = messageSent.value;
   const date = new Date();
-  try {
-    await addDoc(collection(firestoredb,"chat",docRef.id,"messages"), {
-      userID: userID,
-      text: message,      
-      timestamp: date
-    });
+  if(refID!=null){
+    try {
+      await addDoc(collection(firestoredb,"chat",refID,"messages"), {
+        userID: userID,
+        text: message,      
+        timestamp: date
+      });
+    }
+    catch(error) {
+      console.error('Error writing new message to Firebase Database', error);
+    }
+  }else{
+    alert("no");
   }
-  catch(error) {
-    console.error('Error writing new message to Firebase Database', error);
-  }
+
 }
 
 
@@ -262,10 +276,27 @@ async function saveMessage() {
 
 
 // Loads chat messages history and listens for upcoming ones.
-function loadMessages() {
-  console.log(docRef.id);
+function loadMessages(docID) {
+  const received = document.getElementsByClassName("receivedMessage");
+  const sent = document.getElementsByClassName("sentMessage");
+  const recentSent = document.getElementById('recentMessage');
+  if (received.length >0 || sent.length >0 ){
+    console.log(sent.length,received.length );
+    const list = document.getElementById("messages");
+
+    while (list.hasChildNodes()) {
+      list.removeChild(list.firstChild);
+    }
+  }else{
+    console.log(sent.length,received.length );
+  }
+
+
+  console.log(docID);
+
+
   // Create the query to load the last 12 messages and listen for new ones.
-  const recentMessagesQuery = query(collection(firestoredb,"chat",docRef.id,"messages"), orderBy('timestamp'), limit(12));
+  const recentMessagesQuery = query(collection(firestoredb,"chat",docID,"messages"), orderBy('timestamp'), limit(12));
   try{
   // Start listening to the query.
   onSnapshot(recentMessagesQuery, function(snapshot) {
@@ -273,6 +304,8 @@ function loadMessages() {
       if (change.type === 'removed') {
         deleteMessage(change.doc.id);
       } else {        
+
+        recentSent.innerHTML = change.doc.data().text;
         if(change.doc.data().userID == userID){
           sentMessages(change.doc.data().text);
         }else{
@@ -296,13 +329,13 @@ function loadMessages() {
 //for rendering sent messages
 async function sentMessages(text){
 
-      console.log("test");
-      var chatItem = document.createElement('li');
-      chatItem.classList.add("sentMessage","list-group-item")
-      chatItem.innerHTML = text;
-      chatArea.append(chatItem);
-      messageSent.value = '';
-      document.getElementById('messages').scrollTop += 1000; 
+  console.log("test");
+  var chatItem = document.createElement('li');
+  chatItem.classList.add("sentMessage","list-group-item")
+  chatItem.innerHTML = text;
+  chatArea.append(chatItem);
+  messageSent.value = '';
+  document.getElementById('messages').scrollTop += 1000; 
   
 
 }
