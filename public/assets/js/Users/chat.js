@@ -19,7 +19,8 @@ import {
   doc,
   serverTimestamp,  
   getDocs,
-  getDoc 
+  getDoc,
+  limitToLast
 } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
 import { getDatabase, ref,get,child,onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
@@ -48,27 +49,35 @@ const inbox = document.getElementById('chatInbox');
 var userID = sessionStorage.getItem('fireuser');
 //var recipientFireID = sessionStorage.getItem('providerfireID');
 let userTYPE = sessionStorage.getItem('userTYPE');
-
+let testnum = 0;
 let docRef = '';
 let refID ='';
-async function addChatID(chatID){
 
-  console.log()
+window.onload = messageSent.value = '';
+
+async function addChatID(chatID){
+  
+
     try {
       const date = new Date();
       console.log("convo started");
       const collectionRef = collection(firestoredb, "chat");
       docRef = doc(collectionRef,chatID); 
       const docID = docRef.id;
+      
+
        await updateDoc(docRef, {
         dateStarted:date
       });
+
+
+
       if(docRef != null){
         await getProfileIMG(docID);
-        await loadMessages(docID);
-        await setUserChatID(docID);
+        await setUserChatID(docID);        
         refID = docID;
       }
+
       
     } catch (error) {
       console.log(error);
@@ -147,7 +156,7 @@ const monitorFireAuth = async() =>{
         if(user){          
              
           getChats(user.uid);
-
+          
           
           messageSent.disabled = false;
           sendBtn.disabled = false;      
@@ -172,7 +181,6 @@ async function getChats(userID){
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    console.log(doc.id);
     getChatInfo(doc.id);
   });
 }
@@ -190,7 +198,7 @@ async function getChatInfo(chatID){
     getRecipientInfo(querySnapshot.data().clientID,querySnapshot.data().clientPic,chatID);
   }
   
-  console.log(querySnapshot.data().transactionProviderID);
+  
 }
 
 
@@ -233,19 +241,23 @@ async function loadInboxItem (username,imgLINK,chatID){
     inboxInfo.innerHTML = html;
     inboxItem.appendChild(pfpImg);
     inboxItem.appendChild(inboxInfo);
-    inboxItem.addEventListener('click',function() {
-      console.log(chatID);
-      addChatID(chatID)
+    inboxItem.addEventListener('click',function(e) {
+      var currentchat = sessionStorage.getItem('currentchat');
+      if(currentchat != chatID){
+        sessionStorage.currentchat = chatID;
+        addChatID(chatID);
+        renderMessages(chatID);
+        loadMessages();
+      }else{
+        
+      }
+
     })
     inbox.append(inboxItem);
-    AssignAllEvents(chatID);
+    //AssignAllEvents(chatID);
     
 }
-function AssignAllEvents(chatID){
-    var listITEM = document.getElementsByClassName('inboxEntry');
-    //listITEM.addEventListener('click',addChatID(chatID));
-    console.log(listITEM.length);
-}
+
 
 // Saves a new message to Cloud Firestore.
 async function saveMessage() {
@@ -253,8 +265,9 @@ async function saveMessage() {
   console.log(refID);
   let message = messageSent.value;
   const date = new Date();
-  if(refID!=null){
+  if(refID!=null && message !=""){
     try {
+      console.log("sent");
       await addDoc(collection(firestoredb,"chat",refID,"messages"), {
         userID: userID,
         text: message,      
@@ -265,7 +278,7 @@ async function saveMessage() {
       console.error('Error writing new message to Firebase Database', error);
     }
   }else{
-    alert("no");
+    //alert("no");
   }
 
 }
@@ -276,33 +289,44 @@ async function saveMessage() {
 
 
 // Loads chat messages history and listens for upcoming ones.
-function loadMessages(docID) {
+function loadMessages() {
+
   const received = document.getElementsByClassName("receivedMessage");
   const sent = document.getElementsByClassName("sentMessage");
   const recentSent = document.getElementById('recentMessage');
+
+
   if (received.length >0 || sent.length >0 ){
     console.log(sent.length,received.length );
     const list = document.getElementById("messages");
-
+    console.log("delete");
     while (list.hasChildNodes()) {
       list.removeChild(list.firstChild);
     }
   }else{
     console.log(sent.length,received.length );
   }
+  
+  
+}
 
 
-  console.log(docID);
 
+
+async function renderMessages(docID){
+  let id =docID;
 
   // Create the query to load the last 12 messages and listen for new ones.
-  const recentMessagesQuery = query(collection(firestoredb,"chat",docID,"messages"), orderBy('timestamp'), limit(12));
-  try{
-  // Start listening to the query.
+  const recentMessagesQuery = query(collection(firestoredb,"chat",id,"messages"), orderBy('timestamp'), limitToLast(12));
+  
+  
+    try{
+      
+      // Start listening to the query.
   onSnapshot(recentMessagesQuery, function(snapshot) {
     snapshot.docChanges().forEach(function(change) {
       if (change.type === 'removed') {
-        deleteMessage(change.doc.id);
+        //deleteMessage(change.doc.id);
       } else {        
 
         recentSent.innerHTML = change.doc.data().text;
@@ -316,20 +340,21 @@ function loadMessages(docID) {
       }
     });
   });
-  }catch(error){
-    console.log(error);
-  }
+    }catch(error){
+      console.log(error);
+    }
+
+  
+
 
 }
 
 
 
-
-
 //for rendering sent messages
-async function sentMessages(text){
+function sentMessages(text){
 
-  console.log("test");
+  
   var chatItem = document.createElement('li');
   chatItem.classList.add("sentMessage","list-group-item")
   chatItem.innerHTML = text;
@@ -341,15 +366,15 @@ async function sentMessages(text){
 }
 
 // for rendering received messages
-async function receivedMessages(text){
+function receivedMessages(text){
 
-      console.log("test");
-      var chatItem = document.createElement('li');
-      chatItem.classList.add("receivedMessage","list-group-item")
-      chatItem.innerHTML = text;
-      chatArea.append(chatItem);
-      messageSent.value = '';
-      document.getElementById('messages').scrollTop += 1000; 
+      
+  var chatItem = document.createElement('li');
+  chatItem.classList.add("receivedMessage","list-group-item")
+  chatItem.innerHTML = text;
+  chatArea.append(chatItem);
+  messageSent.value = '';
+  document.getElementById('messages').scrollTop += 1000; 
   
 
 }

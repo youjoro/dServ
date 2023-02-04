@@ -27,7 +27,8 @@
     
     
     let servicetime = "";
-
+    var map = L.map('map').setView([14.23307, 121.176], 13);
+    var popup = L.popup();
 
 
     function OpenFileDialog(){
@@ -142,7 +143,7 @@
 
     selectImg.addEventListener('click', OpenFileDialog);
     addImg.addEventListener('click', validateForm);
-    locationbutton.addEventListener('click', getLocation);
+    //locationbutton.addEventListener('click', getLocation);
 
     function validateForm() {
         // This function deals with validation of the form fields
@@ -230,7 +231,13 @@
     function getLocation(){
         try{
             fetch('https://ipapi.co/json/')
-            .then(res => res.json())
+            .then((res) =>{
+                if(res.ok){
+                  return res.json();
+                }else{
+                    alert('ono');
+                }
+            })            
             .then(res => {
                 loc_data = res.latitude+","+res.longitude;
                 city = res.city
@@ -242,7 +249,12 @@
                 document.getElementById('city').value = city;
 
             }   
-            );
+            ).catch((e)=>{
+                console.log(e);
+                loc_data = "14.23307,121.176";
+                alert("ADBLOCKER detected, manually add location using the map");
+                loadMap(loc_data);
+            })
         }catch(e){
             console.log(e);
         }
@@ -253,9 +265,12 @@
 
 
 //map
-    function loadMap(loc_data){
+function loadMap(loc_data){
+
     var location_data = String(loc_data).split(',').map(Number);
-    var map = L.map('map').setView(location_data, 13);
+
+
+    
     var location_correction = "";
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -306,9 +321,29 @@
     */
     
 }
-
-
-
+var marker ='';
+function onMapClick(e) {
+    
+    popup
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(map);
+    marker = new L.marker(e.latlng).addTo(map)
+        .bindPopup("You clicked the map at " + e.latlng.toString(),{autoClose: false})
+        .openPopup();
+    
+    loc_data = e.latlng;
+    loc_data = loc_data.toString().replace(/[\])}[{(]/g, ''); 
+    loc_data = loc_data.toString().replace('LatLng','');
+    loc_data = loc_data.toString().split(',');
+    
+    
+    
+    document.getElementById("Location").innerHTML = loc_data;
+    
+}
+map.on('click', onMapClick);    
+window.onload = getLocation();
 
 //IMPORTS AND CONFIG
 
@@ -338,7 +373,7 @@ let check = sessionStorage.getItem("user");
         document.getElementById('session').style.visibility  = "hidden";
     }else{
         alert("You are not allowed here");
-        window.location.replace("https://test-75edb.web.app/index.html");
+        window.location.replace("http://127.0.0.1:5500/index.html");
     }
 
     const monitorFireAuth = async() =>{
@@ -404,7 +439,7 @@ let check = sessionStorage.getItem("user");
                 TransactionID:fireID
                 })
                 alert("Upload Succesful");
-                window.location.replace("https://test-75edb.web.app/Service_Provider_Dashboard/index.html");
+                window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
                 
             });
         }catch(error){

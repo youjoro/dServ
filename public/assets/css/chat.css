@@ -119,3 +119,9 @@
 }
 
 }
+
+.chatInbox :hover{
+    background-color:rgb(138, 211, 166);
+    color: white;
+    margin: 1px;
+}
