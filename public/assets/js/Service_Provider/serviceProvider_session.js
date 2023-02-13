@@ -59,7 +59,7 @@ function getProfileIMG(userID){
   });
 }
 
-function checkSession(user){
+function checkSession(){
 
 var sessionData=sessionStorage.getItem("user");
 
@@ -119,3 +119,4 @@ const signOutUser = async() =>{
     
 }
 
+document.getElementById('logout').addEventListener('click', signOutUser);

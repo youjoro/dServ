@@ -34,6 +34,11 @@
         
         animation: spin 2s linear infinite;
         
+        }.img_tab{
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            border: 1px gray solid;
         }
     </style>
 </head>
@@ -260,7 +265,7 @@
                                 </h6>
                                 
                                
-                                <a class="dropdown-item text-center small text-gray-500" href="/chat/chat.html">Read More Messages</a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
                         </li>
 
@@ -319,101 +324,10 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> </a>
+                        <h1 class="h3 mb-0 text-gray-800">Profile Management</h1>
+
                     </div>
 
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="monthly_earning"></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="yearly_earning"></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Jobs Completed
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" >
-                                                        <p id="jobs_completed"></p>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Pending Requests
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" >
-                                                        <p id="pendingRequests"></p>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                        </div>
-                                            
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
 
 
@@ -421,18 +335,21 @@
                     <div class="row">
 
                         <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
+                        <div class="col-lg-3 mb-4">
 
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Services</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Profile Image</h6>
                                 </div>
-                                <div class="card-body" id="servicesBlock">
+                                <div class="card-body flex d-flex align-content-center justify-content-center" id="servicesBlock">
+                                    
+                                <input type="text" id="namebox" style="display: none;" class=" mw-25"><label id = "extlab" style="display: none;"></label><br>
+                                <img id="myImg" class="img_tab border border-2" src="img/abstract-user-flat-4.png"><br><label id="uploadProgress" style="display: none;"></label><br>
                                 
-                                    
-                                    
                                 </div>
+                                <button id="selBtn" class="btn btn-outline-dark ">Select Image</button>
+                                <button id="upBtn"  class="btn btn-outline-dark ">Upload Image</button>
                             </div>
 
                         </div>
@@ -442,16 +359,44 @@
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Services</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Account</h6>
                                 </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="/assets/img/Alty-Cleaning-Services-Featured-Image-2.jpg" alt="...">
+                                <div class="text-center py-2">
+                                        User Details
                                     </div>
-                                    <p>Add Services now to start your dServ business and ready yourself to take up
-                                        requests. </p>
-                                    <a href="/Service_Provider_Dashboard/addService.html">Create Service</a>
+                                <div class="card-body">                                    
+                                    <div class="row px-2">
+                                        <p>Username  </p>
+                                        <p id="username"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Full Name  </p>
+                                        <p id="fullname"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Address  </p>
+                                        <p id="address"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Business Email  </p>
+                                        <p id="businessEmail"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Self Description  </p>
+                                        <p id="selfDescription"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Brand Name  </p>
+                                        <p id="brandName"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Times Available  </p>
+                                        <p id="availability"></p>
+                                    </div>
+                                    <div class="row px-2">
+                                        <p>Brand Description  </p>
+                                        <p id="brand_desc"></p>
+                                    </div>
                                     
                                 </div>
                             </div>
@@ -459,11 +404,11 @@
                             <!-- Approach -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Learning Materials</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary"></h6>
                                 </div>
                                 <div class="card-body">
-                                    <p>Get to know more about the inner workings of how the website works</p>
-                                    <p class="mb-0">Before receiving requests.</p>
+                                    <p></p>
+                                    <p class="mb-0">.</p>
                                 </div>
                             </div>
 
@@ -497,26 +442,7 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -529,9 +455,10 @@
 
 
     <!--Firebase scripts-->
-    <script src="/assets/js/Service_Provider/load_dashboard.js" type="module"></script>
     <script src="/assets/js/firebase_config.js" type="module"></script>
     <script src="/assets/js/Service_Provider/serviceProvider_session.js" type="module"></script>
+    <script src="/assets/js/Service_Provider/updateProfile_ServiceProvider.js" type="module"></script>
+    
 </body>
 
 </html>

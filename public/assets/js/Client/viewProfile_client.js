@@ -1,0 +1,159 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { getDatabase, ref, set, child, get }
+from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import {firebaseConfig,firestoreConfig} from "../firebase_config.js";
+import { getFirestore , collection, doc,getDoc,getDocs,query,orderBy,limitToLast } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
+
+const app = initializeApp(firebaseConfig);
+const realdb = getDatabase(app);
+const fireapp = initializeApp(firestoreConfig,"secondary");
+const firedb = getFirestore(fireapp);
+
+const username = document.getElementById('username');
+const fullname = document.getElementById('userFullname');
+const address = document.getElementById('address');
+const phoneNumber = document.getElementById('phoneNumber');
+const email = document.getElementById('email');
+const requestList = document.getElementById('requestsList');
+const inbox = document.getElementById('inbox');
+
+var userID = sessionStorage.getItem('user');
+var fireUser = sessionStorage.getItem('fireuser');
+
+loadProfile(userID);
+loadRequests(fireUser);
+loadChat(fireUser);
+
+function loadProfile(userID){
+    var dbRef = ref(realdb);
+    try{
+        get(child(dbRef,"users/"+userID)).then((snapshot)=>{
+        
+        if(snapshot.exists()){
+            if (snapshot.val().address != null && snapshot.val().FirstName !=null){
+                let profilefullname = snapshot.val().FirstName +" "+snapshot.val().lastName;
+                address.innerHTML = ": "+snapshot.val().address;    
+                fullname.innerHTML =": "+ profilefullname;
+                
+            }else{
+                address.innerHTML = "None set yet";
+                fullname.innerHTML = "None set yet";
+            }
+
+
+            username.innerHTML = ": "+snapshot.val().username;        
+            phoneNumber.innerHTML = ": "+snapshot.val().phone_number;
+            email.innerHTML = ": "+snapshot.val().email;
+            
+            
+        }
+        
+        });
+
+    }catch(e){
+        console.log(e);
+    }
+
+}
+
+async function loadChat(fireuser){
+    const requests = collection(firedb,"users",fireUser,"chat");
+    
+    const querySnapshot = await getDocs(requests);
+    try{
+    querySnapshot.forEach((doc)=>{
+        console.log(doc.id);
+        getLatestMessage(doc.id);
+    })  
+    }catch(e){
+        console.log(e);
+    }  
+}
+
+async function getLatestMessage(id){
+    const recentMessagesQueryLoad = query(collection(firedb,"chat",id,"messages"), orderBy('timestamp'), limitToLast(1));
+    const docSnap = await getDocs(recentMessagesQueryLoad);
+    
+    docSnap.forEach((doc)=>{
+        renderChat(doc.data());
+    })
+}
+
+function renderChat(message){
+    let li = document.createElement('li');
+    let messagetext = document.createElement('p');
+    let date = document.createElement('p');
+    let dateRow = document.createElement('div');
+    let messageRow = document.createElement('div');
+
+    messageRow.classList.add('row');
+    dateRow.classList.add('row');
+    date.classList.add('text-muted','dateText');
+    li.classList.add("list-group-item" ,"p-3",'border','rounded','border-1','mb-2');
+
+    let time = message.timestamp;
+    let dateFormat = new Date(time.seconds*1000);
+
+    messagetext.innerHTML = message.text;
+    date.innerHTML = dateFormat;
+
+    console.log(message.text);
+
+    messageRow.appendChild(messagetext);
+    dateRow.appendChild(date);
+    li.appendChild(messageRow);
+    li.appendChild(dateRow);
+
+    inbox.append(li);
+}
+
+
+
+async function loadRequests(fireuser) {
+    const requests = collection(firedb,"users",fireUser,"transactions");
+    try{
+    const querySnapshot = await getDocs(requests);
+    querySnapshot.forEach((doc)=>{
+        console.log(doc.id);
+        getRequestInfo(doc.id);
+    })
+    }catch(e){
+        console.log(e);
+    }
+}
+
+
+async function getRequestInfo(transactionID){
+    const requests = doc(firedb,"transactions",transactionID);
+    const docSnap = await getDoc(requests);
+    console.log(docSnap.data().serviceName);
+    renderRequests(docSnap.data());
+}
+
+function renderRequests(request){
+    let rowDiv = document.createElement('div');
+    rowDiv.classList.add('row','ps-5');
+
+    let serviceName_Row = document.createElement('div');
+    serviceName_Row.classList.add('col-sm-9');
+    
+    let serviceName_text = document.createElement('p');
+    serviceName_text.innerHTML = "Service name: "+request.serviceName;
+
+    let date_Row = document.createElement('div');
+    date_Row.classList.add('col-sm-9');
+
+    let date_text = document.createElement('p');
+    date_text.innerHTML = "Date Requests: "+request.RequestedDate;
+
+    let status_text =document.createElement('p');
+    status_text.innerHTML = "Status: "+request.confirmStatus;
+
+    date_Row.appendChild(date_text);
+    date_Row.appendChild(status_text);
+    serviceName_Row.appendChild(serviceName_text);
+    serviceName_Row.appendChild(date_Row);
+    
+    rowDiv.appendChild(serviceName_Row);
+    requestList.append(rowDiv);
+}

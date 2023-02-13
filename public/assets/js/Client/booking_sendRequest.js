@@ -41,6 +41,7 @@ window.onload = function(){
     if (service){
         service = JSON.parse(service);
         console.log(service.TransactionID);
+        console.log(service.id);
         localStorage.setItem("service",service);
     }else{
         alert("o no");
@@ -122,19 +123,23 @@ async function sendRequest(userID){
             clientID:userID,
             RequestedDate:date.value,
             DateAdded:dt,
-            confirmStatus:'pending'
-
+            confirmStatus:'pending',
+            serviceName:service.ServiceName,
+            ServiceOwner:service.Owner
             });
+        const a = await updateRequestList_client(userID,docRef.id);
+        const b = await updateRequestList_ServiceProvider(service.TransactionID,service.id,docRef.id,service.ServiceName);
         console.log("Document written with ID: ", docRef.id);
         alert("Request Sent");
-        await updateRequestList_client(userID,docRef.id);
-        await updateRequestList_ServiceProvider(service.TransactionID,service.ServiceName,docRef.id);
+        
         
     } catch (e) {
     console.error("Error adding document: ", e);
+    } finally {
+        localStorage.removeItem("Service");
+        window.location.replace("http://127.0.0.1:5500/index.html");
     }
-    localStorage.removeItem("Service");
-    window.location.replace("http://127.0.0.1:5500/index.html");
+    
 }
 
 
@@ -147,37 +152,33 @@ async function updateRequestList_client(userID,docID){
         const docRef = await setDoc(doc(db, "users",userID,"transactions", docID), {
             RequestID: docID,
             RequestedDate:date.value,
-            DateAdded:dt
-
+            DateAdded:dt,
+            confirmStatus:'pending'
             });
-        console.log("Document written with ID: ", docRef.id);
-        alert("Request Sent");
-        InputClear();
+        
     } catch (e) {
-    console.error("Error adding document: ", e);
+        console.error("Error adding document: ", e);
     }
     
 }
 
 
 
-async function updateRequestList_ServiceProvider(userID,serviceName,docID){
-    console.log(userID,docID);
+async function updateRequestList_ServiceProvider(serviceProvideruserID,serviceID,docID,serviceName){
     
     try {
         
         const dt = new Date();
-        const docRef = await setDoc(doc(db, "users",userID,"services",serviceName,"transactions", docID), {
+        const docRef = await setDoc(doc(db, "users",serviceProvideruserID,"services",serviceID,"transactions", docID), {
             RequestID: docID,
             RequestedDate:date.value,
             DateAdded:dt,
-            ServiceName:serviceName
+            ServiceName:serviceName,
+            confirmStatus:'pending'
             });
-        console.log("Document written with ID: ", docRef.id);
-        alert("Request Sent");
-        InputClear();
+        
     } catch (e) {
-    console.error("Error adding document: ", e);
+        console.error("Error adding document: ", e);
     }
     
 }

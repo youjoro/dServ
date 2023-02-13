@@ -35,30 +35,33 @@ const chatClient = document.getElementById('chatClient');
 window.onload = cancelReq.style.display = "none";
 window.onload = acceptReq.style.display = "none";
 window.onload = chatClient.style.display = "none";
+var fireuserID = sessionStorage.getItem('fireuser');
 
 //Session
+
 function getUserType(){
   var user_type="";
-    var userID = sessionStorage.getItem("user");
+  var userID = sessionStorage.getItem("user");
 
+  console.log("hello");
     
-    const getType = ref(realdb, 'users/'+userID+'/user_type');
-    const type = async() =>{
-      onValue(getType, (snapshot) => {
-      user_type = snapshot.val();
+  const getType = ref(realdb, 'users/'+userID+'/user_type');
+  const type = async() =>{
+    onValue(getType, (snapshot) => {
+    user_type = snapshot.val();
 
-      if(user_type=="client" || user_type==null){
-        alert("You are not supposed to be here");
-        window.location.replace("http://127.0.0.1:5500/index.html");
-      }else{
-        document.getElementById("profile_content").style.visibility = "visible";
-        //document.getElementById('loading').style.display = "none";
-        loadServices();
-      }
-    })
-    } ;
-    
-    type();
+    if(user_type=="client" || user_type==null){
+      alert("You are not supposed to be here");
+      window.location.replace("http://127.0.0.1:5500/index.html");
+    }else{
+      document.getElementById("profile_content").style.visibility = "visible";
+      //document.getElementById('loading').style.display = "none";
+      loadServices();
+    }
+  })
+  } ;
+  
+  type();
     
 }
 
@@ -69,8 +72,8 @@ var sessionData=sessionStorage.getItem("user");
 console.log(sessionData);
 
 if(sessionData != null){
-    document.getElementById('prov_name').innerHTML=user.email; 
-   getUserType();
+  document.getElementById('prov_name').innerHTML=user.email; 
+  getUserType();
 }else{
     console.log("no user");
     
@@ -85,8 +88,7 @@ const monitorFireAuth = async() =>{
         console.log(user.emailVerified);
         sessionStorage.fireuser = user.uid;
         
-        
-        checkSession();
+        checkSession(user);
       }else{
         console.log("no user");                    
       }
@@ -100,26 +102,18 @@ const monitorAuthState = async() =>{
       if(user){
         sessionStorage.user = user.uid;
         
-        checkSession(user); 
+        //checkSession(user); 
       }else{
         console.log("no user");
-        getUserType();
+        
       }
     });
   }
 
 monitorAuthState();
+monitorFireAuth();
 
 
-const signOutUser = async() =>{
-
-    await signOut(auth);
-    alert("logged out");
-    window.location.replace("http://127.0.0.1:5500/index.html");
-    sessionStorage.clear();
-    location.reload();
-    
-}
 
 
 
@@ -133,7 +127,7 @@ async function acceptRequest(){
   creds = creds.split(',');
   console.log(creds[1]);
   const docRef = doc(firestoredb, "service",creds[1],"transaction",creds[0]);
-  monitorFireAuth();
+  
   
   //update doc
   await updateDoc(docRef, {
@@ -150,7 +144,7 @@ async function cancelRequest(){
   creds = creds.split(',');
   console.log(creds[1]);
   const docRef = doc(firestoredb, "service",creds[1],"transaction",creds[0]);
-  monitorFireAuth();
+  
   
   //update doc
   await updateDoc(docRef, {
@@ -162,51 +156,60 @@ async function cancelRequest(){
 }
 
 async function getRequestData(serviceID,serviceName){
-  let datas =[];
-    const docRef = doc(firestoredb, "service",serviceName,"transaction",serviceID);
-    const docSnap = await getDoc(docRef);
+  
+  console.log(serviceID,serviceName);
+  const docRef = doc(firestoredb, "users",fireuserID,"services",serviceName,"transactions",serviceID);
+  const docSnap = await getDoc(docRef);
+  let data = await getInfo(docSnap.id);
     
-    
-    return docSnap.data();
+  return data;
 }
 
 
 
 async function getRequests(serviceName){
   let datas =[];
+  
   let id ="";
   let userID = sessionStorage.getItem('fireuser');
-    const q = query(collection(firestoredb,"users",userID, "service",serviceName,"transaction"));
+    const q = query(collection(firestoredb,"users",userID, "services",serviceName,"transactions"));
     
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      //console.log(doc.id, " => ", doc.data());
       id = doc.id;
-      let transactionobject = doc.data();
-      transactionobject['transactionID'] = id;
-
-      datas.push(transactionobject);
+      console.log(id);
       
     });
-    
+    datas.push( await getInfo(id));
+    datas['transanctionID'] = id;
     return datas;
 }
 
+async function getInfo(docID){
+  let data = '';
+  const q = query(doc(firestoredb,"transactions",docID));
+  const docSnap = await getDoc(q);
+  console.log(docSnap.data());
+  data = docSnap.data()
+  return data;
+}
+
+
 
 async function getRequestsNum(serviceName){
-  const coll = collection(firestoredb, "service",serviceName,"transaction");
+  
+  const coll = collection(firestoredb, "users",fireuserID,"services",serviceName,"transactions");
   const snapshot = await getCountFromServer(coll);
 
   total_pending = total_pending + snapshot.data().count;
   
-  requestnotif.innerHTML = total_pending;
+  //requestnotif.innerHTML = total_pending;
   return snapshot.data().count;
 }
 
 
 async function getFinished(serviceName){
-  const coll = collection(firestoredb, "service",serviceName,"finished");
+  const coll = collection(firestoredb, "users",fireuserID,"services",serviceName,"transactions");
   const snapshot = await getCountFromServer(coll);
 
   jobs_completed = jobs_completed + snapshot.data().count;
@@ -222,7 +225,7 @@ async function getFinished(serviceName){
 //Services to HTML
 var servicesList=[];
 function loadServices(){
-
+  
 
   var userID = sessionStorage.getItem("user");
   const getService = ref(realdb, 'ProviderProfile/'+userID+'/Services');
@@ -231,6 +234,7 @@ function loadServices(){
       onValue(getService, (snapshot) => {
       snapshot.forEach(serv => {
             servicesList.push(serv.val());
+            
         });
         addAllServices();
     })
@@ -257,13 +261,13 @@ function addMessage(service,index){
   const getrequestPending = async()=>{    
     let requests = await getRequests(service.ServiceName);
     let requestnum = await getRequestsNum(service.ServiceName);
-
+    console.log(requests.transanctionID);
     for(var i = 0; i<requests.length; i++){   
       countReq +=1;
       
       let lastName = requests[i].ClientLastName; 
       let firstName = requests[i].ClientFirstName;
-      let id = requests[i].transactionID;
+      let id = requests[i].transanctionID;
 
       let desc = requests[i].ClientRemarks.substring(0,25);
       desc.replace(/[^a-zA-Z0-9]/g,"...");
@@ -325,8 +329,8 @@ function addMessage(service,index){
       requestbutton.append(dropdownIMG,divText);
       sideDIVRequests.append(sidedivText);
 
-      
-      sideDIVRequests.onclick = function() { viewDetails(id,service.ServiceName); };
+      console.log(requests.transanctionID);
+      sideDIVRequests.onclick = function() { viewDetails(requests.transanctionID,service.ServiceName); };
       messagesTab.append(requestbutton);
       interactableMessages.append(sideDIVRequests);
       
@@ -353,12 +357,13 @@ function viewDetails(serviceID,serviceName){
 
   var items = [];
 
-function store(item_id) {
-    items.push(item_id);
-    localStorage.setItem("item", items);
-}
-store(serviceID);
-store(serviceName);
+  function store(item_id) {
+      items.push(item_id);
+      localStorage.setItem("item",items);
+  }
+  store(serviceID);
+  store(serviceName);
+  console.log(serviceID,serviceName);
   const getrequestPending = async()=>{
     
     let requestdata = await getRequestData(serviceID,serviceName);
@@ -400,7 +405,7 @@ store(serviceName);
 
 
 
-document.getElementById('logout').addEventListener('click', signOutUser);
+
 cancelReq.addEventListener('click',cancelRequest);
 acceptReq.addEventListener('click',acceptRequest);
 //chatClient.addEventListener('click',);

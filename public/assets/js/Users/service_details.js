@@ -20,8 +20,7 @@ if(sessionData == "loggedIn"){
 
 
 window.onload = function(){
-    checkSession();
-    localStorage.setItem("test",'test');
+    checkSession();    
     service = localStorage.Service;
     
     if (service){

@@ -16,7 +16,7 @@ const notifNUM = document.getElementById('notif_Num');
 
 
 function getProfileIMG(userID){
-
+var userID = sessionStorage.getItem("user");
   var pfpLink = sessionStorage.getItem("pfpIMGLink");
   var dbRef = ref(realdb);
   let pfp = document.getElementById('profileIMG');

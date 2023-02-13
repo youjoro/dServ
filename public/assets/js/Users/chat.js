@@ -26,6 +26,11 @@ import {
 import { getDatabase, ref,get,child,onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 import {firebaseConfig,firestoreConfig} from "../firebase_config.js";
 
+if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+  sessionStorage.removeItem('currentchat');
+} 
+
+
 //Initialize realtime database
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
@@ -49,14 +54,13 @@ const inbox = document.getElementById('chatInbox');
 var userID = sessionStorage.getItem('fireuser');
 //var recipientFireID = sessionStorage.getItem('providerfireID');
 let userTYPE = sessionStorage.getItem('userTYPE');
-let testnum = 0;
 let docRef = '';
 let refID ='';
 
 window.onload = messageSent.value = '';
 
 async function addChatID(chatID){
-  
+
 
     try {
       const date = new Date();
@@ -244,6 +248,7 @@ async function loadInboxItem (username,imgLINK,chatID){
     inboxItem.addEventListener('click',function(e) {
       var currentchat = sessionStorage.getItem('currentchat');
       if(currentchat != chatID){
+        
         sessionStorage.currentchat = chatID;
         addChatID(chatID);
         renderMessages(chatID);
@@ -261,9 +266,11 @@ async function loadInboxItem (username,imgLINK,chatID){
 
 // Saves a new message to Cloud Firestore.
 async function saveMessage() {
+
   // Add a new message entry to the Firebase database.
-  console.log(refID);
+  
   let message = messageSent.value;
+  messageSent.value='';
   const date = new Date();
   if(refID!=null && message !=""){
     try {
@@ -279,8 +286,9 @@ async function saveMessage() {
     }
   }else{
     //alert("no");
+    messageSent.value='';
   }
-
+  
 }
 
 
@@ -310,45 +318,74 @@ function loadMessages() {
   
 }
 
-
-
+  let onSnapShotCalls = 0;
+  let IDcalls = [];
 
 async function renderMessages(docID){
+
   let id =docID;
 
   // Create the query to load the last 12 messages and listen for new ones.
   const recentMessagesQuery = query(collection(firestoredb,"chat",id,"messages"), orderBy('timestamp'), limitToLast(12));
-  
+  const recentMessagesQueryLoad = query(collection(firestoredb,"chat",id,"messages"), orderBy('timestamp'), limitToLast(1));
   
     try{
-      
-      // Start listening to the query.
-  onSnapshot(recentMessagesQuery, function(snapshot) {
-    snapshot.docChanges().forEach(function(change) {
-      if (change.type === 'removed') {
-        //deleteMessage(change.doc.id);
-      } else {        
 
-        recentSent.innerHTML = change.doc.data().text;
-        if(change.doc.data().userID == userID){
-          sentMessages(change.doc.data().text);
-        }else{
-          console.log(change.doc.data().text);
-          receivedMessages(change.doc.data().text);
+      let chatInfo='';
+      const getmessages = await getDocs(recentMessagesQuery);
+
+      getmessages.forEach((doc)=>{
+        let chatInfo = doc.data();
+        if(chatInfo.userID == userID){              
+          sentMessages(chatInfo.text);
+        }else{                            
+          receivedMessages(chatInfo.text);              
+
         }
+      });
 
+
+      if (IDcalls.includes(docID)){        
+        console.log(onSnapShotCalls);
+        console.log(IDcalls);
+        
+      }else{
+        IDcalls.push(docID);
+              // Start listening to the query.
+        const unsub = onSnapshot(recentMessagesQueryLoad, function(snapshot) {  
+          
+          snapshot.docChanges().forEach(function(change) {
+
+            chatInfo = change.doc.data();
+
+            if (change.type === 'removed') {
+              //deleteMessage(change.doc.id);
+            } else {        
+
+              //recentSent.innerHTML = chatInfo.text;
+              if(chatInfo.userID == userID){              
+                sentMessages(chatInfo.text);
+              }else{                            
+                receivedMessages(chatInfo.text);              
+
+              }
+
+            }
+          });                
+          
+        });    
       }
-    });
-  });
+   
+    
+
     }catch(error){
       console.log(error);
     }
 
-  
 
-
+    
+    
 }
-
 
 
 //for rendering sent messages
@@ -379,4 +416,6 @@ function receivedMessages(text){
 
 }
 
-sendBtn.addEventListener('click',saveMessage);
+sendBtn.addEventListener('click',function(){
+  saveMessage();
+});

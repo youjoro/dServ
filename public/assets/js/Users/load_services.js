@@ -16,22 +16,37 @@ const realdb = getDatabase(app);
 var searchClick = document.getElementById('searchbtn');
 var searchQuery = document.getElementById('searchquery');
 var searchCategory = document.getElementById('categorySelected');
+var filter = searchQuery.value.toUpperCase();
 
 
 
 
-
+/*
 function searchServices(){
-    var filter = searchQuery.value.toUpperCase();
-    var categories = [];
-    var cats=document.querySelectorAll('.category');
+    console.log(searchCategory.value);
+    var products = document.querySelectorAll('.productcard');
+    if (searchCategory.value!=''){
 
-    for(var i=0;i<cats.length;i++){
-        categories.push(cats[i].textContent);
+        let category = searchCategory.value;
+        let queryDropdown = document.querySelectorAll('.'+category);
+        console.log(queryDropdown.textContent,category,products.length);
         
-    }
-}
+        for(var i=0;i<products.length;i++){
 
+            console.log(queryDropdown[i].textContent,filter);
+
+            if (queryDropdown[i].textContent.toUpperCase() != filter){
+                products[i].remove();
+                console.log("test");
+            }  
+            
+        }
+    }
+    
+
+}*/
+
+//searchClick.addEventListener('click',searchServices);
 
 var OuterDiv = document.getElementById('ServicesDiv');
 var arrayOfServices = [];
@@ -41,12 +56,15 @@ var userID = sessionStorage.getItem("user");
 
 function getAllServices(){
     const dbref = ref(realdb);
-
+    //searchServices();
     get(child(dbref, "Services"))
     .then((snapshot) => {
-        snapshot.forEach(serv => {
+        snapshot.forEach(serv => {                                
             arrayOfServices.push(serv.val());
+            let end = arrayOfServices[arrayOfServices.length - 1];
+            end['id']=serv.key;
         });
+        console.log(arrayOfServices);
         document.getElementById('load').remove();
         if (arrayOfServices.length != 0){
             
@@ -83,7 +101,7 @@ function addAService(service, index){
         <div class ="col-5"><h6 class="price">`+service.ServicePrice+`php/hr</h6></div>
     </div>
     
-    <h6 class="location text-muted">Located in `+service.Location+`</h6>
+    <h6 class="location text-muted">`+service.Location+`</h6>
     
     <button class="btn detbtns" id="detbtn-`+index+`">View Details</button>
     </div>

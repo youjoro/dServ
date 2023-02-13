@@ -11,12 +11,14 @@
 
     <title>dServ Service Provider Dashboard</title>
     <link rel="shortcut icon" type="image/x-icon" href="/assets/img/logo_smol.png" />
+
+
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <style>
@@ -40,6 +42,15 @@
             border-radius: 50%;
             border: 1px gray solid;
         }
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 48;
+            
+        }
+
     </style>
 </head>
 
@@ -335,21 +346,21 @@
                     <div class="row">
 
                         <!-- Content Column -->
-                        <div class="col-lg-3 mb-4">
+                        <div class="col-lg-3 mb-5 ">
 
                             <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
+                            <div class="card shadow mb-1">
                                 <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Profile Image</h6>
                                 </div>
                                 <div class="card-body flex d-flex align-content-center justify-content-center" id="servicesBlock">
                                     
                                 <input type="text" id="namebox" style="display: none;" class=" mw-25"><label id = "extlab" style="display: none;"></label><br>
-                                <img id="myImg" class="img_tab border border-2" src="img/abstract-user-flat-4.png"><br><label id="uploadProgress" style="display: none;"></label><br>
+                                <img id="myImg" class="img_tab border border-2 bg-black" src="img/abstract-user-flat-4.png"><br><label id="uploadProgress" style="display: float;"></label><br>
                                 
                                 </div>
-                                <button id="selBtn" class="btn btn-outline-dark ">Select Image</button>
-                                <button id="upBtn"  class="btn btn-outline-dark ">Upload Image</button>
+                                <button id="selBtn" class="btn mx-3 my-1 pb-2 btn-outline-dark ">Select Image</button>
+                                <button id="upBtn"  class="btn mx-3 my-1 pb-2 btn-outline-dark ">Upload Image</button>
                             </div>
 
                         </div>
@@ -365,54 +376,236 @@
                                         User Details
                                     </div>
                                 <div class="card-body">                                    
-                                    <div class="row px-2">
-                                        <p>Username  </p>
-                                        <p id="username"></p>
+                                    <div class="row px-2 editLine">
+                                        <p class="mt-2" >Username  </p>
+                                        <p class="mt-2" id="username"></p>
+                                        <button class="btn Edit" ><span class="material-symbols-outlined">
+                                        edit
+                                        </span></button>
+                                        <div id="" class="px-2 editPrompt">
+                                            <input type="text" name="" class="editTextBar">
+
+                                            <button class="btn border border-1 bg-success update" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    check
+                                                </span>
+                                            </button>
+                                            <button class="btn border border-1 bg-danger cancel" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    close
+                                                </span>
+                                            </button>
+                                        </div>
+                                        
+                                        
                                     </div>
                                     <div class="row px-2">
-                                        <p>Full Name  </p>
-                                        <p id="fullname"></p>
+                                        <p class="mt-1">Full Name  </p>
+                                        <p class="mt-1" id="fullname"></p>
+                                        <button class="btn Edit" ><span class="material-symbols-outlined">
+                                        edit
+                                        </span></button>
+                                        <div id="" class="px-2 editPrompt">
+                                            <input type="text" name="" class="editTextBar">
+
+                                            <button class="btn border border-1 bg-success update" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    check
+                                                </span>
+                                            </button>
+                                            <button class="btn border border-1 bg-danger cancel" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    close
+                                                </span>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="row px-2">
-                                        <p>Address  </p>
-                                        <p id="address"></p>
+                                        <p class="mt-1">Address  </p>
+                                        <p class="mt-1" id="address"></p>
+                                        <button class="btn Edit" ><span class="material-symbols-outlined">
+                                        edit
+                                        </span></button>
+                                        <div id="" class="px-2 editPrompt">
+                                            <input type="text" name="" class="editTextBar">
+
+                                            <button class="btn border border-1 bg-success update" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    check
+                                                </span>
+                                            </button>
+                                            <button class="btn border border-1 bg-danger cancel" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    close
+                                                </span>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="row px-2">
-                                        <p>Business Email  </p>
-                                        <p id="businessEmail"></p>
+                                        <p class="mt-1">Business Email  </p>
+                                        <p class="mt-1" id="businessEmail"></p>
+                                        <button class="btn Edit" ><span class="material-symbols-outlined">
+                                        edit
+                                        </span></button>
+                                        <div id="" class="px-2 editPrompt">
+                                            <input type="text" name="" class="editTextBar">
+
+                                            <button class="btn border border-1 bg-success update" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    check
+                                                </span>
+                                            </button>
+                                            <button class="btn border border-1 bg-danger cancel" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    close
+                                                </span>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="row px-2">
-                                        <p>Self Description  </p>
-                                        <p id="selfDescription"></p>
+                                        <p class="mt-1">Self Description  </p>
+                                        <p class="mt-1" id="selfDescription"></p>
+                                        <button class="btn Edit" ><span class="material-symbols-outlined">
+                                        edit
+                                        </span></button>
+                                        <div id="" class="px-2 editPrompt">
+                                            <input type="text" name="" class="editTextBar">
+
+                                            <button class="btn border border-1 bg-success update" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    check
+                                                </span>
+                                            </button>
+                                            <button class="btn border border-1 bg-danger cancel" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    close
+                                                </span>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="row px-2">
-                                        <p>Brand Name  </p>
-                                        <p id="brandName"></p>
+                                        <p class="mt-1">Brand Name  </p>
+                                        <p class="mt-1" id="brandName"></p>
+                                        <button class="btn Edit" ><span class="material-symbols-outlined">
+                                        edit
+                                        </span></button>
+                                        <div id="" class="px-2 editPrompt">
+                                            <input type="text" name="" class="editTextBar">
+
+                                            <button class="btn border border-1 bg-success update" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    check
+                                                </span>
+                                            </button>
+                                            <button class="btn border border-1 bg-danger cancel" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    close
+                                                </span>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="row px-2">
-                                        <p>Times Available  </p>
-                                        <p id="availability"></p>
+                                        <p class="mt-1">Times Available  </p>
+                                        <p class="mt-1" id="availability"></p>
+                                        <button class="btn Edit" ><span class="material-symbols-outlined">
+                                        edit
+                                        </span></button>
+                                        <div id="" class="px-2 editPrompt">
+                                            <div class="row row-cols-3 py-1">                    
+                                                <div class="col-4">
+                                                    <div class="input-group mb-3">
+                                                        <select class="form-select" id="amSelector">
+                                                            <option selected>Choose...</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                            <option value="7">7</option>
+                                                            <option value="8">8</option>
+                                                            <option value="9">9</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12">12</option>
+                                                        </select>
+                                                        <label class="input-group-text" for="inputGroupSelect02">am</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-1 px-1"> <p>to</p></div>
+                                                <div class="col-4">
+                                                    <div class="input-group mb-3">
+                                                        <select class="form-select" id="pmSelector">
+                                                            <option selected>Choose...</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                            <option value="7">7</option>
+                                                            <option value="8">8</option>
+                                                            <option value="9">9</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12">12</option>
+                                                        </select>
+                                                        <label class="input-group-text" for="inputGroupSelect02">pm</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <button class="btn border border-1 bg-success update" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    check
+                                                </span>
+                                            </button>
+                                            <button class="btn border border-1 bg-danger cancel" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    close
+                                                </span>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="row px-2">
-                                        <p>Brand Description  </p>
-                                        <p id="brand_desc"></p>
+                                        <p class="mt-1">Brand Description  </p>
+                                        <p class="mt-1" id="brand_desc"></p>
+                                        <button class="btn Edit" ><span class="material-symbols-outlined">
+                                        edit
+                                        </span></button>
+                                        <div id="" class="px-2 editPrompt">
+                                            <input type="text" name="" class="editTextBar">
+
+                                            <button class="btn border border-1 bg-success update" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    check
+                                                </span>
+                                            </button>
+                                            <button class="btn border border-1 bg-danger cancel" style="color:white;">
+                                                <span class="material-symbols-outlined mt-1 ">
+                                                    close
+                                                </span>
+                                            </button>
+                                        </div>
                                     </div>
                                     
                                 </div>
                             </div>
 
+                        </div>
+                        <div class="col-lg-3 mb-4">
                             <!-- Approach -->
-                            <div class="card shadow mb-4">
+                            <div class="card shadow mb-4" id="employeeList">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary"></h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Employees</h6>
                                 </div>
-                                <div class="card-body">
-                                    <p></p>
-                                    <p class="mb-0">.</p>
+                                <div class="card-body" id="employeeTable">
+                                    
                                 </div>
                             </div>
-
                         </div>
+
+
                     </div>
 
                 </div>
@@ -453,12 +646,6 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
 
     <!--Firebase scripts-->
     <script src="/assets/js/firebase_config.js" type="module"></script>

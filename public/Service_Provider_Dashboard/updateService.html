@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>Create Service</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo_smol.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <!--Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,900&family=Montserrat:wght@500&family=Paytone+One&family=Quicksand:wght@300&family=Raleway:wght@300;500&family=Urbanist:wght@300&display=swap" rel="stylesheet">
+
+    <!--Map-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    
+    <link rel="stylesheet" href="/assets/css/addserviceCSS.css">
+
+  </head>
+  <body>
+    <div class="container bg-light">
+        <a href="/Service_Provider_Dashboard/index.html" class="btn btn-lg btn-outline float-start text-black my-3">Return</a>
+        <p id="session">u are not logged in</p>
+        
+        <div class="row py-lg-4">
+            <h1>Update Service Details</h1>
+            <div class="col">
+
+            <div class="container vstack p-2 ms-5" >
+                
+                <label>Service Name</label> <input class="form-control" type="text" name="" id="servnameInp" required/>
+
+                <label>Service Price/ per hour</label> <input class="form-control" type="text" name="" id="servPrice" required/>
+
+                <label>Contact Number</label> <input class="form-control" type="text" name="" id="servNum" required/>
+
+                <label id="Location"></label>
+                <label id="City"></label>
+                <div id="map" class="py-3"></div>
+                
+
+                <div class="col-md-5">
+                  <label for="country" class="form-label">City</label>
+                  <select class="form-select" id="city" required>
+                    <option value="">Choose...</option>
+                    <option value="Alaminos">Alaminos</option>
+                    <option value="Bay">Bay</option>
+                    <option value="Biñan">Biñan</option>
+                    <option value="Cabuyao">Cabuyao</option>
+                    <option value="Calamba">Calamba</option>
+                    <option value="Calauan">Calauan</option>
+                    <option value="Cavinti">Cavinti</option>
+                    <option value="Famy">Famy</option>
+                    <option value="Kalayaan">Kalayaan</option>
+                    <option value="Liliw">Liliw</option>
+                    <option value="Los Baños">Los Baños</option>
+                    <option value="Luisiana">Luisiana</option>
+                    <option value="Lumban">Lumban</option>
+                    <option value="Mabitac">Mabitac</option>
+                    <option value="Magdalena">Magdalena</option>
+                    <option value="Majayjay">Majayjay</option>
+                    <option value="Muntinlupa">Muntinlupa</option>
+                    <option value="Nagcarlan">Nagcarlan</option>
+                    <option value="Paete">Paete</option>
+                    <option value="Pagsanjan">Pagsanjan</option>
+                    <option value="Pakil">Pakil</option>
+                    <option value="Pangil">Pangil</option>
+                    <option value="Pila">Pila</option>
+                    <option value="Rizal">Rizal</option>
+                    <option value="San Pablo">San Pablo</option>
+                    <option value="San Pedro">San Pedro</option>
+                    <option value="Santa Cruz">Santa Cruz</option>
+                    <option value="Santa Maria">Santa Maria</option>
+                    <option value="Santa Rosa">Santa Rosa</option>
+                    <option value="Siniloan">Siniloan</option>
+                    <option value="Victoria">Victoria</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select a valid city.
+                  </div>
+                </div>
+
+                <h4>Available time</h4>
+                <div class="row row-cols-3 py-2">                    
+                    <div class="col-5">
+                        <div class="input-group mb-3">
+                            <select class="form-select" id="amSelector">
+                                <option selected>Choose...</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <label class="input-group-text" for="inputGroupSelect02">am</label>
+                        </div>
+                    </div>
+                    <div class="col-1"> <p>to</p></div>
+                    <div class="col-5">
+                        <div class="input-group mb-3">
+                            <select class="form-select" id="pmSelector">
+                                <option selected>Choose...</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <label class="input-group-text" for="inputGroupSelect02">pm</label>
+                        </div>
+                    </div>
+                </div>
+
+                <label>Category</label>
+                <select id="Cate_Inp" class="form-select" required>
+                    <option value="Beautification">Beautification</option>
+                    <option value="Repairs">Repairs</option>
+                    <option value="Education">Education</option>
+                    <option value="Therapeutic">Therapeutic</option>
+                    <option value="Cleaning">Cleaning</option>
+                </select>
+
+                <label>Description</label> <textarea class="form-control" id="desArea" cols="30" rows="10" required></textarea>
+
+                <hr class="mx-n3">
+                <p>Quick descriptions and Hooklines of the Service</p>
+                <label>Points *1</label> <input class="form-control" type="text" id="Point1_Inp" required/>
+                <label>Points *2</label> <input class="form-control" type="text" id="Point2_Inp" required/>
+                <label>Points *3</label> <input class="form-control" type="text" id="Point3_Inp" required/>
+
+                <hr class="mx-n3">
+                <h3>Images</h3>
+                <div id="imageDiv"></div>
+
+
+                <div id="controlDiv" class="py-3">
+                    <label id="Loadlab">Adding pics </label>
+                    <button id="Serv_imgs" type="submit" class="btn btn-primary m-2">Select Images</button>
+                    <button id="addServButton" type="submit" class="btn btn-primary m-2">Add Service</button>
+                    
+                </div>
+            </div>
+
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+
+  </body>
+
+<script type="module" src="/assets/js/Service_Provider/update_service.js"></script>
+<script src="/assets/js/firebase_config.js" type="module"></script>
+
+
+
+</html>

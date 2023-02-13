@@ -133,7 +133,7 @@ async function getFinished(serviceName){
 
 
 //Services to HTML
-document.getElementById('logout').addEventListener('click', signOutUser);
+
 var servicesList=[];
 function loadServices(){
   var servs="";
@@ -144,6 +144,8 @@ function loadServices(){
       onValue(getService, (snapshot) => {
       snapshot.forEach(serv => {
             servicesList.push(serv.val());
+            let end = servicesList[servicesList.length - 1];
+            end['id']=serv.key;
         });
         addAllServices();
     })
@@ -156,9 +158,9 @@ loadServices();
 function addAllServices(){
     let i = 0;
     servicesList.forEach(serv =>{
-        addAService(serv, i++);
-        addMessage(serv, i++);
-        
+      addAService(serv, i++);
+      addMessage(serv, i++);
+      
     });
     
 }

@@ -34,11 +34,48 @@
     const availability = document.getElementById('availability');
     const brand_desc = document.getElementById('brand_desc');
 
+    const editPrompt = document.querySelectorAll('.editPrompt');
+    const editButton = document.querySelectorAll('.Edit');
+    const cancelEditButton = document.querySelectorAll('.cancel');
+    const updateDataButton = document.querySelectorAll('.update');
+    const employeeDivList = document.getElementById('employeeList');
+    const employeeTable = document.getElementById('employeeTable');
+    const textBars = document.querySelectorAll('.editTextBar');
+
+
+
     var input =document.createElement('input');
     input.type = 'file';
+    window.onload = employeeDivList.style.display = "none";
 
 
-    //window.onload
+    for (var i = 0; i<editPrompt.length;i++ ){
+        window.onload = editPrompt[i].style.display = "none";
+        console.log(i);
+        editButton[i].classList.add('edit-'+i);
+        cancelEditButton[i].classList.add('canc-'+i);
+        updateDataButton[i].classList.add('upd-'+i);
+        
+        editButton[i].addEventListener('click',function(){            
+            let classEdit = this.className.split(' ');
+            console.log(classEdit[2]);
+            check(classEdit[2]);
+        });
+        
+        cancelEditButton[i].addEventListener('click',function(){
+            let classEdit = this.className.split(' ');
+            console.log(classEdit[5]);            
+            cancelEdit(classEdit[5])
+        });
+
+        updateDataButton[i].addEventListener('click',function(){
+            let classEdit = this.className.split(' ');
+            console.log(classEdit[5]);            
+            updateData(classEdit[5])
+        });
+
+    }
+    
 
     function loadData(userID){
         var dbRef = ref(realdb);
@@ -58,7 +95,33 @@
                 brand_desc.innerHTML = ": "+snapshot.val().brand_desc;
                 
             }
+            if(snapshot.val().typeOfProvider == "company"){
+                let employees = '';
+                employeeDivList.style.display = "";
+                snapshot.val().employees.forEach((doc)=>{
+                    createListItem(doc);
+                })
+            }
             });
+    }
+
+    function createListItem(employee){
+        let employeeInfo = employee.split('|')
+        let divRow = document.createElement('div');
+        divRow.classList.add('row','my-2','shadow','border','rounded','p-2');
+        
+        let emailText = document.createElement('p');
+        let nameText = document.createElement('p');
+        emailText.classList.add('mt-1');
+        nameText.classList.add('mt-1');
+
+        emailText.innerHTML = employeeInfo[1];
+        nameText.innerHTML = employeeInfo[0];
+        
+        divRow.appendChild(nameText);
+        divRow.appendChild(emailText);
+
+        employeeTable.append(divRow);
     }
 
     var userID = sessionStorage.getItem("user");
@@ -119,7 +182,7 @@
         }
 
         const storage = getStorage();
-        let profileImgName = imgName+'-'+userID;
+        let profileImgName ='profilePic-'+userID;
         const storageRef = sRef(storage, "Images/"+profileImgName);
 
 
@@ -145,6 +208,49 @@
             ImageName: imgName,
             imgLink: imgURL
         });
+        location.reload(); 
     }
 
+    function getServiceIndex(id){
+        var indstart = id.indexOf('-')+1;
+        
+        return Number(id.substring(indstart));
+    }       
+
+    function check(num){
+        var index = getServiceIndex(num);
+        
+        editPrompt[index].style.display = "";
+        
+    }
+
+    function cancelEdit(num){
+        var index = getServiceIndex(num);
+        textBars[index].value = '';
+        editPrompt[index].style.display = "none";
+    }
+
+    function updateData(num){
+        
+        let choices = {
+            0:"username",
+            1:"FirstName lastName",
+            2:"address",
+            3:"businessEmail",
+            4:"selfDescription",
+            5:"brand_name",
+            6:"availability",
+            7:"brand_desc"
+        }
+        var index = getServiceIndex(num);
+
+        console.log(choices[index]);
+        
+        if (textBars[index].value == ""){
+            console.log("nigger");
+        }else{
+            console.log(textBars[index].value);
+        }
+    }
+    editButton.onclick = check;
     upBtn.onclick = monitorAuthState;  
