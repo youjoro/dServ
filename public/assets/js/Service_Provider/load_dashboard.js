@@ -69,13 +69,14 @@ monitorFireAuth();
 
 async function getRequestsID(serviceName){
   let IDs = []
+  console.log(serviceName);
   var fireuserID = sessionStorage.getItem('fireuser');
-    const q = query(collection(firestoredb, "users",fireuserID,"services",serviceName,"transactions"));
+    const q = collection(firestoredb, "users",fireuserID,"services",serviceName,"transactions");
     
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       
-      
+      console.log(doc.data().RequestID);
       IDs.push(doc.data().RequestID);
     });
 
@@ -87,7 +88,7 @@ async function getRequestsID(serviceName){
 
 async function getRequests(serviceName){
   let datas =[];
-
+  
   let requestID = await getRequestsID(serviceName);
   
     
@@ -174,7 +175,7 @@ function addMessage(service){
   
   const getrequestPending = async()=>{    
     
-    await getRequests(service.ServiceName);
+    await getRequests(service.id.replace(/\s/g,''));
 
   }
 
@@ -231,9 +232,11 @@ function createMessages(requests){
 
 
 function addAService(service,index){
-  
+  let serviceName = service.id;
+  serviceName = serviceName.replace(/\s/g,'');
+  console.log(serviceName);
   const getrequestPending = async()=>{
-    let requestnum = await getRequestsNum(service.ServiceName);
+    let requestnum = await getRequestsNum(serviceName);
     let finishedNum = await getFinished(service.ServiceName);
 
     let desc = service.Description.substring(0,15);

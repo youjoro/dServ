@@ -116,13 +116,17 @@ monitorFireAuth();
 
 
 
-
-
+/*
+  let creds =localStorage.getItem('item');
+  creds = creds.split(',');
+  console.log(creds[1]);*/
 
 //Services
 
 //Firestore
 async function acceptRequest(){
+  alert("are you sure?");
+
   let creds =localStorage.getItem('item');
   creds = creds.split(',');
   console.log(creds[1]);
@@ -134,7 +138,7 @@ async function acceptRequest(){
     confirmStatus: 'Accepted'
   });
   
-  alert("are you sure?");
+  
   location.reload();
   
 }
@@ -167,21 +171,28 @@ async function getRequestData(serviceID,serviceName){
 
 
 
-async function getRequests(serviceName){
+async function getRequests(docID){
   let datas =[];
-  
+  let IDs = [];
+  console.log(docID);
   let id ="";
   let userID = sessionStorage.getItem('fireuser');
-    const q = query(collection(firestoredb,"users",userID, "services",serviceName,"transactions"));
+    const q = query(collection(firestoredb,"users",userID, "services",docID,"transactions"));
     
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       id = doc.id;
       console.log(id);
-      
+      IDs.push(id);
+
     });
-    datas.push( await getInfo(id));
-    datas['transanctionID'] = id;
+    
+    for(var i = 0; i<IDs.length;i++){
+      datas.push( await getInfo(id));
+      datas['transanctionID'] = id;
+    }
+
+    
     return datas;
 }
 
@@ -234,7 +245,8 @@ function loadServices(){
       onValue(getService, (snapshot) => {
       snapshot.forEach(serv => {
             servicesList.push(serv.val());
-            
+            let end = servicesList[servicesList.length - 1];
+            end['id']=serv.key;
         });
         addAllServices();
     })
@@ -259,9 +271,9 @@ let countReq = 0;
 function addMessage(service,index){
   
   const getrequestPending = async()=>{    
-    let requests = await getRequests(service.ServiceName);
+    let requests = await getRequests(service.id.replace(/\s/g,''));
     let requestnum = await getRequestsNum(service.ServiceName);
-    console.log(requests.transanctionID);
+    console.log(requests);
     for(var i = 0; i<requests.length; i++){   
       countReq +=1;
       
