@@ -135,7 +135,7 @@ function renderRequests(request){
     rowDiv.classList.add('row','ps-5');
 
     let serviceName_Row = document.createElement('div');
-    serviceName_Row.classList.add('col-sm-9');
+    serviceName_Row.classList.add('col-11','border','border-1','rounded','mb-2');
     
     let serviceName_text = document.createElement('p');
     serviceName_text.innerHTML = "Service name: "+request.serviceName;

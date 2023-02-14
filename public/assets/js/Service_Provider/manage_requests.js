@@ -5,7 +5,7 @@ import { getAuth,
   signOut 
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { getDatabase, ref, child, onValue,get} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getFirestore , collection,getDoc, doc , getCountFromServer, query, where, getDocs,updateDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { getFirestore , collection,getDoc, doc , getCountFromServer, query, where, getDocs,updateDoc,writeBatch,  } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
 import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
 
@@ -15,6 +15,7 @@ const firestoredb = getFirestore(firestoreapp);
 const realdb = getDatabase(app);
 const auth = getAuth();
 const fireauth = getAuth(firestoreapp);
+const batch = writeBatch(firestoredb);
 
 window.onload = document.getElementById("profile_content").style.visibility = "hidden";
 
@@ -43,7 +44,7 @@ function getUserType(){
   var user_type="";
   var userID = sessionStorage.getItem("user");
 
-  console.log("hello");
+  
     
   const getType = ref(realdb, 'users/'+userID+'/user_type');
   const type = async() =>{
@@ -69,7 +70,7 @@ function getUserType(){
 function checkSession(user){
 
 var sessionData=sessionStorage.getItem("user");
-console.log(sessionData);
+
 
 if(sessionData != null){
   document.getElementById('prov_name').innerHTML=user.email; 
@@ -126,36 +127,45 @@ monitorFireAuth();
 //Firestore
 async function acceptRequest(){
   alert("are you sure?");
-
+  let fireuser = sessionStorage.getItem('fireuser');
   let creds =localStorage.getItem('item');
   creds = creds.split(',');
-  console.log(creds[1]);
-  const docRef = doc(firestoredb, "service",creds[1],"transaction",creds[0]);
+  
+
+  const transactionUpdate = doc(firestoredb, "transactions",creds[0]);
+  const docClientUpdate = doc(firestoredb, "users",creds[2],"transactions",creds[0]);
+  const docServProviderUpdate = doc(firestoredb, "users",fireuser,"services",creds[1],"transactions",creds[0]);
+  //update docs
+  batch.update(transactionUpdate,{'confirmStatus':"accepted"});
+  batch.update(docClientUpdate,{'confirmStatus':"accepted"});
+  batch.update(docServProviderUpdate,{'confirmStatus':"accepted"});
+   batch.commit().then(() => {
+      console.log('profiles updated...');
+      location.reload();
+    });
   
   
-  //update doc
-  await updateDoc(docRef, {
-    confirmStatus: 'Accepted'
-  });
-  
-  
-  location.reload();
   
 }
 
 async function cancelRequest(){
+  alert("are you sure?");
+  let fireuser = sessionStorage.getItem('fireuser');
   let creds =localStorage.getItem('item');
   creds = creds.split(',');
-  console.log(creds[1]);
-  const docRef = doc(firestoredb, "service",creds[1],"transaction",creds[0]);
   
-  
-  //update doc
-  await updateDoc(docRef, {
-    confirmStatus: 'Cancelled'
-  });
-  alert("are you sure?");
-  location.reload();
+
+  const transactionUpdate = doc(firestoredb, "transactions",creds[0]);
+  const docClientUpdate = doc(firestoredb, "users",creds[2],"transactions",creds[0]);
+  const docServProviderUpdate = doc(firestoredb, "users",fireuser,"services",creds[1],"transactions",creds[0]);
+  //update docs
+  batch.update(transactionUpdate,{'confirmStatus':"cancelled"});
+  batch.update(docClientUpdate,{'confirmStatus':"cancelled"});
+  batch.update(docServProviderUpdate,{'confirmStatus':"cancelled"});
+   batch.commit().then(() => {
+      console.log('profiles updated...');
+      location.reload();
+    });
   
 }
 
@@ -187,9 +197,15 @@ async function getRequests(docID){
 
     });
     
+    
     for(var i = 0; i<IDs.length;i++){
-      datas.push( await getInfo(id));
-      datas['transanctionID'] = id;
+      
+      console.log(IDs[i]);
+      
+      datas.push( await getInfo(IDs[i]));
+      let datapointer = datas[i];
+      datapointer['transactionID'] = IDs[i];
+      console.log(datas);
     }
 
     
@@ -200,7 +216,7 @@ async function getInfo(docID){
   let data = '';
   const q = query(doc(firestoredb,"transactions",docID));
   const docSnap = await getDoc(q);
-  console.log(docSnap.data());
+  
   data = docSnap.data()
   return data;
 }
@@ -214,7 +230,7 @@ async function getRequestsNum(serviceName){
 
   total_pending = total_pending + snapshot.data().count;
   
-  //requestnotif.innerHTML = total_pending;
+  requestnotif.innerHTML = total_pending;
   return snapshot.data().count;
 }
 
@@ -247,6 +263,7 @@ function loadServices(){
             servicesList.push(serv.val());
             let end = servicesList[servicesList.length - 1];
             end['id']=serv.key;
+            console.log(serv.key);
         });
         addAllServices();
     })
@@ -272,15 +289,17 @@ function addMessage(service,index){
   
   const getrequestPending = async()=>{    
     let requests = await getRequests(service.id.replace(/\s/g,''));
-    let requestnum = await getRequestsNum(service.ServiceName);
-    console.log(requests);
+    let requestnum = await getRequestsNum(service.id.replace(/\s/g,''));
+    
+    
     for(var i = 0; i<requests.length; i++){   
       countReq +=1;
       
       let lastName = requests[i].ClientLastName; 
       let firstName = requests[i].ClientFirstName;
-      let id = requests[i].transanctionID;
-
+      let id = requests[i].transactionID;
+      let clientID = requests[i].clientID;
+      console.log(clientID);
       let desc = requests[i].ClientRemarks.substring(0,25);
       desc.replace(/[^a-zA-Z0-9]/g,"...");
 
@@ -341,8 +360,8 @@ function addMessage(service,index){
       requestbutton.append(dropdownIMG,divText);
       sideDIVRequests.append(sidedivText);
 
-      console.log(requests.transanctionID);
-      sideDIVRequests.onclick = function() { viewDetails(requests.transanctionID,service.ServiceName); };
+      console.log(id);
+      sideDIVRequests.onclick = function() { viewDetails(id,service.id.replace(/\s/g,''),clientID); };
       messagesTab.append(requestbutton);
       interactableMessages.append(sideDIVRequests);
       
@@ -361,7 +380,7 @@ function addMessage(service,index){
 //  function loadMessage()
 
 
-function viewDetails(serviceID,serviceName){
+function viewDetails(serviceID,serviceName,clientID){
   OuterDiv.innerHTML = '';
   window.onload = cancelReq.style.display = "";
   window.onload = acceptReq.style.display = "";
@@ -375,10 +394,11 @@ function viewDetails(serviceID,serviceName){
   }
   store(serviceID);
   store(serviceName);
-  console.log(serviceID,serviceName);
+  store(clientID);
+  console.log(serviceID,serviceName,clientID);
   const getrequestPending = async()=>{
     
-    let requestdata = await getRequestData(serviceID,serviceName);
+    let requestdata = await getRequestData(serviceID,serviceName,clientID);
     let date = requestdata.DateAdded;
     console.log(date);
     let dateFormat = new Date(date.seconds*1000);

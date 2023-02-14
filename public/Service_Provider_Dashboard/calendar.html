@@ -34,11 +34,6 @@
         
         animation: spin 2s linear infinite;
         
-        }.img_tab{
-            height: 200px;
-            width: 200px;
-            border-radius: 50%;
-            border: 1px gray solid;
         }
     </style>
 </head>
@@ -88,30 +83,13 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Requests:</h6>                        
                         <a class="collapse-item" href="view_requests.html">View Requests</a>
-                        <a class="collapse-item" href="buttons.html">Calendar</a>
-                        <a class="collapse-item" href="cards.html">Manage Requests</a>
+                        <a class="collapse-item" href="/Service_Provider_Dashboard/calendar.html">Calendar</a>
+                        <a class="collapse-item" href="/Service_Provider_Dashboard/manage_Services.html">Manage Requests</a>
                     </div>
                 </div>
             </li>
 
-            <!-- Nav Item - Utilities Collapse Menu 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li>
+
             -->
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -132,23 +110,14 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Account Management:</h6>
                         <a class="collapse-item" href="login.html">Login</a>
-                        <!--<a class="collapse-item" href="register.html">Register</a>-->
+
                         <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <!--<div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>-->
+  
                     </div>
                 </div>
             </li>
 
-            <!-- Nav Item - Charts 
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-             -->
+
             <!--Earnings-->
             <li class="nav-item">
                 <a class="nav-link" href="tables.html">
@@ -164,13 +133,6 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
-            <!-- Sidebar Message 
-            <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div>-->
 
         </ul>
         <!-- End of Sidebar -->
@@ -265,7 +227,7 @@
                                 </h6>
                                 
                                
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                                <a class="dropdown-item text-center small text-gray-500" href="/chat/chat.html">Read More Messages</a>
                             </div>
                         </li>
 
@@ -324,10 +286,65 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Profile Management</h1>
-
+                        <h1 class="h3 mb-0 text-gray-800">Calendar</h1>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> </a>
                     </div>
 
+                    <!-- Content Row -->
+                    <div class="row">                    
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Jobs Completed
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" >
+                                                        <p id="jobs_completed"></p>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Pending Requests
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" >
+                                                        <p id="pendingRequests"></p>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                        </div>
+                                            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
 
@@ -340,77 +357,23 @@
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Profile Image</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Services</h6>
                                 </div>
-                                <div class="card-body flex d-flex align-content-center justify-content-center" id="servicesBlock">
-                                    
-                                <input type="text" id="namebox" style="display: none;" class=" mw-25"><label id = "extlab" style="display: none;"></label><br>
-                                <img id="myImg" class="img_tab border border-2" src="img/abstract-user-flat-4.png"><br><label id="uploadProgress" style="display: none;"></label><br>
+                                <div class="card-body" id="servicesBlock">
                                 
+                                    
+                                    
                                 </div>
-                                <button id="selBtn" class="btn btn-outline-dark ">Select Image</button>
-                                <button id="upBtn"  class="btn btn-outline-dark ">Upload Image</button>
                             </div>
 
                         </div>
 
-                        <div class="col-lg-6 mb-4">
+                        <div class="col-lg-9 mb-4">
 
-                            <!-- Illustrations -->
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Account</h6>
-                                </div>
-                                <div class="text-center py-2">
-                                        User Details
-                                    </div>
-                                <div class="card-body">                                    
-                                    <div class="row px-2">
-                                        <p>Username  </p>
-                                        <p id="username"></p>
-                                    </div>
-                                    <div class="row px-2">
-                                        <p>Full Name  </p>
-                                        <p id="fullname"></p>
-                                    </div>
-                                    <div class="row px-2">
-                                        <p>Address  </p>
-                                        <p id="address"></p>
-                                    </div>
-                                    <div class="row px-2">
-                                        <p>Business Email  </p>
-                                        <p id="businessEmail"></p>
-                                    </div>
-                                    <div class="row px-2">
-                                        <p>Self Description  </p>
-                                        <p id="selfDescription"></p>
-                                    </div>
-                                    <div class="row px-2">
-                                        <p>Brand Name  </p>
-                                        <p id="brandName"></p>
-                                    </div>
-                                    <div class="row px-2">
-                                        <p>Times Available  </p>
-                                        <p id="availability"></p>
-                                    </div>
-                                    <div class="row px-2">
-                                        <p>Brand Description  </p>
-                                        <p id="brand_desc"></p>
-                                    </div>
-                                    
-                                </div>
+
                             </div>
 
-                            <!-- Approach -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary"></h6>
-                                </div>
-                                <div class="card-body">
-                                    <p></p>
-                                    <p class="mb-0">.</p>
-                                </div>
-                            </div>
 
                         </div>
                     </div>
@@ -455,10 +418,9 @@
 
 
     <!--Firebase scripts-->
+    <script src="/assets/js/Service_Provider/load_dashboard.js" type="module"></script>
     <script src="/assets/js/firebase_config.js" type="module"></script>
     <script src="/assets/js/Service_Provider/serviceProvider_session.js" type="module"></script>
-    <script src="/assets/js/Service_Provider/updateProfile_ServiceProvider.js" type="module"></script>
-    
 </body>
 
 </html>
