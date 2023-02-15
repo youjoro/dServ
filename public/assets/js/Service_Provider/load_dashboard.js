@@ -76,7 +76,7 @@ async function getRequestsID(serviceName){
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       
-      console.log(doc.data().RequestID);
+      
       IDs.push(doc.data().RequestID);
     });
 
@@ -87,19 +87,25 @@ async function getRequestsID(serviceName){
 
 
 async function getRequests(serviceName){
-  let datas =[];
   
   let requestID = await getRequestsID(serviceName);
+  console.log(requestID);
+  for(var i = 0; i<requestID.length;i++){
+    const q = doc(firestoredb,"transactions",requestID[i]);
+    const docSnap = await getDoc(q);
+
+    if (docSnap.exists()) {
+      
+      await createMessages(docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
+
+  
   
     
-    const q = doc(firestoredb,"transactions",requestID[0]);
-  
-    const querySnapshot = await getDoc(q);
-    
-    console.log(querySnapshot.id, " => ", querySnapshot.data());
-    datas.push(querySnapshot.data());
-    createMessages(querySnapshot.data());
-    return datas;
 }
 
 async function getRequestsNum(serviceName){
@@ -109,7 +115,7 @@ async function getRequestsNum(serviceName){
   const snapshot = await getCountFromServer(coll);
   total_pending = total_pending + snapshot.data().count;
 
-  console.log('count: ', snapshot.data().count,'| Name:',serviceName);
+  
   pend_text.innerHTML = total_pending;
 
   requestnotif.innerHTML = total_pending;
@@ -123,7 +129,7 @@ async function getFinished(serviceName){
   const coll = collection(firestoredb, "users",fireuserID,"services",serviceName,"finished");
 
   const snapshot = await getCountFromServer(coll);
-  console.log('FInished count: ', snapshot.data().count,'| Name:',serviceName);
+  
 
   jobs_completed = jobs_completed + snapshot.data().count;
   jobCompletetext.innerHTML = jobs_completed;
@@ -171,20 +177,28 @@ function addAllServices(){
 
 
 
-function addMessage(service){
+async function addMessage(service){
   
-  const getrequestPending = async()=>{    
     
     await getRequests(service.id.replace(/\s/g,''));
 
-  }
-
-  getrequestPending();
-
 }
 
+function appendLocalStorage(requestInfo){
+  var localArray = localStorage.getItem('requests');
+  
+  if(localArray == null){
+    localStorage.requests=requestInfo;
+  }else if(!localArray.includes(requestInfo)){
+    localStorage.requests=localArray +","+requestInfo
+  }else{
+    
+  }
+}
 
 function createMessages(requests){
+  
+  
   let desc = requests.ClientRemarks.substring(0,25);
   desc.replace(/[^a-zA-Z0-9]/g,"...");
 
@@ -228,16 +242,21 @@ function createMessages(requests){
   newServ.classList.add('container');
   newServ.innerHTML = html;*/
   messagesTab.append(requestbutton);
+  let dateFormat = requests.RequestedDate.split('/');
+  dateFormat = dateFormat[2]+"/"+dateFormat[1]+"/"+dateFormat[0];
+  appendLocalStorage(requests.ClientEmail+"-"+dateFormat);
 }
+
 
 
 function addAService(service,index){
   let serviceName = service.id;
   serviceName = serviceName.replace(/\s/g,'');
-  console.log(serviceName);
+  
+  
   const getrequestPending = async()=>{
     let requestnum = await getRequestsNum(serviceName);
-    let finishedNum = await getFinished(service.ServiceName);
+    let finishedNum = await getFinished(serviceName);
 
     let desc = service.Description.substring(0,15);
     desc.replace(/[^a-zA-Z0-9]/g,"...");

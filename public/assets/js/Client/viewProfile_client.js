@@ -75,39 +75,52 @@ async function getLatestMessage(id){
     const docSnap = await getDocs(recentMessagesQueryLoad);
     
     docSnap.forEach((doc)=>{
-        renderChat(doc.data());
+        renderChat(doc.data(),id);
     })
 }
 
-function renderChat(message){
+async function renderChat(message,id){
     let li = document.createElement('li');
     let messagetext = document.createElement('p');
     let date = document.createElement('p');
     let dateRow = document.createElement('div');
     let messageRow = document.createElement('div');
-
+    
+    messagetext.classList.add('fw-bold');
     messageRow.classList.add('row');
     dateRow.classList.add('row');
-    date.classList.add('text-muted','dateText');
+    date.classList.add('text-muted','dateText','d-flex');
     li.classList.add("list-group-item" ,"p-3",'border','rounded','border-1','mb-2');
+
+
+    const getName = await getProviderName(id);
 
     let time = message.timestamp;
     let dateFormat = new Date(time.seconds*1000);
-
-    messagetext.innerHTML = message.text;
-    date.innerHTML = dateFormat;
+    dateFormat=moment(dateFormat).format("YYYY-MM-DD hh:mm A");
+    
+    messagetext.innerHTML = getName;
+    date.innerHTML = message.text +"  |  "+ dateFormat;
 
     console.log(message.text);
 
     messageRow.appendChild(messagetext);
-    dateRow.appendChild(date);
+    messageRow.appendChild(date);
     li.appendChild(messageRow);
     li.appendChild(dateRow);
 
     inbox.append(li);
 }
 
+async function getProviderName(id){
+    const recentMessagesQueryLoad = doc(firedb,"chat",id);
 
+    const docSnap = await getDoc(recentMessagesQueryLoad);
+
+    if (docSnap.exists){
+        return docSnap.data().serviceProviderName
+    }
+}
 
 async function loadRequests(fireuser) {
     const requests = collection(firedb,"users",fireUser,"transactions");
@@ -138,6 +151,7 @@ function renderRequests(request){
     serviceName_Row.classList.add('col-11','border','border-1','rounded','mb-2');
     
     let serviceName_text = document.createElement('p');
+    serviceName_text.classList.add('pt-3');
     serviceName_text.innerHTML = "Service name: "+request.serviceName;
 
     let date_Row = document.createElement('div');
