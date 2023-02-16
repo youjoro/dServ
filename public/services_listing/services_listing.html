@@ -30,6 +30,9 @@
         'GRAD' 0,
         'opsz' 48
         }
+        .woosh{
+            display: block;
+        }
         
 
         
@@ -105,12 +108,12 @@
     <br>
     <br>
     <!--Search Bar-->
-    <div class=" d-flex text-bg-light rounded my-1 justify-content-center align-items-center" style="width: 80%; margin:auto;">
+    <div class=" d-flex text-bg-light  my-1 justify-content-center align-items-center" style="width: 80%; margin:auto;">
         <div class="dropdown">
             <div class="input-group">            
             <select class="form-select" id="categorySelected">
                 <option selected>Choose...</option>
-                <option value="name">By Name</option>
+                <option value="title">By Name</option>
                 <option value="location">By City</option>
                 <option value="category">By Service Category</option>
             </select>
@@ -128,7 +131,7 @@
         <hr>
         <div class="row flex d-flex justify-content-center align-items-center px-5 py-2">
             <h3 class=" ps-5 pt-4">Services</h3>
-            
+            <hr>
             <!--Services-->
             <div class="col-9 move_left">
                 <div id="empty_list" class=" pt-5 text-center"><p>No Services/Empty List</p></div>

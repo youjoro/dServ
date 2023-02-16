@@ -16,37 +16,99 @@ const realdb = getDatabase(app);
 var searchClick = document.getElementById('searchbtn');
 var searchQuery = document.getElementById('searchquery');
 var searchCategory = document.getElementById('categorySelected');
-var filter = searchQuery.value.toUpperCase();
 
 
 
 
-/*
-function searchServices(){
-    console.log(searchCategory.value);
+function resetSearch(num){
     var products = document.querySelectorAll('.productcard');
+    var filter = searchQuery.value.toUpperCase();
+    console.log('oi');
+    for(var i = 0; i<products.length;i++){  
+        console.log(products[i]); 
+        
+        console.log(i);
+        if(i==products.length-1){
+            console.log(num);
+            if(num == 0){
+                searchExactServices(products,filter);
+            }else{
+                searchFuzzyServices(products,filter);
+            }
+        }
+        products[i].style.display = "";             
+    };
+
+
+}
+
+
+function searchExactServices(products,filter){
+    console.log(searchCategory.value,filter);
+    
     if (searchCategory.value!=''){
 
         let category = searchCategory.value;
         let queryDropdown = document.querySelectorAll('.'+category);
-        console.log(queryDropdown.textContent,category,products.length);
+        
         
         for(var i=0;i<products.length;i++){
 
-            console.log(queryDropdown[i].textContent,filter);
+            console.log(queryDropdown[i].textContent,filter,products.length);
 
             if (queryDropdown[i].textContent.toUpperCase() != filter){
-                products[i].remove();
-                console.log("test");
-            }  
+                products[i].style.display = "none";
+            }else{
+                products[i].style.display = ""; 
+            }
             
         }
     }
     
 
-}*/
+}
 
-//searchClick.addEventListener('click',searchServices);
+
+function searchFuzzyServices(products,filter){
+    console.log(searchCategory.value,filter);
+    
+    if (searchCategory.value!=''){
+
+        let category = searchCategory.value;
+        let queryDropdown = document.querySelectorAll('.'+category);
+        
+        
+        for(var i=0;i<products.length;i++){
+
+            console.log(queryDropdown[i].textContent,filter,products.length);
+
+            if (queryDropdown[i].textContent.toUpperCase().indexOf(filter)>-1 ){
+                products[i].style.display = ""; 
+            }else{
+                products[i].style.display = "none"; 
+            }
+            
+        }
+    }
+    
+
+}
+
+searchClick.addEventListener('click',function(){
+    if (searchQuery=="");
+
+    else if(searchCategory.value == "title"){
+        resetSearch(1);
+        
+    }
+    else if (searchCategory.value == "category"){
+        resetSearch(1);
+        
+    }else if(searchCategory.value == "location"){
+        resetSearch(0);
+        
+    }
+});
 
 var OuterDiv = document.getElementById('ServicesDiv');
 var arrayOfServices = [];

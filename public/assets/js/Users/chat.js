@@ -324,7 +324,7 @@ function loadMessages() {
 async function renderMessages(docID){
 
   let id =docID;
-
+  let n =0;
   // Create the query to load the last 12 messages and listen for new ones.
   const recentMessagesQuery = query(collection(firestoredb,"chat",id,"messages"), orderBy('timestamp'), limitToLast(12));
   const recentMessagesQueryLoad = query(collection(firestoredb,"chat",id,"messages"), orderBy('timestamp'), limitToLast(1));
@@ -333,12 +333,14 @@ async function renderMessages(docID){
 
       let chatInfo='';
       const getmessages = await getDocs(recentMessagesQuery);
-
+      
       getmessages.forEach((doc)=>{
+        n+=1;
+        console.log(n);
         let chatInfo = doc.data();
-        if(chatInfo.userID == userID){              
+        if(chatInfo.userID == userID && n<=12){              
           sentMessages(chatInfo.text);
-        }else{                            
+        }else if(n<=12 && chatInfo.userID != userID){                            
           receivedMessages(chatInfo.text);              
 
         }
@@ -346,8 +348,8 @@ async function renderMessages(docID){
 
 
       if (IDcalls.includes(docID)){        
-        console.log(onSnapShotCalls);
-        console.log(IDcalls);
+        
+        console.log("hello");
         
       }else{
         IDcalls.push(docID);
