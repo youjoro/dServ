@@ -18,7 +18,7 @@ const auth = getAuth();
 
 window.onload = document.getElementById("profile_content").style.visibility = "hidden";
 
-
+var arrayOfServices = [];
 var total_pending = 0;
 var jobs_completed = 0;
 
@@ -31,40 +31,9 @@ const requestnotif = document.getElementById('request_notif');
 
 
 
-
-const signOutUser = async() =>{
-
-    await signOut(auth);
-    alert("logged out");
-    window.location.replace("http://127.0.0.1:5500/index.html");
-    sessionStorage.clear();
-    location.reload();
-    
-}
-
-
-
-
-
 //Services
 
-//Firestore
-  const monitorFireAuth = async() =>{
 
-      onAuthStateChanged(fireauth,user=>{
-        if(user){
-
-          
-          
-          
-        }else{
-          console.log("no user");                    
-        }
-      });
-  
-    }
-
-monitorFireAuth();
 
 
 async function getRequestsID(serviceName){
@@ -143,7 +112,7 @@ async function getFinished(serviceName){
 
 var servicesList=[];
 function loadServices(){
-  var servs="";
+  
   var userID = sessionStorage.getItem("user");
   const getService = ref(realdb, 'ProviderProfile/'+userID+'/Services');
 
@@ -157,19 +126,27 @@ function loadServices(){
         addAllServices();
     })
     } ;
-    
+    console.log(servicesList);
     services();
 }
 
 loadServices();
+
 function addAllServices(){
     let i = 0;
     servicesList.forEach(serv =>{
-      addAService(serv, i++);
-      addMessage(serv, i++);
       
+      addAService(serv, i);
+      addMessage(serv, i);
+
+      console.log(i);
+      arrayOfServices.push(serv);
+      let end = arrayOfServices[arrayOfServices.length - 1];
+      end['id']=serv.id;
+      i++;
     });
     
+    console.log(arrayOfServices);
 }
 
 
@@ -238,9 +215,6 @@ function createMessages(requests){
   divText.append(remarkText,clientName);
 
   requestbutton.append(dropdownIMG,divText);
-  /*let newServ = document.createElement('div');
-  newServ.classList.add('container');
-  newServ.innerHTML = html;*/
   messagesTab.append(requestbutton);
   let dateFormat = requests.RequestedDate.split('/');
   dateFormat = dateFormat[2]+"/"+dateFormat[1]+"/"+dateFormat[0];
@@ -252,7 +226,7 @@ function createMessages(requests){
 function addAService(service,index){
   let serviceName = service.id;
   serviceName = serviceName.replace(/\s/g,'');
-  
+  console.log(serviceName);
   
   const getrequestPending = async()=>{
     let requestnum = await getRequestsNum(serviceName);
@@ -262,13 +236,14 @@ function addAService(service,index){
     desc.replace(/[^a-zA-Z0-9]/g,"...");
       let html = 
       `
-      <div class="container border border-dark my-2 rounded">
+      <div class="container border border-dark my-2 rounded py-2">
       <h4 class="small font-weight-bold pt-1" >`+service.ServiceName+`</h4>
       <div class="container">
           <h5 class="small font-weight-bold">Desc: `+desc+`...</h5>
           <h5 class="small font-weight-bold">Jobs Finished: `+finishedNum+`</h5>
           <h5 class="small font-weight-bold">Requests Pending: `+requestnum+`</h5>
-          <a href="#!" id="delete`+index+`" class="mr-auto ">Edit</a>
+          <button id="delete-`+index+`" class="mr-auto editServ btn btn-outline-secondary" >Edit Service</button>
+          <br>
       </div>
       
       </div>
@@ -276,12 +251,44 @@ function addAService(service,index){
 
 
       let newServ = document.createElement('div');
-      newServ.classList.add('productcard');
+      newServ.classList.add('productcard','service');
       newServ.innerHTML = html;
       OuterDiv.append(newServ);
-    
+    AssignAllEvents();  
   }
 
   getrequestPending();
+  
+}
+
+
+function getServiceIndex(id){
+    var indstart = id.indexOf('-')+1;
+    var indEnd = id.length;
+    return Number(id.substring(indstart,indEnd));
+}
+
+
+function gotoServiceDetails(event){
+    var index = getServiceIndex(event.target.id);
+    console.log(index);
+    localStorage.Request = JSON.stringify(arrayOfServices[index]);
+    window.location = "/Service_Provider_Dashboard/updateService.html";
+}
+
+
+function AssignAllEvents(){    
+    
+    const divs = document.getElementsByClassName('service');
+    const btns = document.getElementsByClassName('editServ');
+
+    if (divs != null){        
+        
+        for (let i=0; i <divs.length;i++){
+            
+               
+            btns[i].addEventListener('click',gotoServiceDetails);                
+        }
+    }
 
 }

@@ -358,7 +358,7 @@ import { getAuth,
 
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
-import { getFirestore} from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+
 
 import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
 
@@ -367,7 +367,19 @@ const realdb = getDatabase(app);
 const firestoreapp = initializeApp(firestoreConfig,"secondary");
 const fireauth = getAuth(firestoreapp);
 const auth = getAuth();
+
 let check = sessionStorage.getItem("user");
+let request = null;
+
+window.onload = function(){
+     
+    request = localStorage.Request;
+    
+    if (request){
+        request = JSON.parse(request);
+        console.log(request.id);
+    }
+}
 
     if (check !=null){
         document.getElementById('session').style.visibility  = "hidden";
@@ -382,7 +394,6 @@ let check = sessionStorage.getItem("user");
         if(user){
           console.log(user.emailVerified);
           sessionStorage.fireuser = user.uid;
-          
           
           
         }else{
@@ -410,7 +421,7 @@ let check = sessionStorage.getItem("user");
         var fireID = sessionStorage.getItem("fireuser");
         servicetime = amTime.value+"am to "+pmTime.value+"pm";
         try{
-            set(ref(realdb,"Services/"+getShortTitle()+'-'+userID),{
+            update(ref(realdb,"Services/"),{
                 ServiceName: service_name.value,
                 ServicePrice: service_price.value,
                 ServiceTimes: servicetime,
@@ -425,7 +436,7 @@ let check = sessionStorage.getItem("user");
                 TransactionID:fireID
                 
             }).then(function(){
-                set(ref(realdb, 'ProviderProfile/' + userID + '/Services/' + service_name.value+'-'+userID),{
+                update(ref(realdb, 'ProviderProfile/' + userID + '/Services/' ),{
                 ServiceName: service_name.value,
                 ServicePrice: service_price.value,
                 ServiceTimes: servicetime,

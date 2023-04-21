@@ -97,17 +97,18 @@
 
      <div class="container columnRow">
         <div class="container shadow p-3 mb-5 bg-body rounded columnRow">
-            <h3>Call</h3>
-            <h3 class=" text-danger" id="number"></h3>
+            <h3 class="py-3">Confirm Appointment</h3>
+            
+            <hr >
+            <h3 class="py-2 ps-2">Details</h3>
+            <div id="detailsDIV" class="ps-5 me-5"></div>
             <hr>
-            <h3>Directions</h3>
-            <div id="map" class="py-3"></div>
-            <hr>
-            <button id="getDirections" class="btn btn-outline-dark"><h4 class="text-danger">Get Directions</h4></button>
+            <button id="getDirections" class="btn btn-outline-dark ms-3"><h4 class="text-danger">Confirm</h4></button>
         </div>
     </div>
 </body>
-<script src="/assets/js/Users/listing_withMap.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+<script src="/assets/js/Client/view_requestDetails.js"></script>
 <script src="/assets/js/Users/session_user.js" type="module"></script>
 <script src="/assets/js/firebase_config.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>

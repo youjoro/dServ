@@ -31,12 +31,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function render(calendar,requestData){
-console.log(requestData[1].replaceAll("/", "-"));
-  calendar.addEvent({
-    title: requestData[0],
-    start: requestData[1].replaceAll("/", "-"),
-    allDay: true
-  });
+ let wrongdate = requestData[1].replaceAll("/", "-");
+ let datestring = wrongdate.split("-");
+ let correctDate = datestring[0]+"-"+datestring[2]+"-"+datestring[1];
+ 
+  console.log(requestData[1].replaceAll("/", "-"));
+    calendar.addEvent({
+      title: requestData[0],
+      start: correctDate,
+      allDay: true
+    });
   
 }
 

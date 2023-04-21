@@ -98,29 +98,27 @@ async function setUserChatID(docRef){
   console.log(recipientFireID,userID);
   try{
     const date = new Date();
-    let clientChatID = async() =>{
-      
-      await updateDoc(doc(firestoredb, "users",userID,"chat",docRef), {
-      chatID:docRef,
-      dateStarted:date
-    });
-    }  
 
-    let providertChatID = async() =>{
-      
-      await updateDoc(doc(firestoredb, "users",recipientFireID,"chat",docRef), {
-      chatID:docRef,
-      dateStarted:date
-    });
-    }  
-
-    clientChatID();
-    providertChatID();
+    await update_clientChatID(date);
+    await update_providertChatID(date);
   }catch(error){
     console.log(error);
   }
 }
 
+async function update_providertChatID (date){
+  await updateDoc(doc(firestoredb, "users",recipientFireID,"chat",docRef), {
+    chatID:docRef,
+    dateStarted:date
+  });
+}  
+
+async function update_clientChatID (date){
+  await updateDoc(doc(firestoredb, "users",userID,"chat",docRef), {
+    chatID:docRef,
+    dateStarted:date
+  });
+}  
 
 
 
@@ -131,25 +129,22 @@ async function getProfileIMG(chatID){
   const querySnapshot = await getDoc(q);
   
   let pfp = document.getElementById('recipientIMG');
-  
-  
 
   if(querySnapshot.data().serviceProviderImgLink!= null){
     if (userTYPE == "client"){
-      pfp.src = querySnapshot.data().serviceProviderImgLink;    
+      pfp.src = servicePFP;
       document.getElementById('recipientName').innerHTML = querySnapshot.data().serviceProviderName;
     }else if (userTYPE == "serviceProvider"){
-      pfp.src = querySnapshot.data().clientPic;    
+      pfp.src = clientPFP;
       document.getElementById('recipientName').innerHTML = querySnapshot.data().clientUsername;
     }
-
     
   }else{
     pfp.src = "/assets/img/profile_icon.png";
     
   }
-}
 
+}
 
 
 //check fireStore Auth
@@ -179,6 +174,8 @@ const monitorFireAuth = async() =>{
 
 monitorFireAuth();
 
+var servicePFP = "";
+var clientPFP = "";
 
 async function getChats(userID){
   const q = query(collection(firestoredb, "users",userID,"chat"));
@@ -190,16 +187,39 @@ async function getChats(userID){
 }
 
 
+async function getClientPFP(clientID,clientChatID,chatID){
+  const dbRef = ref(realdb);
+  let pfp = "";
+  get(child(dbRef, `users/${clientID}`)).then((snapshot) => {
+    if (snapshot.exists()) {      
+      pfp = snapshot.val().profilePic.imgLink;      
+      clientPFP = pfp; 
+      console.log(pfp);   
+      getRecipientInfo(clientChatID, pfp ,chatID);  
+    } else {
+      console.log("No data available");
+    }
+  }).catch((error) => {
+    console.error(error);
+  });
+  
+  
+}
+
 
 async function getChatInfo(chatID){
   const q = query(doc(firestoredb, "chat",chatID));
   const querySnapshot = await getDoc(q);
-  
+
   if (userTYPE == "client"){
-    getRecipientInfo(querySnapshot.data().transactionProviderID,querySnapshot.data().serviceProviderImgLink,chatID);
+    servicePFP = querySnapshot.data().serviceProviderImgLink; 
+    await getRecipientInfo(querySnapshot.data().transactionProviderID,servicePFP,chatID);
     
   }else if (userTYPE == "serviceProvider"){
-    getRecipientInfo(querySnapshot.data().clientID,querySnapshot.data().clientPic,chatID);
+    let clientID = querySnapshot.data().clientRTDB_ID;  
+    let clientChatID = querySnapshot.data().clientID;
+    await getClientPFP(clientID,clientChatID,chatID);
+        
   }
   
   
@@ -208,11 +228,12 @@ async function getChatInfo(chatID){
 
 
 
+
 async function getRecipientInfo(userID,imgLINK,chatID){
     
   const q = query(doc(firestoredb, "users",userID));
   const querySnapshot = await getDoc(q);
-
+  
   loadInboxItem(querySnapshot.data().username,imgLINK,chatID);
   
 
@@ -253,8 +274,6 @@ async function loadInboxItem (username,imgLINK,chatID){
         addChatID(chatID);
         renderMessages(chatID);
         loadMessages();
-      }else{
-        
       }
 
     })
@@ -318,7 +337,7 @@ function loadMessages() {
   
 }
 
-  let onSnapShotCalls = 0;
+
   let IDcalls = [];
 
 async function renderMessages(docID){
@@ -327,7 +346,7 @@ async function renderMessages(docID){
   let n =0;
   // Create the query to load the last 12 messages and listen for new ones.
   const recentMessagesQuery = query(collection(firestoredb,"chat",id,"messages"), orderBy('timestamp'), limitToLast(12));
-  const recentMessagesQueryLoad = query(collection(firestoredb,"chat",id,"messages"), orderBy('timestamp'), limitToLast(1));
+  
   
     try{
 
@@ -337,7 +356,7 @@ async function renderMessages(docID){
       getmessages.forEach((doc)=>{
         n+=1;
         console.log(n);
-        let chatInfo = doc.data();
+        chatInfo = doc.data();
         if(chatInfo.userID == userID && n<=12){              
           sentMessages(chatInfo.text);
         }else if(n<=12 && chatInfo.userID != userID){                            
@@ -346,37 +365,7 @@ async function renderMessages(docID){
         }
       });
 
-
-      if (IDcalls.includes(docID)){        
-        
-        console.log("hello");
-        
-      }else{
-        IDcalls.push(docID);
-              // Start listening to the query.
-        const unsub = onSnapshot(recentMessagesQueryLoad, function(snapshot) {  
-          
-          snapshot.docChanges().forEach(function(change) {
-
-            chatInfo = change.doc.data();
-
-            if (change.type === 'removed') {
-              //deleteMessage(change.doc.id);
-            } else {        
-
-              //recentSent.innerHTML = chatInfo.text;
-              if(chatInfo.userID == userID){              
-                sentMessages(chatInfo.text);
-              }else{                            
-                receivedMessages(chatInfo.text);              
-
-              }
-
-            }
-          });                
-          
-        });    
-      }
+      await retrieveAndRender(docID,chatInfo);
    
     
 
@@ -384,9 +373,45 @@ async function renderMessages(docID){
       console.log(error);
     }
 
+}
 
-    
-    
+async function retrieveAndRender(id){
+  
+  const recentMessagesQueryLoad = query(collection(firestoredb,"chat",id,"messages"), orderBy('timestamp'), limitToLast(1));
+  if (IDcalls.includes(id)){        
+    console.log("hello");
+  }else{
+    IDcalls.push(id);
+          // Start listening to the query.
+    listenToQuery(recentMessagesQueryLoad)
+   
+  }
+}
+
+async function listenToQuery(recentMessagesQueryLoad){
+  
+  onSnapshot(recentMessagesQueryLoad, function(snapshot) {  
+
+    snapshot.docChanges().forEach(function(change) {
+
+      var chatInfo = change.doc.data();
+
+      if (change.type === 'removed') {
+        //deleteMessage(change.doc.id);
+      } else {        
+
+        //recentSent.innerHTML = chatInfo.text;
+        if(chatInfo.userID == userID){              
+          sentMessages(chatInfo.text);
+        }else{                            
+          receivedMessages(chatInfo.text);              
+
+        }
+
+      }
+    });                
+
+  }); 
 }
 
 

@@ -16,20 +16,24 @@ const notifNUM = document.getElementById('notif_Num');
 
 
 function getProfileIMG(userID){
-var userID = sessionStorage.getItem("user");
+
+  var userID = sessionStorage.getItem("user");
   var pfpLink = sessionStorage.getItem("pfpIMGLink");
   var dbRef = ref(realdb);
   let pfp = document.getElementById('profileIMG');
   let currentPFP = document.getElementById('myImg');
 
-  if (pfpLink == null){
+  if (pfpLink == null || performance.navigation.type == performance.navigation.TYPE_RELOAD){
     get(child(dbRef,"users/"+userID+"/profilePic")).then((snapshot)=>{
       
       if(snapshot.exists()){
 
         sessionStorage.pfpIMGLink = snapshot.val().imgLink;
         pfp.src = snapshot.val().imgLink;
-        currentPFP.src = snapshot.val().imgLink;
+        if (currentPFP != null){
+          currentPFP.src = snapshot.val().imgLink;
+        }
+        
         
       }else{
         pfp.src = "/assets/img/profile_icon.png";
@@ -73,15 +77,15 @@ function checkSession(){
   
 var sessionData=sessionStorage.getItem("sessionCheck");
 
-if(sessionData == "loggedIn"){
-    document.getElementById("nav_bar").style.display="none";
-    document.getElementById("nav_barLoggedIn").style.display="block";
-    
-     getUserType();
-}else{
-    document.getElementById("nav_barLoggedIn").style.display="none";
-    document.getElementById("nav_bar").style.display="block";
-}
+  if(sessionData == "loggedIn"){
+      document.getElementById("nav_bar").style.display="none";
+      document.getElementById("nav_barLoggedIn").style.display="block";
+      
+      getUserType();
+  }else{
+      document.getElementById("nav_barLoggedIn").style.display="none";
+      document.getElementById("nav_bar").style.display="block";
+  }
 }
 
 var total_pending = 0; 

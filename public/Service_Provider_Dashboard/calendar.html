@@ -20,6 +20,7 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <style>
+        html { overflow-x: hidden !important; } 
         .img-logo{
             width: 2em;
             height: 2em;
@@ -102,7 +103,6 @@
             </li>
 
 
-            -->
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -281,19 +281,17 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
-                <div id="loading" class="h-100" style="z-index: 2;" >
-                <div class="color-overlay d-flex justify-content-center align-items-center" >
-                        <div class="container">
-                        <div class="flex d-flex justify-content-center align-items-center py-3">
-                            <div class="loader" id="load"></div>
-                        </div>
-                        <p class="text-dark text-center">Please wait....</p>
-                        </div>
-                        
+                <div id="loading"  style="z-index: 2;" >
+                    <div class="color-overlay d-flex justify-content-center align-items-center" >
+                            <div class="container">
+                            <div class="flex d-flex justify-content-center align-items-center py-3">
+                                <div class="loader" id="load"></div>
+                            </div>
+                            <p class="text-dark text-center">Please wait....</p>
+                            </div>
+                            
+                    </div>
                 </div>
-                </div>
-                    
                 <div class="container-fluid" id="profile_content">
 
                     <!-- Page Heading -->

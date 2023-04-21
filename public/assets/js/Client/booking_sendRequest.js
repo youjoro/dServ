@@ -23,7 +23,7 @@ const date = document.getElementById('date');
 
 
 
-//localstorage
+
 var service = null;
 
 //text
@@ -33,16 +33,21 @@ var sessOUT = document.getElementById('sessOut');
 window.onload = sessIN.style.display = 'none';
 
 
-
+//
 window.onload = function(){
+
     checkSession();
+
     service = localStorage.Service;
     console.log(service);
+
     if (service){
+
         service = JSON.parse(service);
         console.log(service.TransactionID);
         console.log(service.id);
         localStorage.setItem("service",service);
+
     }else{
         alert("o no");
     }
@@ -54,31 +59,31 @@ function checkSession(){
   
 var sessionData=sessionStorage.getItem("sessionCheck");
 console.log(sessionData);
-if(sessionData == null){
-    fName.disabled = true;
-    lName.disabled = true;
-    mobileNum.disabled = true;
-    email.disabled = true;
-    clients.disabled = true;
-    bundle.disabled = true;
-    remarks.disabled = true;
-    button.disabled = true;
-    sessOUT.style.display = '';
-    sessIN.style.display = 'none';
-    alert("Redirecting");
-    window.location.replace("http://127.0.0.1:5500/index.html");
-}else{
-    fName.disabled = false;
-    lName.disabled = false;
-    mobileNum.disabled = false;
-    email.disabled = false;
-    clients.disabled = false;
-    bundle.disabled = false;
-    remarks.disabled = false;
-    button.disabled = false;
-    sessOUT.style.display = 'none';
-    sessIN.style.display = '';
-}
+    if(sessionData == null){
+        fName.disabled = true;
+        lName.disabled = true;
+        mobileNum.disabled = true;
+        email.disabled = true;
+        clients.disabled = true;
+        bundle.disabled = true;
+        remarks.disabled = true;
+        button.disabled = true;
+        sessOUT.style.display = '';
+        sessIN.style.display = 'none';
+        alert("Redirecting");
+        window.location.replace("http://127.0.0.1:5500/index.html");
+    }else{
+        fName.disabled = false;
+        lName.disabled = false;
+        mobileNum.disabled = false;
+        email.disabled = false;
+        clients.disabled = false;
+        bundle.disabled = false;
+        remarks.disabled = false;
+        button.disabled = false;
+        sessOUT.style.display = 'none';
+        sessIN.style.display = '';
+    }
 }
 
 function InputClear(){
@@ -134,7 +139,7 @@ async function sendRequest(userID){
         
         
     } catch (e) {
-    console.error("Error adding document: ", e);
+        console.error("Error adding document: ", e);
     } finally {
         localStorage.removeItem("Service");
         window.location.replace("http://127.0.0.1:5500/index.html");

@@ -199,9 +199,8 @@ async function addChatID(chatID){
         const docID = docRef.id;
         await setDoc(docRef, {
             clientID:userID,
-            clientUsername:username,
-            clientPic:sessionStorage.getItem("pfpIMGLink"),
-            
+            clientUsername:username,            
+            clientRTDB_ID:sessionStorage.getItem("user"),
             serviceProviderName:fullname,
             transactionProviderID:service.TransactionID,
             serviceProviderImgLink:providerIMGLink,
@@ -220,30 +219,42 @@ async function setUserChatID(docRef){
   
   try{
     const date = new Date();
-    let clientChatID = async() =>{
-      
-      await setDoc(doc(firestoredb, "users",userID,"chat",docRef), {
-      chatID:docRef,
-      dateStarted:date
-    });
-    }  
-
-    let providertChatID = async() =>{
-      
-      await setDoc(doc(firestoredb, "users",service.TransactionID,"chat",docRef), {
-      chatID:docRef,
-      dateStarted:date
-    });
-    }  
-
-    clientChatID();
-    providertChatID();
+    await clientChatID(date,docRef);
+    await providertChatID(date,docRef);
+    
+  }catch(error){
+    console.log(error);
+  }finally{
     sendToChat();
+  }
+  
+}
+
+
+
+async function providertChatID(date,docRef){
+  try{
+    await setDoc(doc(firestoredb, "users",service.TransactionID,"chat",docRef), {
+      chatID:docRef,
+      dateStarted:date
+    });
   }catch(error){
     console.log(error);
   }
-}
 
+}  
+
+async function clientChatID(date,docRef){
+  try{
+    await setDoc(doc(firestoredb, "users",userID,"chat",docRef), {
+      chatID:docRef,
+      dateStarted:date
+    });
+  }catch(error){
+    console.log(error);
+  }
+
+}  
 
 async function getName(ID){
     let username = '';
@@ -363,7 +374,6 @@ bookingselected.href="/Booking/booking_page.html";
 
 
 function sendToChat(){
-
     window.location.replace("http://127.0.0.1:5500/chat/chat.html");
 }
 

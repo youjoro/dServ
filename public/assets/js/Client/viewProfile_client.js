@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, ref, set, child, get }
+import { getDatabase, ref, child, get }
 from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 import {firebaseConfig,firestoreConfig} from "../firebase_config.js";
 import { getFirestore , collection, doc,getDoc,getDocs,query,orderBy,limitToLast } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
@@ -19,12 +19,12 @@ const inbox = document.getElementById('inbox');
 
 var userID = sessionStorage.getItem('user');
 var fireUser = sessionStorage.getItem('fireuser');
+var arrayOfRequests =[];
+window.onload = loadProfileData(userID);
+window.onload = loadRequests();
+window.onload = loadChat();
 
-loadProfile(userID);
-loadRequests(fireUser);
-loadChat(fireUser);
-
-function loadProfile(userID){
+function loadProfileData(userID){
     var dbRef = ref(realdb);
     try{
         get(child(dbRef,"users/"+userID)).then((snapshot)=>{
@@ -56,7 +56,7 @@ function loadProfile(userID){
 
 }
 
-async function loadChat(fireuser){
+async function loadChat(){
     const requests = collection(firedb,"users",fireUser,"chat");
     
     const querySnapshot = await getDocs(requests);
@@ -122,52 +122,111 @@ async function getProviderName(id){
     }
 }
 
-async function loadRequests(fireuser) {
+async function loadRequests() {
+    let i = 0
     const requests = collection(firedb,"users",fireUser,"transactions");
+
     try{
-    const querySnapshot = await getDocs(requests);
-    querySnapshot.forEach((doc)=>{
-        console.log(doc.id);
-        getRequestInfo(doc.id);
-    })
+        const querySnapshot = await getDocs(requests);
+        await querySnapshot.forEach((doc)=>{
+            console.log(doc.id);
+            getRequestInfo(doc.id,i++);
+            
+        });
+        
+    
     }catch(e){
         console.log(e);
     }
+    console.log("finished");
+    
 }
 
 
-async function getRequestInfo(transactionID){
+async function getRequestInfo(transactionID,index){
+    
     const requests = doc(firedb,"transactions",transactionID);
     const docSnap = await getDoc(requests);
+
     console.log(docSnap.data().serviceName);
-    renderRequests(docSnap.data());
+    arrayOfRequests.push(docSnap.data());
+    console.log(arrayOfRequests);
+    
+    renderRequests(docSnap.data(),index);
+    AssignAllEvents();
+    
 }
 
-function renderRequests(request){
+function renderRequests(request,index){
     let rowDiv = document.createElement('div');
-    rowDiv.classList.add('row','ps-5');
+    rowDiv.classList.add('row','ps-5','requestDivs');
 
     let serviceName_Row = document.createElement('div');
-    serviceName_Row.classList.add('col-11','border','border-1','rounded','mb-2');
+    serviceName_Row.classList.add('col-11','border','border-1','rounded','mb-2','row','row-cols-2');
     
     let serviceName_text = document.createElement('p');
     serviceName_text.classList.add('pt-3');
     serviceName_text.innerHTML = "Service name: "+request.serviceName;
 
     let date_Row = document.createElement('div');
-    date_Row.classList.add('col-sm-9');
+    date_Row.classList.add('col-sm-7');
+
+    let buttonRow = document.createElement('div');
+    buttonRow.classList.add('col-sm-5','py-5');
+
+    let buttons = document.createElement('button');
+    buttons.classList.add('btn','btn-outline-success','goToDetails');
+    buttons.innerHTML = "Confirm Booking";
+    buttons.setAttribute("id", "request-"+index);
 
     let date_text = document.createElement('p');
-    date_text.innerHTML = "Date Requests: "+request.RequestedDate;
+    date_text.innerHTML = "Date Requested: "+request.RequestedDate;
 
     let status_text =document.createElement('p');
     status_text.innerHTML = "Status: "+request.confirmStatus;
 
+    date_Row.appendChild(serviceName_text);
     date_Row.appendChild(date_text);
     date_Row.appendChild(status_text);
-    serviceName_Row.appendChild(serviceName_text);
-    serviceName_Row.appendChild(date_Row);
+    buttonRow.appendChild(buttons);
+
     
+    serviceName_Row.appendChild(date_Row);
+    serviceName_Row.appendChild(buttonRow);
+    
+    rowDiv.setAttribute("id", "request-"+index);
     rowDiv.appendChild(serviceName_Row);
+
     requestList.append(rowDiv);
+}
+
+function getServiceIndex(id){
+    var indstart = id.indexOf('-')+1;
+    var indEnd = id.length;
+    return Number(id.substring(indstart,indEnd));
+}
+
+
+function gotoServiceDetails(event){
+    var index = getServiceIndex(event.target.id);
+    console.log(index);
+    localStorage.Request = JSON.stringify(arrayOfRequests[index]);
+    window.location = "/ConfirmOrder/confirmservice.html";
+}
+
+
+function AssignAllEvents(){    
+    
+    const btns = document.getElementsByClassName('requestDivs');
+    const goto = document.getElementsByClassName('goToDetails');
+
+    if (btns != null){        
+        console.log(btns.length);
+        for (let i=0; i <btns.length;i++){
+            console.log(goto[i]);
+               
+            goto[i].addEventListener('click',gotoServiceDetails);                
+        }
+    }
+
 }

@@ -22,7 +22,6 @@ function getUserType(){
   var user_type="";
     var userID = sessionStorage.getItem("user");
     
-    
     const getType = ref(realdb, 'users/'+userID+'/user_type');
     const type = async() =>{
       onValue(getType, (snapshot) => {
@@ -32,8 +31,12 @@ function getUserType(){
         alert("You are not supposed to be here");
         window.location.replace("http://127.0.0.1:5500/index.html");
       }else{
+        
         document.getElementById("profile_content").style.visibility = "visible";
-        document.getElementById("loading").remove();
+        if(document.getElementById("loading") != null){
+          
+          document.getElementById("loading").remove();
+        }
         
       }
     })
@@ -51,7 +54,10 @@ function getProfileIMG(userID){
   get(child(dbRef,"users/"+userID+"/profilePic")).then((snapshot)=>{
     if(snapshot.exists()){
       pfp.src = snapshot.val().imgLink;
-      currentPFP.src = snapshot.val().imgLink;
+      if (currentPFP != null){
+        currentPFP.src = snapshot.val().imgLink;
+      }
+      
     }else{
       pfp.src = "img/abstract-user-flat-4.png";
       currentPFP.src = "img/abstract-user-flat-4.png";
@@ -63,9 +69,7 @@ function checkSession(){
 
 var sessionData=sessionStorage.getItem("user");
 
-
-  if(sessionData != null){
-      
+  if(sessionData != null){ 
     getUserType();
   }else{
       console.log("no user");
@@ -79,8 +83,6 @@ const monitorAuthState = async() =>{
         document.getElementById('prov_name').innerHTML=user.email;         
         sessionStorage.user = user.uid;
         getProfileIMG(user.uid);
-        
-        
         checkSession(user); 
       }else{
         console.log("no user");
@@ -92,9 +94,7 @@ const monitorFireAuth = async() =>{
 
       onAuthStateChanged(fireauth,user=>{
         if(user){
-          
           sessionStorage.fireuser = user.uid;
-          
           
           checkSession();
         }else{

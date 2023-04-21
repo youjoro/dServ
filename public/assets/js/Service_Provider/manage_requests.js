@@ -396,45 +396,45 @@ function viewDetails(serviceID,serviceName,clientID){
   store(serviceName);
   store(clientID);
   console.log(serviceID,serviceName,clientID);
-  const getrequestPending = async()=>{
-    
-    let requestdata = await getRequestData(serviceID,serviceName,clientID);
-    let date = requestdata.DateAdded;
-    console.log(date);
-    let dateFormat = new Date(date.seconds*1000);
-    
-      let html = 
-      `
-      <div class="container border border-dark my-2 rounded">
-      <h4 class="small font-weight-bold pt-1" >Client Email: `+requestdata.ClientEmail+`</h4>
-      <div class="container">
-          <h5 class="small font-weight-bold">Client Name: `+requestdata.ClientFirstName+` `+requestdata.ClientLastName+`</h5>
-          <h5 class="small font-weight-bold">Contact Number:`+requestdata.ClientMobileNum+` </h5>
-          <h5 class="small font-weight-bold">Remarks: `+requestdata.ClientRemarks+`</h5>
-          <h5 class="small font-weight-bold">Selected Bundle: `+requestdata.ClientSelectedBundle+`</h5>
-          <h5 class="small font-weight-bold">ID: `+requestdata.clientID+`</h5>
-          <h5 class="small font-weight-bold">Number of Clientele: `+requestdata.clientNumber+`</h5>
-          <h5 class="small font-weight-bold">Requested Date: `+requestdata.RequestedDate+`</h5>
-          <h5 class="small font-weight-bold">Date added: `+dateFormat+`</h5>
-          <h5 class="small font-weight-bold">Status: `+requestdata.confirmStatus+`</h5>
-      </div>
-      
-      </div>
-      `;
+  
 
-
-      let newServ = document.createElement('div');
-      newServ.classList.add('productcard');
-      newServ.innerHTML = html;
-      OuterDiv.append(newServ);
-    
-  }
-
-  getrequestPending();
+  getrequestPending(serviceID,serviceName,clientID);
 
 }
 
+async function getrequestPending(serviceID,serviceName,clientID){
+    
+  let requestdata = await getRequestData(serviceID,serviceName,clientID);
+  let date = requestdata.DateAdded;
+  console.log(date);
+  let dateFormat = new Date(date.seconds*1000);
+  
+    let html = 
+    `
+    <div class="container border border-dark my-2 rounded">
+    <h4 class="small font-weight-bold pt-1" >Client Email: `+requestdata.ClientEmail+`</h4>
+    <div class="container">
+        <h5 class="small font-weight-bold">Client Name: `+requestdata.ClientFirstName+` `+requestdata.ClientLastName+`</h5>
+        <h5 class="small font-weight-bold">Contact Number:`+requestdata.ClientMobileNum+` </h5>
+        <h5 class="small font-weight-bold">Remarks: `+requestdata.ClientRemarks+`</h5>
+        <h5 class="small font-weight-bold">Selected Bundle: `+requestdata.ClientSelectedBundle+`</h5>
+        <h5 class="small font-weight-bold">ID: `+requestdata.clientID+`</h5>
+        <h5 class="small font-weight-bold">Number of Clientele: `+requestdata.clientNumber+`</h5>
+        <h5 class="small font-weight-bold">Requested Date: `+requestdata.RequestedDate+`</h5>
+        <h5 class="small font-weight-bold">Date added: `+dateFormat+`</h5>
+        <h5 class="small font-weight-bold">Status: `+requestdata.confirmStatus+`</h5>
+    </div>
+    
+    </div>
+    `;
 
+
+    let newServ = document.createElement('div');
+    newServ.classList.add('productcard');
+    newServ.innerHTML = html;
+    OuterDiv.append(newServ);
+  
+}
 
 
 
