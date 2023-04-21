@@ -71,8 +71,7 @@ console.log(sessionData);
         sessOUT.style.display = '';
         sessIN.style.display = 'none';
         alert("Redirecting");
-        window.location.replace("http://127.0.0.1:5500/index.html
-");
+        window.location.replace("https://test-75edb.web.app/index.html");
     }else{
         fName.disabled = false;
         lName.disabled = false;
@@ -143,8 +142,7 @@ async function sendRequest(userID){
         console.error("Error adding document: ", e);
     } finally {
         localStorage.removeItem("Service");
-        window.location.replace("http://127.0.0.1:5500/index.html
-");
+        window.location.replace("https://test-75edb.web.app/index.html");
     }
     
 }
