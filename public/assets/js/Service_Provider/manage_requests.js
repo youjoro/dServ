@@ -1,20 +1,18 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 
 import { getAuth, 
   onAuthStateChanged, 
   signOut 
-} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-import { getDatabase, ref, child, onValue,get} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getFirestore , collection,getDoc, doc , getCountFromServer, query, where, getDocs,updateDoc,writeBatch,  } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+import { getDatabase, ref, onValue} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+import { getFirestore , collection,getDoc, doc , getCountFromServer, query,  getDocs,writeBatch,  } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
 
-import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
+import {firebaseConfig} from '../firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
-const firestoreapp = initializeApp(firestoreConfig,"secondary");
-const firestoredb = getFirestore(firestoreapp);
+const firestoredb = getFirestore(app);
 const realdb = getDatabase(app);
 const auth = getAuth();
-const fireauth = getAuth(firestoreapp);
 const batch = writeBatch(firestoredb);
 
 window.onload = document.getElementById("profile_content").style.visibility = "hidden";
@@ -53,7 +51,7 @@ function getUserType(){
 
     if(user_type=="client" || user_type==null){
       alert("You are not supposed to be here");
-      window.location.replace("https://test-75edb.web.app/index.html");
+      window.location.replace("http://test-75edb.web.app/index.html");
     }else{
       document.getElementById("profile_content").style.visibility = "visible";
       //document.getElementById('loading').style.display = "none";

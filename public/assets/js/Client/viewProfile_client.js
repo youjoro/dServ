@@ -1,8 +1,8 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import { getDatabase, ref, child, get }
-from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 import {firebaseConfig,firestoreConfig} from "../firebase_config.js";
-import { getFirestore , collection, doc,getDoc,getDocs,query,orderBy,limitToLast } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
+import { getFirestore , collection, doc,getDoc,getDocs,query,orderBy,limitToLast } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js'
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);

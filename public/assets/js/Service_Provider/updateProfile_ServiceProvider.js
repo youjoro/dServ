@@ -1,13 +1,13 @@
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
     import {getStorage, ref as sRef, uploadBytesResumable, getDownloadURL}
-    from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
+    from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
     import { getDatabase, ref, set, child, update, remove,get }
-    from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+    from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
     import {firebaseConfig} from "../firebase_config.js";
     import { getAuth, 
     onAuthStateChanged
 
-    } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+    } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 
     const app = initializeApp(firebaseConfig);
     const realdb = getDatabase(app);

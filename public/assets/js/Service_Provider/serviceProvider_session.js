@@ -1,19 +1,17 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 
 import { getAuth, 
   onAuthStateChanged, 
   signOut 
-} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-import { getDatabase, ref, child, onValue,get} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getFirestore} from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+import { getDatabase, ref, child, onValue,get} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 
 import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
-const firestoreapp = initializeApp(firestoreConfig,"secondary");
 const realdb = getDatabase(app);
 const auth = getAuth();
-const fireauth = getAuth(firestoreapp);
+
 
 
 
@@ -29,7 +27,7 @@ function getUserType(){
       
       if(user_type=="client" || user_type==null){
         alert("You are not supposed to be here");
-        window.location.replace("https://test-75edb.web.app/index.html");
+        window.location.replace("http://test-75edb.web.app/index.html");
       }else{
         
         document.getElementById("profile_content").style.visibility = "visible";
@@ -90,22 +88,7 @@ const monitorAuthState = async() =>{
       }
     });
   }
-const monitorFireAuth = async() =>{
 
-      onAuthStateChanged(fireauth,user=>{
-        if(user){
-          sessionStorage.fireuser = user.uid;
-          
-          checkSession();
-        }else{
-          console.log("no user");                    
-        }
-      });
-  
-}
-
-
-monitorFireAuth();
 monitorAuthState();
 
 
@@ -113,7 +96,7 @@ const signOutUser = async() =>{
 
     await signOut(auth);
     alert("logged out");
-    window.location.replace("https://test-75edb.web.app/index.html");
+    window.location.replace("http://test-75edb.web.app/index.html");
     sessionStorage.clear();
     location.reload();
     

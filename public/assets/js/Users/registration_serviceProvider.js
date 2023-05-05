@@ -128,6 +128,8 @@ function checkData(){
   }
   
 }
+
+
 window.addFields = function (){
   row_num +=1;
   var container = document.getElementById('experience_expertise');
@@ -226,7 +228,6 @@ window.nextPrev = function (n){
       businessEmail.value,
       phoneNumber.value,
       address.value,
-      address2.value,
       city.value,
       zip.value,
       typeOfProvider,

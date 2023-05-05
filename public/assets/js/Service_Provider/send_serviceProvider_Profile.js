@@ -1,16 +1,14 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, set, ref,update  } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-import { getFirestore,doc, addDoc , setDoc, collection} from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
-import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+import { getDatabase, set, ref,update  } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+import { getFirestore,doc,setDoc} from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
+import {firebaseConfig} from '../firebase_config.js';
 
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
   const auth = getAuth();
 
-  const firestoreapp = initializeApp(firestoreConfig,"secondary");
-  const firestoredb = getFirestore(firestoreapp); 
-  const fireauth = getAuth(firestoreapp);
+  const firestoredb = getFirestore(app); 
 /*window.onload = renderCaptcha();
 function renderCaptcha() {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
@@ -36,87 +34,86 @@ data = data.split(',');
 var exp = localStorage.getItem("exp_entries");
 var employees = localStorage.getItem("employee_data");
 
-    const createAccFirestore =async() =>{
-      await createUserWithEmailAndPassword(fireauth, data[15], data[16])
-        .then((fireStoreuserCredential) => {
-            // Signed in 
-            const fireuser = fireStoreuserCredential.user;
-            sessionStorage.fireuser = fireuser.uid;
-
-            try {
-              const docRef =  setDoc(doc(firestoredb, "users",fireuser.uid), {
-                username: data[2],
-                email: data[15],
-                phone_number: data[4],
-                user_type: "provider"
-              });
-
-              
-              
-            } catch (error) {
-              console.log(error);
-              location.reload();
-            }
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          alert(errorMessage);
-        });
-  }
-const createServiceProviderProfile = async() =>{
-createUserWithEmailAndPassword(auth, data[15], data[16])
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    
-    set(ref(database, 'ProviderProfile/' + user.uid),{
-        FirstName: data[0],
-        lastName: data[1],
+  async function saveAccFirestore (uid){
+    try {
+      await  setDoc(doc(firestoredb, "users",uid), {
         username: data[2],
-        businessEmail: data[3],
-        phoneNumber: data[4],
-        address: data[5],
-        address2: data[6],
-        city: data[7],
-        ZipCode: data[8],
-        typeOfProvider: data[9],
-        selfDescription: data[10],
-        CV: data[11],
-        brand_name: data[12],
-        brand_desc: data[13],
-        availability: data[14],
-        acc_email: data[15],
-        expertise: exp.split(','),
-        employees:employees.split(',')
-        
-    }).then(function(){
-        set(ref(database, 'users/' + user.uid),{
+        email: data[14],
+        phone_number: data[4],
+        user_type: "provider"
+      });
+
+      
+      
+    } catch (error) {
+      console.log(error);
+      location.reload();
+    }
+  }
+
+  async function saveAccRTDB(uid){
+    try{
+      await set(ref(database, 'users/' + uid),{
           username: data[2],
-          email: data[15],
+          email: data[14],
           phone_number: data[4],
           user_type: "provider"
       })
-      monitorAuthState(data[15], data[16]);
-    }).catch(function(error){
-       console.log('Synchronization failed');
-    })
-    
-    
-  })
-  .catch((error) => {
-    
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    
-    alert(errorMessage);
-    location.reload();
-    
-    // ..
-  });
-}
+    }catch (error) {
+      console.log(error);
+      location.reload();
+    }
 
-  createAccFirestore();
+  }
+
+  const createServiceProviderProfile = async() =>{
+    createUserWithEmailAndPassword(auth, data[14], data[15])
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        
+        set(ref(database, 'ProviderProfile/' + user.uid),{
+            FirstName: data[0],
+            lastName: data[1],
+            username: data[2],
+            businessEmail: data[3],
+            phoneNumber: data[4],
+            address: data[5],
+            city: data[6],
+            ZipCode: data[7],
+            typeOfProvider: data[8],
+            selfDescription: data[9],
+            CV: data[10],
+            brand_name: data[11],
+            brand_desc: data[12],
+            availability: data[13],
+            acc_email: data[14],
+            expertise: exp.split(','),
+            employees:employees.split(',')
+            
+        }).then(async function(){
+          await saveAccFirestore(user.uid);
+          await saveAccRTDB(user.uid);
+          monitorAuthState(data[14], data[15]);
+        }).catch(function(error){
+          console.log('Synchronization failed');
+        })
+        
+        
+      })
+    .catch((error) => {
+      
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      
+      alert(errorMessage);
+      location.reload();
+      
+      // ..
+    });
+  }
+
+  
   createServiceProviderProfile();
 
 
@@ -140,7 +137,7 @@ const monitorAuthState = async(acc,pass) =>{
     }).then(function(){
       alert("Account Creation Succesful");
       sessionStorage.status = "loggedIn";
-      window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+      window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
       localStorage.removeItem("Data");
       localStorage.removeItem("exp_entries");
       localStorage.removeItem("employee_data");

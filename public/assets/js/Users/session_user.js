@@ -1,14 +1,12 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, ref,get,child,onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getAuth,onAuthStateChanged,signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-import {  getFirestore , collection, getCountFromServer } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
-import {firebaseConfig, firestoreConfig} from '../firebase_config.js'; 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+import { getDatabase, ref,get,child,onValue } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+import { getAuth,onAuthStateChanged,signOut } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+import {  getFirestore , collection, getCountFromServer } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
+import {firebaseConfig} from '../firebase_config.js'; 
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
-const firestoreapp = initializeApp(firestoreConfig,"secondary");
-const firestoredb = getFirestore(firestoreapp); 
-const fireauth = getAuth(firestoreapp);
+const firestoredb = getFirestore(app); 
 const auth = getAuth(app);
 const checkifFirstLoggedIn = sessionStorage.getItem("IsThisFirstTime_Log_From_LiveServer");
 
@@ -103,24 +101,7 @@ async function getRequestsNum(UID){
 }
 
 
-const monitorFireAuth = async() =>{
-  if (checkifFirstLoggedIn == true);
-  else{
-      onAuthStateChanged(fireauth,user=>{
-        if(user){
-          console.log(user.emailVerified);
-          sessionStorage.fireuser = user.uid;
-          getRequestsNum(user.uid);
-            
-          
-        }else{
-          console.log("no user");                
-          signOut(auth);
-          signOut(fireauth);    
-        }
-      });
-  }
-}
+
       
 
 
@@ -135,10 +116,10 @@ const monitorAuthState = async() =>{
         sessionStorage.sessionCheck = "loggedIn";
 
         checkSession();
+        getRequestsNum(user.uid);
         getProfileIMG(user.uid);
       }else{
         signOut(auth);
-        signOut(fireauth);
         console.log("no user");
         document.getElementById("nav_barLoggedIn").style.display="none";
       }
@@ -147,7 +128,6 @@ const monitorAuthState = async() =>{
   }
 
 }
-monitorFireAuth();
 monitorAuthState();
 
 document.getElementById("nav_barLoggedIn").style.display="none";
@@ -158,7 +138,6 @@ document.getElementById("nav_barLoggedIn").style.display="none";
 
 const signOutUser = async() =>{
     await signOut(auth);
-    await signOut(fireauth);
     alert("logged out");
     document.getElementById("nav_barLoggedIn").style.display="none";
     document.getElementById("nav_bar").style.display="block";
@@ -166,7 +145,7 @@ const signOutUser = async() =>{
     localStorage.clear();
     location.reload();
     sessionStorage.reloaded = "yes";
-    window.location.replace("https://test-75edb.web.app/index.html");
+    window.location.replace("http://test-75edb.web.app/index.html");
 }
 document.getElementById('logOut').addEventListener('click', signOutUser);
 

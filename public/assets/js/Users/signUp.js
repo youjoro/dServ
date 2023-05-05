@@ -1,15 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword, RecaptchaVerifier,sendEmailVerification,signOut } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
-import { getFirestore,doc, addDoc , setDoc, collection} from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
-import {firebaseConfig, firestoreConfig} from '../firebase_config.js'; 
+import { getFirestore,doc,setDoc} from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
+import {firebaseConfig} from '../firebase_config.js'; 
 
-
-  const firestoreapp = initializeApp(firestoreConfig,"secondary");
-  const fireauth = getAuth(firestoreapp);
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
-  const firestoredb = getFirestore(firestoreapp); 
+  const firestoredb = getFirestore(app); 
   const auth = getAuth();
 
 
@@ -33,6 +30,8 @@ import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
 
     // render recaptcha verifier
   window.onload = render();
+
+  
   function render() {
       window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
     'size': 'small',
@@ -128,33 +127,18 @@ signUp.addEventListener('click',(e) => {
   phone_number = document.getElementById('phone_number').value;
 
 
-  const createAccFirestore =async() =>{
-    await createUserWithEmailAndPassword(fireauth, email, password)
-      .then((fireStoreuserCredential) => {
-          // Signed in 
-          const fireuser = fireStoreuserCredential.user;
-          sessionStorage.fireuser = fireuser.uid;
-          
-          try {
-            const docRef =  setDoc(doc(firestoredb, "users",fireuser.uid), {
-              username: username,
-              email: email,
-              phone_number: phone_number,
-              user_type: "client"
-            });
-
-            
-            
-          } catch (error) {
-            console.log(error);
-            location.reload();
-          }
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode,errorMessage); 
+  async function createAccFirestore(uid) {
+    try {
+      await setDoc(doc(firestoredb, "users",uid), {
+        username: username,
+        email: email,
+        phone_number: phone_number,
+        user_type: "client"
       });
+    } catch (error) {
+      console.log(error);
+      location.reload();
+    }
 }
 
 
@@ -163,23 +147,26 @@ signUp.addEventListener('click',(e) => {
       .then((userCredential) => {
         // Signed in dServ
         const user = userCredential.user;
+        
+
 
         const sendEMAILVERIFY = async() =>{
           sendEmailVerification(auth.currentUser)
           .then(() => {
             alert('Email verification sent!');
           });}
-          sendEMAILVERIFY();
 
+        sendEMAILVERIFY();
+          
         set(ref(database, 'users/' + user.uid),{
             username: username,
             email: email,
             phone_number: phone_number,
             user_type: "client"
-        }).then(function(){
-          
+        }).then(async function(){
+          await createAccFirestore(user.uid);
           alert('user created');
-          window.location.replace("https://test-75edb.web.app/index.html");
+          window.location.replace("http://test-75edb.web.app/index.html");
         }).catch(function(error){
           console.log('Synchronization failed');
         })
@@ -197,7 +184,7 @@ signUp.addEventListener('click',(e) => {
       });
   }
 
-  createAccFirestore();
+  
   createRealTimeDBAcc();
 
 })

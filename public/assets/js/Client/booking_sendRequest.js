@@ -1,12 +1,10 @@
-import { getFirestore , collection, addDoc, doc,setDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import {firestoreConfig} from '../firebase_config.js';
-import { getAuth, 
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { getFirestore , collection, addDoc, doc,setDoc } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js'
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+import {firebaseConfig} from '../firebase_config.js';
+import { getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 
 
-const app = initializeApp(firestoreConfig,"secondary");
+const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const fireauth = getAuth(app);
 var button = document.getElementById('sendRequest');
@@ -65,20 +63,18 @@ console.log(sessionData);
         mobileNum.disabled = true;
         email.disabled = true;
         clients.disabled = true;
-        bundle.disabled = true;
         remarks.disabled = true;
         button.disabled = true;
         sessOUT.style.display = '';
         sessIN.style.display = 'none';
         alert("Redirecting");
-        window.location.replace("https://test-75edb.web.app/index.html");
+        window.location.replace("http://test-75edb.web.app/index.html");
     }else{
         fName.disabled = false;
         lName.disabled = false;
         mobileNum.disabled = false;
         email.disabled = false;
-        clients.disabled = false;
-        bundle.disabled = false;
+        clients.disabled = false;        
         remarks.disabled = false;
         button.disabled = false;
         sessOUT.style.display = 'none';
@@ -121,8 +117,7 @@ async function sendRequest(userID){
             ClientFirstName: fName.value,
             ClientLastName: lName.value,
             ClientMobileNum: mobileNum.value,
-            ClientEmail: email.value,
-            ClientSelectedBundle: bundle.value,
+            ClientEmail: email.value,            
             clientNumber: clients.value,
             ClientRemarks: remarks.value,
             clientID:userID,
@@ -142,7 +137,7 @@ async function sendRequest(userID){
         console.error("Error adding document: ", e);
     } finally {
         localStorage.removeItem("Service");
-        window.location.replace("https://test-75edb.web.app/index.html");
+        window.location.replace("http://test-75edb.web.app/index.html");
     }
     
 }

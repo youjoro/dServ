@@ -149,34 +149,24 @@ function loadMap(){
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import {
   getAuth,
-  onAuthStateChanged,
-  signOut
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 import { getDatabase,  ref, get,child} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 import {   
   getFirestore,
   collection,
-  addDoc,
   query,
-  orderBy,
-  limit,
-  onSnapshot,
   setDoc,
-  updateDoc,
   doc,
-  serverTimestamp,  
-  getDocs,
   getDoc 
 } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
-import {firebaseConfig,firestoreConfig} from '../firebase_config.js'; 
+import {firebaseConfig} from '../firebase_config.js'; 
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
 const auth = getAuth(app);
 // Initialize firestore
-const firestoreapp = initializeApp(firestoreConfig,"secondary");
-const fireauth = getAuth(firestoreapp);
-const firestoredb = getFirestore(firestoreapp); 
+const firestoredb = getFirestore(app); 
 
 var userID = sessionStorage.getItem('fireuser');
 var username='';
@@ -184,33 +174,33 @@ var fullname ='';
 
 let docRef = '';
 async function addChatID(chatID){
-    var providerID = service.Owner;
-    sessionStorage.providerID = providerID;
-    sessionStorage.providerfireID = service.TransactionID;
-    try {
-        let username = await getName(userID);
-        console.log(username);
-        const date = new Date();
-        console.log("convo started");
+  var providerID = service.Owner;
+  sessionStorage.providerID = providerID;
+  sessionStorage.providerfireID = service.TransactionID;
+  try {
+      let username = await getName(userID);
+      console.log(username);
+      const date = new Date();
+      console.log("convo started");
 
 
-        const collectionRef = collection(firestoredb, "chat");
-        docRef = doc(collectionRef,chatID); 
-        const docID = docRef.id;
-        await setDoc(docRef, {
-            clientID:userID,
-            clientUsername:username,            
-            clientRTDB_ID:sessionStorage.getItem("user"),
-            serviceProviderName:fullname,
-            transactionProviderID:service.TransactionID,
-            serviceProviderImgLink:providerIMGLink,
-            dateStarted:date
-        });
-      setUserChatID(docID);
-    } catch (error) {
-      console.log(error);
+      const collectionRef = collection(firestoredb, "chat");
+      docRef = doc(collectionRef,chatID); 
+      const docID = docRef.id;
+      await setDoc(docRef, {
+          clientID:userID,
+          clientUsername:username,            
+          clientRTDB_ID:sessionStorage.getItem("user"),
+          serviceProviderName:fullname,
+          transactionProviderID:service.TransactionID,
+          serviceProviderImgLink:providerIMGLink,
+          dateStarted:date
+      });
+    setUserChatID(docID);
+  } catch (error) {
+    console.log(error);
 
-    }
+  }
 
 }
 
@@ -374,7 +364,7 @@ bookingselected.href="/Booking/booking_page.html";
 
 
 function sendToChat(){
-    window.location.replace("http://127.0.0.1:5500/chat/chat.html");
+    window.location.replace("http://test-75edb.web.app/chat/chat.html");
 }
 
 chatProvider.addEventListener('click',monitorFireAuth);

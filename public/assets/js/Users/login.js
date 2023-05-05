@@ -6,24 +6,34 @@ import { getAuth, signInWithEmailAndPassword, signOut, browserSessionPersistence
 } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 
 
-import {firebaseConfig, firestoreConfig} from '../firebase_config.js'; 
+import {firebaseConfig} from '../firebase_config.js'; 
 
-const firestoreapp = initializeApp(firestoreConfig,"secondary");
-const fireauth = getAuth(firestoreapp);
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-const firestoredb = getFirestore(firestoreapp); 
-const auth = getAuth();
-
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const firestoredb = getFirestore(app); 
+  const auth = getAuth();
 
 window.onload = document.getElementById('loading').style.visibility = 'hidden';
 
 
 const signOutUser = async() =>{
   await signOut(auth);
-  await signOut(fireauth);
   sessionStorage.clear();
 }
+
+
+function enterPress (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById('login').click();
+  }
+}
+
+var e = document.getElementById('email');
+var p = document.getElementById('password');
+
+e.addEventListener("keypress", enterPress); 
+p.addEventListener("keypress", enterPress); 
 
 
 async function getUserType(userID){
@@ -33,11 +43,11 @@ async function getUserType(userID){
     let user_type = snapshot.val();
     console.log(user_type);
     if(user_type=="client"){
-      window.location.replace("https://test-75edb.web.app/index.html");
+      window.location.replace("http://test-75edb.web.app/index.html");
     }else{
-      window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+      window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
     }
-  })
+  }) 
   } ;
   
   type();
@@ -62,19 +72,6 @@ login.addEventListener('click',(e)=>{
       const errorMessage = error.message;
     });
   
-  setPersistence(fireauth,browserSessionPersistence)
-    .then(()=>{
-      loginFirestore(email,password);
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
-  
-
-
-
 });
 
 async function loginRealTime(email,password){
@@ -91,11 +88,12 @@ async function loginRealTime(email,password){
 
       const dt = new Date();
 
-      update(ref(database, 'users/' + user.uid),{
+      update(ref(database, 'users/' + userID),{
       last_login: dt
-      })
-      .then(function(){
+      }
+      ).then(async function(){
 
+        await logFirebase(userID);
         alert('Logged In');
         getUserType(userID);
     
@@ -116,38 +114,20 @@ async function loginRealTime(email,password){
 }
 
 
-async function loginFirestore(email,password){
-  let firestoreUpdated = false;
+async function logFirebase(uid){
+  try{
+    const dt = new Date();
+      
+      await updateDoc(doc(firestoredb, "users",uid), {
+        LastLogin:dt 
+      });
+      
+      
+  }catch(error){
+    console.log(error);
+    location.reload();
+  }
 
-  signInWithEmailAndPassword(fireauth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const fireuser = userCredential.user;
-      sessionStorage.fireuser = fireuser.uid;    
-                              
-      try{
-        const dt = new Date();
-          
-          updateDoc(doc(firestoredb, "users",fireuser.uid), {
-            LastLogin:dt 
-          });
-          firestoreUpdated = true;  
-          
-          
-      }catch(error){
-        console.log(error);
-        location.reload();
-      }
-
-    })
-    
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorMessage);
-      signOutUser();
-    });
-  
 }
 
 

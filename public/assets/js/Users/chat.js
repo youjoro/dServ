@@ -1,11 +1,11 @@
 // Import the functions you need from the SDKs you need
-import {initializeApp} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import {
   getAuth,
   onAuthStateChanged,
   signOut
-} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-import { chatConfig } from "../firebase_chat_config.js";
+} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+
 import {   
   getFirestore,
   collection,
@@ -21,9 +21,9 @@ import {
   getDocs,
   getDoc,
   limitToLast
-} from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+} from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
 
-import { getDatabase, ref,get,child,onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getDatabase, ref,get,child,onValue} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 import {firebaseConfig,firestoreConfig} from "../firebase_config.js";
 
 if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
@@ -37,11 +37,8 @@ const realdb = getDatabase(app);
 const auth = getAuth(app);
 
 
-
 // Initialize firestore
-const firestoreapp = initializeApp(firestoreConfig,"secondary");
-const fireauth = getAuth(firestoreapp);
-const firestoredb = getFirestore(firestoreapp); 
+const firestoredb = getFirestore(app); 
 
 //HTML elements
 const checkifFirstLoggedIn = sessionStorage.getItem("IsThisFirstTime_Log_From_LiveServer");

@@ -362,46 +362,23 @@ window.onload = getLocation();
 //IMPORTS AND CONFIG
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import {getStorage, ref as sRef, uploadBytesResumable, getDownloadURL}
-from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
-import { getDatabase, ref, set, push }
-from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getAuth, 
-onAuthStateChanged, 
-
-} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-
-import { getFirestore} from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
-
-import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
+from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
+import { getDatabase, ref, push }
+from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+import {onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+import {firebaseConfig} from '../firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
-const firestoreapp = initializeApp(firestoreConfig,"secondary");
-const fireauth = getAuth(firestoreapp);
-const auth = getAuth();
 let check = sessionStorage.getItem("user");
 
 if (check !=null){
     document.getElementById('session').style.visibility  = "hidden";
 }else{
     alert("You are not allowed here");
-    window.location.replace("https://test-75edb.web.app/index.html");
-}
-
-const monitorFireAuth = async() =>{
-
-    onAuthStateChanged(fireauth,user=>{
-    if(user){
-        console.log(user.emailVerified);
-        sessionStorage.fireuser = user.uid;
-        
-    }else{
-        console.log("no user");                    
-    }
-    });
-
+    window.location.replace("http://test-75edb.web.app/index.html");
 }
 
 
@@ -417,13 +394,10 @@ const monitorAuthState = async() =>{
 }
 
 async function UploadAService(userID){
-    
-    monitorFireAuth();
-    var fireID = sessionStorage.getItem("fireuser");
     servicetime = amTime.value+"am to "+pmTime.value+"pm";
 
     try{
-        var insert = push(ref(realdb,"Services/"),{
+        push(ref(realdb,"Services/"),{
             ServiceName: service_name.value,
             ServicePrice: service_price.value,
             ServiceTimes: servicetime,
@@ -435,7 +409,7 @@ async function UploadAService(userID){
             location_data:loc_data.toString(),
             Phone_Number: contact_Number.value,
             Owner: userID,
-            TransactionID:fireID
+            TransactionID:userID
             
         }).then(function(){
             push(ref(realdb, 'ProviderProfile/' + userID + '/Services/'),{
@@ -449,10 +423,10 @@ async function UploadAService(userID){
             Location: document.getElementById('city').value ,
             location_data:loc_data.toString(),
             Phone_Number: contact_Number.value,
-            TransactionID:fireID
+            TransactionID:userID
             })
             alert("Upload Succesful");
-            window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+            window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
             
         });
     }catch(error){

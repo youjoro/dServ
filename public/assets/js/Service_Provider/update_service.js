@@ -348,15 +348,15 @@ window.onload = getLocation();
 //IMPORTS AND CONFIG
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import {getStorage, ref as sRef, uploadBytesResumable, getDownloadURL}
-    from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
+    from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
 import { getDatabase, ref, set, child, update, remove }
-    from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+    from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 import { getAuth, 
   onAuthStateChanged, 
 
-} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 
 
 
@@ -385,7 +385,7 @@ window.onload = function(){
         document.getElementById('session').style.visibility  = "hidden";
     }else{
         alert("You are not allowed here");
-        window.location.replace("https://test-75edb.web.app/index.html");
+        window.location.replace("http://test-75edb.web.app/index.html");
     }
 
     const monitorFireAuth = async() =>{
@@ -450,7 +450,7 @@ window.onload = function(){
                 TransactionID:fireID
                 })
                 alert("Upload Succesful");
-                window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+                window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
                 
             });
         }catch(error){
