@@ -1,7 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { getDatabase, ref,get,child,onValue } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
-import { getAuth,onAuthStateChanged,signOut } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
-import {  getFirestore , collection, getCountFromServer } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { getDatabase, ref,get,child,onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getAuth,onAuthStateChanged,signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import {  getFirestore , collection, getCountFromServer } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 import {firebaseConfig} from '../firebase_config.js'; 
 
 const app = initializeApp(firebaseConfig);

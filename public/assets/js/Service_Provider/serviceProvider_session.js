@@ -6,7 +6,7 @@ import { getAuth,
 } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 import { getDatabase, ref, child, onValue,get} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 
-import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
+import {firebaseConfig} from '../firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);

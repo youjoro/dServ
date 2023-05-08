@@ -367,11 +367,12 @@ import {getStorage, ref as sRef, uploadBytesResumable, getDownloadURL}
 from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
 import { getDatabase, ref, push }
 from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
-import {onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 import {firebaseConfig} from '../firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
+const auth = getAuth();
 let check = sessionStorage.getItem("user");
 
 if (check !=null){

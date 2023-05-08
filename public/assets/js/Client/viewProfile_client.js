@@ -1,13 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import { getDatabase, ref, child, get }
 from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
-import {firebaseConfig,firestoreConfig} from "../firebase_config.js";
+import {firebaseConfig} from "../firebase_config.js";
 import { getFirestore , collection, doc,getDoc,getDocs,query,orderBy,limitToLast } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js'
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
-const fireapp = initializeApp(firestoreConfig,"secondary");
-const firedb = getFirestore(fireapp);
+const firedb = getFirestore(app);
 
 const username = document.getElementById('username');
 const fullname = document.getElementById('userFullname');
@@ -18,7 +17,6 @@ const requestList = document.getElementById('requestsList');
 const inbox = document.getElementById('inbox');
 
 var userID = sessionStorage.getItem('user');
-var fireUser = sessionStorage.getItem('fireuser');
 var arrayOfRequests =[];
 window.onload = loadProfileData(userID);
 window.onload = loadRequests();
@@ -57,7 +55,7 @@ function loadProfileData(userID){
 }
 
 async function loadChat(){
-    const requests = collection(firedb,"users",fireUser,"chat");
+    const requests = collection(firedb,"users",userID,"chat");
     
     const querySnapshot = await getDocs(requests);
     try{
@@ -124,7 +122,7 @@ async function getProviderName(id){
 
 async function loadRequests() {
     let i = 0
-    const requests = collection(firedb,"users",fireUser,"transactions");
+    const requests = collection(firedb,"users",userID,"transactions");
 
     try{
         const querySnapshot = await getDocs(requests);

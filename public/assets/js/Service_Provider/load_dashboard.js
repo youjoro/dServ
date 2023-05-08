@@ -1,20 +1,12 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { getDatabase, ref, onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getFirestore , collection, getCountFromServer, query, getDocs,doc,getDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
-import { getAuth, 
-  onAuthStateChanged, 
-  signOut 
-} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
-import { getDatabase, ref, onValue} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
-import { getFirestore , collection, getCountFromServer, query, getDocs,doc,getDoc } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
-
-import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
+import {firebaseConfig} from '../firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
-const firestoreapp = initializeApp(firestoreConfig,"secondary");
-const firestoredb = getFirestore(firestoreapp);
+const firestoredb = getFirestore(app);
 const realdb = getDatabase(app);
-const fireauth = getAuth(firestoreapp);
-const auth = getAuth();
 
 window.onload = document.getElementById("profile_content").style.visibility = "hidden";
 
@@ -39,8 +31,8 @@ const requestnotif = document.getElementById('request_notif');
 async function getRequestsID(serviceName){
   let IDs = []
   console.log(serviceName);
-  var fireuserID = sessionStorage.getItem('fireuser');
-    const q = collection(firestoredb, "users",fireuserID,"services",serviceName,"transactions");
+  var userID = sessionStorage.getItem('fireuser');
+    const q = collection(firestoredb, "users",userID,"services",serviceName,"transactions");
     
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
@@ -78,8 +70,8 @@ async function getRequests(serviceName){
 }
 
 async function getRequestsNum(serviceName){
-  var fireuserID = sessionStorage.getItem("fireuser")
-  const coll = collection(firestoredb, "users",fireuserID,"services",serviceName,"transactions");
+  var userID = sessionStorage.getItem("user");
+  const coll = collection(firestoredb, "users",userID,"services",serviceName,"transactions");
 
   const snapshot = await getCountFromServer(coll);
   total_pending = total_pending + snapshot.data().count;
@@ -94,8 +86,8 @@ async function getRequestsNum(serviceName){
 }
 
 async function getFinished(serviceName){
-  var fireuserID = sessionStorage.getItem("fireuser")
-  const coll = collection(firestoredb, "users",fireuserID,"services",serviceName,"finished");
+  var userID = sessionStorage.getItem("user");
+  const coll = collection(firestoredb, "users",userID,"services",serviceName,"finished");
 
   const snapshot = await getCountFromServer(coll);
   

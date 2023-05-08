@@ -2,8 +2,7 @@
 import {initializeApp} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import {
   getAuth,
-  onAuthStateChanged,
-  signOut
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 
 import {   
@@ -12,19 +11,16 @@ import {
   addDoc,
   query,
   orderBy,
-  limit,
   onSnapshot,
-  setDoc,
   updateDoc,
   doc,
-  serverTimestamp,  
   getDocs,
   getDoc,
   limitToLast
 } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
 
 import { getDatabase, ref,get,child,onValue} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
-import {firebaseConfig,firestoreConfig} from "../firebase_config.js";
+import {firebaseConfig} from "../firebase_config.js";
 
 if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
   sessionStorage.removeItem('currentchat');
@@ -48,8 +44,7 @@ const chatArea = document.getElementById('messages');
 const inbox = document.getElementById('chatInbox');
 
 //session Element
-var userID = sessionStorage.getItem('fireuser');
-//var recipientFireID = sessionStorage.getItem('providerfireID');
+var userID = sessionStorage.getItem("user");
 let userTYPE = sessionStorage.getItem('userTYPE');
 let docRef = '';
 let refID ='';
@@ -148,7 +143,7 @@ async function getProfileIMG(chatID){
 const monitorFireAuth = async() =>{
   if (checkifFirstLoggedIn == true);
   else{
-      onAuthStateChanged(fireauth,user=>{
+      onAuthStateChanged(auth,user=>{
         if(user){          
              
           getChats(user.uid);

@@ -168,7 +168,7 @@ const auth = getAuth(app);
 // Initialize firestore
 const firestoredb = getFirestore(app); 
 
-var userID = sessionStorage.getItem('fireuser');
+var userID = sessionStorage.getItem("user");
 var username='';
 var fullname ='';
 
@@ -266,7 +266,7 @@ async function getName(ID){
 const monitorFireAuth = async() =>{
   
   
-      onAuthStateChanged(fireauth,user=>{
+      onAuthStateChanged(auth,user=>{
         if(user){                  
             
           let chatID = service.TransactionID+"-"+userID;

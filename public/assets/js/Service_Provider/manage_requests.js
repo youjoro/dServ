@@ -1,11 +1,11 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 
 import { getAuth, 
   onAuthStateChanged, 
   signOut 
-} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
-import { getDatabase, ref, onValue} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
-import { getFirestore , collection,getDoc, doc , getCountFromServer, query,  getDocs,writeBatch,  } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
+} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { getDatabase, ref, onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getFirestore , collection,getDoc, doc , getCountFromServer, query,  getDocs,writeBatch,  } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
 import {firebaseConfig} from '../firebase_config.js';
 
@@ -34,7 +34,7 @@ const chatClient = document.getElementById('chatClient');
 window.onload = cancelReq.style.display = "none";
 window.onload = acceptReq.style.display = "none";
 window.onload = chatClient.style.display = "none";
-var fireuserID = sessionStorage.getItem('fireuser');
+var fireuserID = sessionStorage.getItem('user');
 
 //Session
 
@@ -80,20 +80,7 @@ if(sessionData != null){
 }
 
 
-const monitorFireAuth = async() =>{
 
-    onAuthStateChanged(fireauth,user=>{
-      if(user){
-        console.log(user.emailVerified);
-        sessionStorage.fireuser = user.uid;
-        
-        checkSession(user);
-      }else{
-        console.log("no user");                    
-      }
-    });
-  
-}
 
 
 const monitorAuthState = async() =>{
@@ -110,7 +97,7 @@ const monitorAuthState = async() =>{
   }
 
 monitorAuthState();
-monitorFireAuth();
+
 
 
 
@@ -125,7 +112,7 @@ monitorFireAuth();
 //Firestore
 async function acceptRequest(){
   alert("are you sure?");
-  let fireuser = sessionStorage.getItem('fireuser');
+  let fireuser = sessionStorage.getItem('user');
   let creds =localStorage.getItem('item');
   creds = creds.split(',');
   
@@ -148,7 +135,7 @@ async function acceptRequest(){
 
 async function cancelRequest(){
   alert("are you sure?");
-  let fireuser = sessionStorage.getItem('fireuser');
+  let fireuser = sessionStorage.getItem('user');
   let creds =localStorage.getItem('item');
   creds = creds.split(',');
   
@@ -184,7 +171,7 @@ async function getRequests(docID){
   let IDs = [];
   console.log(docID);
   let id ="";
-  let userID = sessionStorage.getItem('fireuser');
+  let userID = sessionStorage.getItem('user');
     const q = query(collection(firestoredb,"users",userID, "services",docID,"transactions"));
     
     const querySnapshot = await getDocs(q);
@@ -250,7 +237,6 @@ async function getFinished(serviceName){
 //Services to HTML
 var servicesList=[];
 function loadServices(){
-  
 
   var userID = sessionStorage.getItem("user");
   const getService = ref(realdb, 'ProviderProfile/'+userID+'/Services');

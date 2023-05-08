@@ -360,12 +360,11 @@ import { getAuth,
 
 
 
-import {firebaseConfig, firestoreConfig} from '../firebase_config.js';
+import {firebaseConfig} from '../firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
-const firestoreapp = initializeApp(firestoreConfig,"secondary");
-const fireauth = getAuth(firestoreapp);
+const fireauth = getAuth(app);
 const auth = getAuth();
 
 let check = sessionStorage.getItem("user");
