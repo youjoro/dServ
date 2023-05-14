@@ -161,7 +161,7 @@ function appendLocalStorage(requestInfo){
   }else if(!localArray.includes(requestInfo)){
     localStorage.requests=localArray +","+requestInfo
   }else{
-    
+    localStorage.requests="none";
   }
 }
 
