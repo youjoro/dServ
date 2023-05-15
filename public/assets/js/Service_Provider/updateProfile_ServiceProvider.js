@@ -55,19 +55,16 @@
         
         editButton[i].addEventListener('click',function(){            
             let classEdit = this.className.split(' ');
-            console.log(classEdit[2]);
             check(classEdit[2]);
         });
         
         cancelEditButton[i].addEventListener('click',function(){
             let classEdit = this.className.split(' ');
-            console.log(classEdit[5]);            
             cancelEdit(classEdit[5])
         });
 
         updateDataButton[i].addEventListener('click',function(){
             let classEdit = this.className.split(' ');
-            console.log(classEdit[5]);            
             updateData(classEdit[5])
         });
 
@@ -246,7 +243,7 @@
         if (textBars[index].value == ""){
             console.log("nigger");
         }else{
-            console.log(textBars[index].value);
+            console.log(choices[num]);
         }
     }
     editButton.onclick = check;

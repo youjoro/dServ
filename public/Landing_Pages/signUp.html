@@ -28,9 +28,7 @@
       button{
             font-family: 'Urbanist', sans-serif;
         }
-      #signUp_div{
-        width: 20em;
-      }
+   
     </style>
     
 
@@ -112,25 +110,32 @@
 
 
 
-    <main class="form-signin w-100 h-100 m-auto " id="signUp-form" style="z-index:1;"  >
+    <main class="form-signin w-100 m-auto " style="z-index:1;"  >
 
-      <div class="shadow-lg pt-5 pb-4 px-5 bg-white rounded" id="signUp_div">
-        <form class="w-100">
+      <div class="shadow-lg pt-5 pb-4 px-5 bg-white rounded">
+        <form>
           <img class="mb-4 border-left-0 rounded text-bg-dark" src="/assets/img/logo.png" alt="logo" width="120" height="120">
           <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
+          <br>
+          <br>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="username" placeholder="username">
+            <label for="floatingInput">Username</label>
+          </div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="email" placeholder="name@example.com">
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating mt-2">
+            <input type="password" class="form-control" id="password" placeholder="Password">
+            <label for="floatingInput">Password</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password">
+            <label for="floatingInput">Confirm Password</label>
+          </div>
 
-          <div class="form-floating">
-          <input type="text" class="form-control" id="username" placeholder="username">
-          <label for="floatingInput">Username</label>
-          </div>
-          <div class="form-floating">
-          <input type="text" class="form-control" id="email" placeholder="name@example.com">
-          <label for="floatingInput">Email address</label>
-          </div>
-          <div class="form-floating">
-          <input type="password" class="form-control" id="password" placeholder="Password">
-          <label for="floatingPassword">Password</label>
-          </div>
+          <hr>
           <div class="form-floating">
             <div class="form-floating">
             <input type="text" class="form-control" id="phone_number" placeholder="09123456789" maxlength="11">

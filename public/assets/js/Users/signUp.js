@@ -48,6 +48,29 @@ import {firebaseConfig} from '../firebase_config.js';
   }
 
 
+  //check confirm password
+  var pass = document.getElementById("password");
+  var confirm_pass = document.getElementById("confirm_password");
+
+  confirm_pass.addEventListener('input',checkPass);
+
+  function checkPass(){
+    if (pass.value == confirm_pass.value){
+      pass.classList.add("border-success");
+      confirm_pass.classList.add("border-success");
+      pass.classList.remove("border-warning");
+      confirm_pass.classList.remove("border-warning");
+      document.getElementById("sendNum").disabled=false;
+    }else if(pass.value != confirm_pass.value){
+      pass.classList.add("border-warning");
+      confirm_pass.classList.add("border-warning");
+      pass.classList.remove("border-success");
+      confirm_pass.classList.remove("border-success");
+      document.getElementById("sendNum").disabled=true;
+    }
+  }
+
+
   var coderesult = "";
   // function for send OTP
   window.phoneAuth = function () {

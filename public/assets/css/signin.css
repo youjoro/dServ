@@ -12,7 +12,7 @@ body {
 }
 
 .form-signin {
-  max-width: 350px;
+  max-width: 500px;
   padding: 15px;
 }
 
@@ -27,7 +27,6 @@ body {
 }
 
 .form-signin input[type="password"] {
-  margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
