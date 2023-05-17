@@ -189,7 +189,7 @@ signUp.addEventListener('click',(e) => {
         }).then(async function(){
           await createAccFirestore(user.uid);
           alert('user created');
-          window.location.replace("http://test-75edb.web.app/index.html");
+          window.location.replace("http://http://test-75edb.web.app/index.html");
         }).catch(function(error){
           console.log('Synchronization failed');
         })

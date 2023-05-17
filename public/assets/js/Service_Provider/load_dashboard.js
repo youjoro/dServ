@@ -139,6 +139,7 @@ function addAllServices(){
     });
     
     console.log(arrayOfServices);
+    sessionStorage.servicesCount = servicesList.length;
 }
 
 

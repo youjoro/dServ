@@ -2,7 +2,7 @@
 var Files = [];
 var FileReaders = [];
 var imageLinkArray = [];
-
+let check = sessionStorage.getItem("user");
 //Location
 const locationbutton = document.getElementById('getLocation');
 //Images 
@@ -25,6 +25,8 @@ const point_1 = document.getElementById('Point1_Inp');
 const point_2 = document.getElementById('Point2_Inp');
 const point_3 = document.getElementById('Point3_Inp');
 
+let servicesCount = sessionStorage.getItem("servicesCount");
+console.log(servicesCount);
 
 let servicetime = "";
 var map = L.map('map').setView([14.23307, 121.176], 13);
@@ -98,30 +100,15 @@ function ClearImages(){
 }
 
 
-
-
-function getShortTitle(){
-    let namey = service_name.value.substring(0,50);
-    return namey.replace(/[^a-zA-Z0-9]/g,"");
-}
-
-
-
-
-
 function getImageUploadProgress(){
     return 'Images Uploaded' + imageLinkArray.length + 'of' + Files.length;
 }
 
 
 
-
-
 function isAllImagesUploaded(){
     return imageLinkArray.length == Files.length;
 }
-
-
 
 
 
@@ -213,9 +200,11 @@ function UploadAnImage(imgToUpload, imgNo){
         contentType: imgToUpload.type
     };
 
+
+
     const storage = getStorage();
 
-    const imageAddress = "Images_" + getShortTitle()+ "/img#" + (imgNo+1); 
+    const imageAddress = "Images_" + check +"_" +servicesCount+ "/img#" + (imgNo+1); 
 
     const storageRef = sRef(storage,imageAddress);
 
@@ -365,7 +354,7 @@ window.onload = getLocation();
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import {getStorage, ref as sRef, uploadBytesResumable, getDownloadURL}
 from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
-import { getDatabase, ref, push }
+import { getDatabase, ref, push, set }
 from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 import { getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 import {firebaseConfig} from '../firebase_config.js';
@@ -373,13 +362,13 @@ import {firebaseConfig} from '../firebase_config.js';
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
 const auth = getAuth();
-let check = sessionStorage.getItem("user");
+
 
 if (check !=null){
     document.getElementById('session').style.visibility  = "hidden";
 }else{
     alert("You are not allowed here");
-    window.location.replace("http://test-75edb.web.app/index.html");
+    window.location.replace("http://http://test-75edb.web.app/index.html");
 }
 
 
@@ -396,9 +385,9 @@ const monitorAuthState = async() =>{
 
 async function UploadAService(userID){
     servicetime = amTime.value+"am to "+pmTime.value+"pm";
-
     try{
-        push(ref(realdb,"Services/"),{
+        const serv = push(ref(realdb,"Services/"));
+        set(serv,{
             ServiceName: service_name.value,
             ServicePrice: service_price.value,
             ServiceTimes: servicetime,
@@ -410,25 +399,12 @@ async function UploadAService(userID){
             location_data:loc_data.toString(),
             Phone_Number: contact_Number.value,
             Owner: userID,
-            TransactionID:userID
+            TransactionID:userID,
             
-        }).then(function(){
-            push(ref(realdb, 'ProviderProfile/' + userID + '/Services/'),{
-            ServiceName: service_name.value,
-            ServicePrice: service_price.value,
-            ServiceTimes: servicetime,
-            ServiceCategory: service_category.value,
-            Description: service_desc.value,
-            Points: getPoints(),
-            LinksOfImagesArray: imageLinkArray,
-            Location: document.getElementById('city').value ,
-            location_data:loc_data.toString(),
-            Phone_Number: contact_Number.value,
-            TransactionID:userID
-            })
-            alert("Upload Succesful");
-            window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
-            
+        })              
+        .then(()=>{
+            console.log(serv.id);
+            saveToUser(serv.id);
         });
     }catch(error){
         alert(error);
@@ -436,5 +412,28 @@ async function UploadAService(userID){
     }
     
 
+    
+}
+
+
+
+async function saveToUser(servID){
+    await set(ref(realdb, 'ProviderProfile/' + userID + '/Services/'+servID),{
+    ServiceName: service_name.value,
+    ServicePrice: service_price.value,
+    ServiceTimes: servicetime,
+    ServiceCategory: service_category.value,
+    Description: service_desc.value,
+    Points: getPoints(),
+    LinksOfImagesArray: imageLinkArray,
+    Location: document.getElementById('city').value ,
+    location_data:loc_data.toString(),
+    Phone_Number: contact_Number.value,
+    TransactionID:userID,
+    imgFolder:check +"_" +servicesCount
+    
+    })
+    alert("Upload Succesful");
+    window.location.replace("http://http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
     
 }

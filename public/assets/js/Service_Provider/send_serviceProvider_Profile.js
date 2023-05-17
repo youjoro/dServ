@@ -137,7 +137,7 @@ const monitorAuthState = async(acc,pass) =>{
     }).then(function(){
       alert("Account Creation Succesful");
       sessionStorage.status = "loggedIn";
-      window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
+      window.location.replace("http://http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
       localStorage.removeItem("Data");
       localStorage.removeItem("exp_entries");
       localStorage.removeItem("employee_data");

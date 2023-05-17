@@ -145,7 +145,7 @@ const signOutUser = async() =>{
     localStorage.clear();
     location.reload();
     sessionStorage.reloaded = "yes";
-    window.location.replace("http://test-75edb.web.app/index.html");
+    window.location.replace("http://http://test-75edb.web.app/index.html");
 }
 document.getElementById('logOut').addEventListener('click', signOutUser);
 

@@ -92,12 +92,6 @@
     }
 
 
-    function getShortTitle(){
-        let namey = service_name.value.substring(0,50);
-        return namey.replace(/[^a-zA-Z0-9]/g,"");
-    }
-
-
 
     function getImageUploadProgress(){
         return 'Images Uploaded' + imageLinkArray.length + 'of' + Files.length;
@@ -201,7 +195,7 @@
 
         const storage = getStorage();
 
-        const imageAddress = "Images_" + getShortTitle()+ "/img#" + (imgNo+1); 
+        const imageAddress = "Images_" + request.imgFolder+ "/img#" + (imgNo+1); 
 
         const storageRef = sRef(storage,imageAddress);
 
@@ -364,7 +358,6 @@ import {firebaseConfig} from '../firebase_config.js';
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
-const fireauth = getAuth(app);
 const auth = getAuth();
 
 let check = sessionStorage.getItem("user");
@@ -377,6 +370,7 @@ window.onload = function(){
     if (request){
         request = JSON.parse(request);
         console.log(request.id);
+        console.log(request.imgFolder);
     }
 }
 
@@ -384,22 +378,7 @@ window.onload = function(){
         document.getElementById('session').style.visibility  = "hidden";
     }else{
         alert("You are not allowed here");
-        window.location.replace("http://test-75edb.web.app/index.html");
-    }
-
-    const monitorFireAuth = async() =>{
-
-      onAuthStateChanged(fireauth,user=>{
-        if(user){
-          console.log(user.emailVerified);
-          sessionStorage.fireuser = user.uid;
-          
-          
-        }else{
-          console.log("no user");                    
-        }
-      });
-  
+        window.location.replace("http://http://test-75edb.web.app/index.html");
     }
 
 
@@ -416,11 +395,9 @@ window.onload = function(){
     }
 
     async function UploadAService(userID){
-        monitorFireAuth();
-        var fireID = sessionStorage.getItem("fireuser");
         servicetime = amTime.value+"am to "+pmTime.value+"pm";
         try{
-            update(ref(realdb,"Services/"),{
+            update(ref(realdb,"Services/"+request.id),{
                 ServiceName: service_name.value,
                 ServicePrice: service_price.value,
                 ServiceTimes: servicetime,
@@ -432,10 +409,10 @@ window.onload = function(){
                 location_data:loc_data.toString(),
                 Phone_Number: contact_Number.value,
                 Owner: userID,
-                TransactionID:fireID
+                TransactionID:check
                 
             }).then(function(){
-                update(ref(realdb, 'ProviderProfile/' + userID + '/Services/' ),{
+                update(ref(realdb, 'ProviderProfile/' + userID + '/Services/'+request.id ),{
                 ServiceName: service_name.value,
                 ServicePrice: service_price.value,
                 ServiceTimes: servicetime,
@@ -446,10 +423,10 @@ window.onload = function(){
                 Location: document.getElementById('city').value ,
                 location_data:loc_data.toString(),
                 Phone_Number: contact_Number.value,
-                TransactionID:fireID
+                TransactionID:check
                 })
                 alert("Upload Succesful");
-                window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
+                window.location.replace("http://http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
                 
             });
         }catch(error){

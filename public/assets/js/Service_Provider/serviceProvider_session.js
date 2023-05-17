@@ -27,7 +27,7 @@ function getUserType(){
       
       if(user_type=="client" || user_type==null){
         alert("You are not supposed to be here");
-        window.location.replace("http://test-75edb.web.app/index.html");
+        window.location.replace("http://http://test-75edb.web.app/index.html");
       }else{
         
         document.getElementById("profile_content").style.visibility = "visible";
@@ -96,7 +96,7 @@ const signOutUser = async() =>{
 
     await signOut(auth);
     alert("logged out");
-    window.location.replace("http://test-75edb.web.app/index.html");
+    window.location.replace("http://http://test-75edb.web.app/index.html");
     sessionStorage.clear();
     location.reload();
     
