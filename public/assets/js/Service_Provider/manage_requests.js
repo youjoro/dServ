@@ -5,7 +5,7 @@ import { getAuth,
   signOut 
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { getDatabase, ref, onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getFirestore , collection,getDoc, doc , getCountFromServer, query,  getDocs,writeBatch,  } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { getFirestore , collection,getDoc, doc , getCountFromServer, query,  getDocs,writeBatch } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
 import {firebaseConfig} from '../firebase_config.js';
 

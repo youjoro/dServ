@@ -1,14 +1,16 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
     import {getStorage, ref as sRef, uploadBytesResumable, getDownloadURL}
     from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
-    import { getDatabase, ref, set, child,get }
+    import { getDatabase, ref, set, child,get ,update }
     from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
     import {firebaseConfig} from "../firebase_config.js";
     import { getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
-
+    import { getFirestore,writeBatch, doc }from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
     const app = initializeApp(firebaseConfig);
     const realdb = getDatabase(app);
+    const fireDB = getFirestore(app);
     const auth = getAuth();
+    const batch = writeBatch(fireDB);
 
     var files = [];
     var reader = new FileReader();
@@ -23,7 +25,8 @@
 
 
     const username = document.getElementById('username');
-    const fullname = document.getElementById('fullname');
+    const firstName = document.getElementById('firstName');
+    const lastName = document.getElementById('lastName')
     const address = document.getElementById('address');
     const businessEmail = document.getElementById('businessEmail');
     const selfDescription = document.getElementById('selfDescription');
@@ -77,8 +80,8 @@
             get(child(dbRef,"ProviderProfile/"+userID)).then((snapshot)=>{
             
             if(snapshot.exists()){
-                let profilefullname =":  "+ snapshot.val().FirstName +" "+snapshot.val().lastName;
-                fullname.innerHTML =": "+ profilefullname;
+                lastName.innerHTML= ": "+snapshot.val().lastName;
+                firstName.innerHTML =":  "+ snapshot.val().FirstName;
                 username.innerHTML = ": "+snapshot.val().username;
                 address.innerHTML = ": "+snapshot.val().address;
 
@@ -207,7 +210,7 @@
 
     function getServiceIndex(id){
         var indstart = id.indexOf('-')+1;
-        
+        console.log(indstart);
         return Number(id.substring(indstart));
     }       
 
@@ -220,31 +223,69 @@
 
     function cancelEdit(num){
         var index = getServiceIndex(num);
-        textBars[index].value = '';
-        editPrompt[index].style.display = "none";
+        if (index==8){
+            textBars[7].value = '';
+            editPrompt[index].style.display = "none";
+        }else{
+            console.log(textBars[index],index)
+            textBars[index].value = '';
+            editPrompt[index].style.display = "none";
+        }
+
     }
 
     function updateData(num){
         
         let choices = {
             0:"username",
-            1:"FirstName lastName",
-            2:"address",
-            3:"businessEmail",
-            4:"selfDescription",
-            5:"brand_name",
-            6:"availability",
-            7:"brand_desc"
+            1:"FirstName",
+            2:"lastName",
+            3:"address",
+            4:"businessEmail",
+            5:"selfDescription",
+            6:"brand_name",
+            7:"availability",
+            8:"brand_desc"
         }
         var index = getServiceIndex(num);
+        let chosen =choices[index]
 
-        console.log(choices[index]);
-        
         if (textBars[index].value == ""){
-            console.log("nigger");
+            console.log(chosen);
         }else{
-            console.log(choices[num]);
+            console.log(chosen);
+            var a = new Object();
+            a[chosen] = textBars[index].value;
+            console.log(a);
+
+            if (chosen == "username"){
+               update(ref(realdb, 'users/' + userID),a).then(function(){
+                batch.update(doc(fireDB, "users",userID), a)   
+                batch.commit().then(() => {
+                        updateNewData(a)
+                    });
+                    
+                    
+                }).catch(function(error){
+                console.log('Synchronization failed');
+            }) 
+            }
+            else{
+                updateNewData(a)
+            }
         }
     }
+
+
+    async function updateNewData(a){
+        update(ref(realdb, 'ProviderProfile/' + userID),a).then(function(){
+                    alert("Updated Data");
+                    location.reload();
+                }).catch(function(error){
+                console.log('Synchronization failed');
+            })
+    }
+
+
     editButton.onclick = check;
     upBtn.onclick = monitorAuthState;  
