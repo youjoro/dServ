@@ -368,7 +368,7 @@ if (check !=null){
     document.getElementById('session').style.visibility  = "hidden";
 }else{
     alert("You are not allowed here");
-    window.location.replace("http://http://test-75edb.web.app/index.html");
+    window.location.replace("http://test-75edb.web.app/index.html");
 }
 
 
@@ -434,6 +434,6 @@ async function saveToUser(servID,userID,servicetime){
     
     })
     alert("Upload Succesful");
-    window.location.replace("http://http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
+    window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
     
 }

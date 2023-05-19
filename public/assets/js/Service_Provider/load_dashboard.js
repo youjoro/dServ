@@ -20,18 +20,24 @@ const messagesTab =document.getElementById('messages');
 const pend_text = document.getElementById('pendingRequests');
 const jobCompletetext = document.getElementById('jobs_completed');
 const requestnotif = document.getElementById('request_notif');
-
-
+const create = document.getElementById('createServiceButton');
+const verifyMessage = document.getElementById('verMessage');
+const verifyDiv = document.getElementById('verifyDiv');
+let validated =  sessionStorage.verified
 
 //Services
 
-
-
-
+if (validated=="false"){
+  create.style.visibility = 'hidden';
+  verifyMessage.style.visibility = 'visible';
+}else{
+  create.style.visibility = 'visible';
+  verifyMessage.remove();
+}
 async function getRequestsID(serviceName){
   let IDs = []
   console.log(serviceName);
-  var userID = sessionStorage.getItem('fireuser');
+  var userID = sessionStorage.getItem('user');
     const q = collection(firestoredb, "users",userID,"services",serviceName,"transactions");
     
     const querySnapshot = await getDocs(q);
@@ -48,15 +54,16 @@ async function getRequestsID(serviceName){
 
 
 async function getRequests(serviceName){
-  
+  console.log(serviceName);
   let requestID = await getRequestsID(serviceName);
   console.log(requestID);
   for(var i = 0; i<requestID.length;i++){
+    console.log(requestID);
     const q = doc(firestoredb,"transactions",requestID[i]);
     const docSnap = await getDoc(q);
 
     if (docSnap.exists()) {
-      
+      console.log(docSnap);
       await createMessages(docSnap.data());
     } else {
       // doc.data() will be undefined in this case
@@ -129,9 +136,8 @@ function addAllServices(){
     servicesList.forEach(serv =>{
       
       addAService(serv, i);
-      addMessage(serv, i);
+      addMessage(serv);
 
-      console.log(i);
       arrayOfServices.push(serv);
       let end = arrayOfServices[arrayOfServices.length - 1];
       end['id']=serv.id;
@@ -148,15 +154,14 @@ function addAllServices(){
 
 
 async function addMessage(service){
-  
     
-    await getRequests(service.id.replace(/\s/g,''));
+  await getRequests(service.id.replace(/\s/g,''));
 
 }
 
 function appendLocalStorage(requestInfo){
   var localArray = localStorage.getItem('requests');
-  
+  console.log(requestInfo);
   if(localArray == null){
     localStorage.requests=requestInfo;
   }else if(!localArray.includes(requestInfo)){
@@ -164,10 +169,11 @@ function appendLocalStorage(requestInfo){
   }else{
     localStorage.requests="none";
   }
+  console.log(localStorage.getItem("requests"));
 }
 
 function createMessages(requests){
-  
+  console.log(requests);
   
   let desc = requests.ClientRemarks.substring(0,25);
   desc.replace(/[^a-zA-Z0-9]/g,"...");

@@ -268,7 +268,8 @@ const monitorFireAuth = async() =>{
   
       onAuthStateChanged(auth,user=>{
         if(user){                  
-            
+
+          sessionStorage.verified = user.emailVerified;          
           let chatID = service.TransactionID+"-"+userID;
           sessionStorage.chatID = chatID;
           addChatID(chatID);
@@ -364,7 +365,7 @@ bookingselected.href="/Booking/booking_page.html";
 
 
 function sendToChat(){
-    window.location.replace("http://http://test-75edb.web.app/chat/chat.html");
+    window.location.replace("http://test-75edb.web.app/chat/chat.html");
 }
 
 chatProvider.addEventListener('click',monitorFireAuth);

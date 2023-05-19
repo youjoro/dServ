@@ -74,7 +74,7 @@
     function loadData(userID){
         var dbRef = ref(realdb);
         
-            get(child(dbRef,"ProviderProfile/"+userID+"_PFP")).then((snapshot)=>{
+            get(child(dbRef,"ProviderProfile/"+userID)).then((snapshot)=>{
             
             if(snapshot.exists()){
                 let profilefullname =":  "+ snapshot.val().FirstName +" "+snapshot.val().lastName;

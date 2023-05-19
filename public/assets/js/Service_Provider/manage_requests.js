@@ -51,7 +51,7 @@ function getUserType(){
 
     if(user_type=="client" || user_type==null){
       alert("You are not supposed to be here");
-      window.location.replace("http://http://test-75edb.web.app/index.html");
+      window.location.replace("http://test-75edb.web.app/index.html");
     }else{
       document.getElementById("profile_content").style.visibility = "visible";
       //document.getElementById('loading').style.display = "none";
@@ -88,7 +88,7 @@ const monitorAuthState = async() =>{
       if(user){
         sessionStorage.user = user.uid;
         
-        //checkSession(user); 
+        checkSession(user); 
       }else{
         console.log("no user");
         
@@ -272,6 +272,7 @@ let countReq = 0;
 function addMessage(service,index){
   
   const getrequestPending = async()=>{    
+    console.log(service)
     let requests = await getRequests(service.id.replace(/\s/g,''));
     let requestnum = await getRequestsNum(service.id.replace(/\s/g,''));
     
@@ -402,7 +403,7 @@ async function getrequestPending(serviceID,serviceName,clientID){
         <h5 class="small font-weight-bold">Contact Number:`+requestdata.ClientMobileNum+` </h5>
         <h5 class="small font-weight-bold">Remarks: `+requestdata.ClientRemarks+`</h5>
         <h5 class="small font-weight-bold">Selected Bundle: `+requestdata.ClientSelectedBundle+`</h5>
-        <h5 class="small font-weight-bold">ID: `+requestdata.clientID+`</h5>
+        <h5 class="small font-weight-bold">Email: `+requestdata.clientID+`</h5>
         <h5 class="small font-weight-bold">Number of Clientele: `+requestdata.clientNumber+`</h5>
         <h5 class="small font-weight-bold">Requested Date: `+requestdata.RequestedDate+`</h5>
         <h5 class="small font-weight-bold">Date added: `+dateFormat+`</h5>

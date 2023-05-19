@@ -188,6 +188,12 @@ function renderRequests(request,index){
     date_Row.appendChild(status_text);
     buttonRow.appendChild(buttons);
 
+
+    if (request.confirmStatus != "accepted"){
+        buttons.disabled = true;
+    }
+    
+
     
     serviceName_Row.appendChild(date_Row);
     serviceName_Row.appendChild(buttonRow);

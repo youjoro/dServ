@@ -2,9 +2,10 @@ import { getFirestore , collection, addDoc, doc,setDoc } from 'https://www.gstat
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import {firebaseConfig} from '../firebase_config.js';
 import { getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
-
+import { getDatabase, get,child,ref} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 
 const app = initializeApp(firebaseConfig);
+const realdb = getDatabase(app);
 const db = getFirestore(app);
 const fireauth = getAuth(app);
 var button = document.getElementById('sendRequest');
@@ -18,6 +19,7 @@ const clients = document.getElementById('numberselected');
 const bundle = document.getElementById('BundleSelected');
 const remarks = document.getElementById('remarks');
 const date = document.getElementById('date');
+
 
 
 
@@ -68,7 +70,7 @@ console.log(sessionData);
         sessOUT.style.display = '';
         sessIN.style.display = 'none';
         alert("Redirecting");
-        window.location.replace("http://http://test-75edb.web.app/index.html");
+        window.location.replace("http://test-75edb.web.app/index.html");
     }else{
         fName.disabled = false;
         lName.disabled = false;
@@ -92,13 +94,13 @@ function InputClear(){
     remarks.value="";
     date.value="";
 }
-
+var userEmail = "";
 const monitorAuthState = async() =>{
 
     onAuthStateChanged(fireauth,user=>{
         if(user){
         console.log(user.uid);
-        sendRequest(user.uid);
+        getUserEmail(user.uid);
         }else{
         console.log("no user");
         
@@ -107,8 +109,27 @@ const monitorAuthState = async() =>{
 }
 
 
+
+async function getUserEmail(userId){
+    var dbRef = ref(realdb);
+    console.log(userId);
+    await get(child(dbRef,"users/"+userId)).then((snapshot) => {
+        if (snapshot.exists()) {
+            userEmail = snapshot.val().email;
+            
+        } else {
+            console.log("No data available");
+        }
+        }).catch((error) => {
+        console.error(error);
+        });
+    console.log(userEmail)
+    sendRequest(userId);
+}
+
+
+
 async function sendRequest(userID){
-    console.log(userID);
     button.disabled = true;
     try {
         
@@ -120,7 +141,7 @@ async function sendRequest(userID){
             ClientEmail: email.value,            
             clientNumber: clients.value,
             ClientRemarks: remarks.value,
-            clientID:userID,
+            clientID:userEmail,
             RequestedDate:date.value,
             DateAdded:dt,
             confirmStatus:'pending',
@@ -137,7 +158,7 @@ async function sendRequest(userID){
         console.error("Error adding document: ", e);
     } finally {
         localStorage.removeItem("Service");
-        window.location.replace("http://http://test-75edb.web.app/index.html");
+        window.location.replace("http://test-75edb.web.app/index.html");
     }
     
 }

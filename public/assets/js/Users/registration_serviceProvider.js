@@ -161,7 +161,7 @@ window.addFields = function (){
 
   container.appendChild(document.createElement("hr"));
 }
-
+ 
 
 var currentTab = 0; // Current tab is set to be the first tab (0)
 var CVskipped = false; 

@@ -140,7 +140,7 @@ signUp.addEventListener('click',(e) => {
 
 
   document.getElementById('loading').style.visibility = 'visible';
-  document.getElementById('signUp-form').style.visibility = 'hidden';
+  
   document.getElementById('OTP').style.visibility = 'hidden';
 
   document.getElementById("signUp").disabled = true;
@@ -189,7 +189,7 @@ signUp.addEventListener('click',(e) => {
         }).then(async function(){
           await createAccFirestore(user.uid);
           alert('user created');
-          window.location.replace("http://http://test-75edb.web.app/index.html");
+          window.location.replace("http://test-75edb.web.app/index.html");
         }).catch(function(error){
           console.log('Synchronization failed');
         })
@@ -199,7 +199,6 @@ signUp.addEventListener('click',(e) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        document.getElementById('signUp-form').style.visibility='visible';
         document.getElementById('loading').style.visibility = 'hidden';
         document.getElementById("signUp").disabled = false;
         alert(errorMessage);

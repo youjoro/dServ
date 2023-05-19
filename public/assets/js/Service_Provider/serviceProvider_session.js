@@ -11,9 +11,9 @@ import {firebaseConfig} from '../firebase_config.js';
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
 const auth = getAuth();
-
-
-
+const requestnotif = document.getElementById('request_notif');
+const viewRequestsButtons = document.getElementById('viewRequests');
+const calButtons = document.getElementById('calendarButton');
 
 //Session
 function getUserType(){
@@ -27,7 +27,7 @@ function getUserType(){
       
       if(user_type=="client" || user_type==null){
         alert("You are not supposed to be here");
-        window.location.replace("http://http://test-75edb.web.app/index.html");
+        window.location.replace("http://test-75edb.web.app/index.html");
       }else{
         
         document.getElementById("profile_content").style.visibility = "visible";
@@ -78,6 +78,20 @@ var sessionData=sessionStorage.getItem("user");
 const monitorAuthState = async() =>{
     onAuthStateChanged(auth,user=>{
       if(user){
+        sessionStorage.verified = user.emailVerified;
+
+        if (user.emailVerified == false){
+          viewRequestsButtons.style.visibility="hidden"
+          calButtons.style.visibility = "hidden"          
+          viewRequestsButtons.href="#"; 
+          calButtons.href="#"; 
+        }else{
+          viewRequestsButtons.style.visibility="visible"
+          calButtons.style.visibility = "visible"
+          
+        }
+
+
         document.getElementById('prov_name').innerHTML=user.email;         
         sessionStorage.user = user.uid;
         getProfileIMG(user.uid);
@@ -96,7 +110,7 @@ const signOutUser = async() =>{
 
     await signOut(auth);
     alert("logged out");
-    window.location.replace("http://http://test-75edb.web.app/index.html");
+    window.location.replace("http://test-75edb.web.app/index.html");
     sessionStorage.clear();
     location.reload();
     

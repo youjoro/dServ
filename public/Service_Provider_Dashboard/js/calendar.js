@@ -1,4 +1,5 @@
 var requests = localStorage.getItem('requests');
+console.log(requests);
 var requestList = requests.split(',');
 
 

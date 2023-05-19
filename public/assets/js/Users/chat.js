@@ -179,7 +179,7 @@ async function getChats(userID){
 }
 
 
-async function getClientPFP(clientID,clientChatID,chatID){
+async function getClientPFP(clientID,chatID){
   const dbRef = ref(realdb);
   let pfp = "";
   get(child(dbRef, `users/${clientID}`)).then((snapshot) => {
@@ -187,12 +187,13 @@ async function getClientPFP(clientID,clientChatID,chatID){
       pfp = snapshot.val().profilePic.imgLink;      
       clientPFP = pfp; 
       console.log(pfp);   
-      getRecipientInfo(clientChatID, pfp ,chatID);  
+      getRecipientInfo(clientID, pfp ,chatID);  
     } else {
       console.log("No data available");
     }
   }).catch((error) => {
     console.error(error);
+    getRecipientInfo(clientID, "/assets/img/profile_icon.png" ,chatID);  
   });
   
   
@@ -208,9 +209,8 @@ async function getChatInfo(chatID){
     await getRecipientInfo(querySnapshot.data().transactionProviderID,servicePFP,chatID);
     
   }else if (userTYPE == "serviceProvider"){
-    let clientID = querySnapshot.data().clientRTDB_ID;  
-    let clientChatID = querySnapshot.data().clientID;
-    await getClientPFP(clientID,clientChatID,chatID);
+    let clientID = querySnapshot.data().clientID;  
+    await getClientPFP(clientID,chatID);
         
   }
   

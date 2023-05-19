@@ -43,9 +43,9 @@ async function getUserType(userID){
     let user_type = snapshot.val();
     console.log(user_type);
     if(user_type=="client"){
-      window.location.replace("http://http://test-75edb.web.app/index.html");
+      window.location.replace("http://test-75edb.web.app/index.html");
     }else{
-      window.location.replace("http://http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
+      window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
     }
   }) 
   } ;

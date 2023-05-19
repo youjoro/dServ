@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import { getDatabase, set, ref,update  } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
-import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword,sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 import { getFirestore,doc,setDoc} from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
 import {firebaseConfig} from '../firebase_config.js';
 
@@ -64,7 +64,7 @@ var employees = localStorage.getItem("employee_data");
       location.reload();
     }
 
-  }
+  } 
 
   const createServiceProviderProfile = async() =>{
     createUserWithEmailAndPassword(auth, data[14], data[15])
@@ -72,6 +72,13 @@ var employees = localStorage.getItem("employee_data");
         // Signed in 
         const user = userCredential.user;
         
+        const sendEMAILVERIFY = async() =>{
+          sendEmailVerification(auth.currentUser)
+          .then(() => {
+            alert('Email verification sent!');
+          });}
+
+        sendEMAILVERIFY();
         set(ref(database, 'ProviderProfile/' + user.uid),{
             FirstName: data[0],
             lastName: data[1],
@@ -137,7 +144,7 @@ const monitorAuthState = async(acc,pass) =>{
     }).then(function(){
       alert("Account Creation Succesful");
       sessionStorage.status = "loggedIn";
-      window.location.replace("http://http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
+      window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
       localStorage.removeItem("Data");
       localStorage.removeItem("exp_entries");
       localStorage.removeItem("employee_data");
