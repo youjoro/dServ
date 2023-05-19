@@ -385,31 +385,31 @@ const monitorAuthState = async() =>{
 
 async function UploadAService(userID){
     servicetime = amTime.value+"am to "+pmTime.value+"pm";
-    try{
-        const serv = push(ref(realdb,"Services/"));
-        set(serv,{
-            ServiceName: service_name.value,
-            ServicePrice: service_price.value,
-            ServiceTimes: servicetime,
-            ServiceCategory: service_category.value,
-            Description: service_desc.value,
-            Points: getPoints(),
-            LinksOfImagesArray: imageLinkArray,
-            Location: document.getElementById('city').value ,
-            location_data:loc_data.toString(),
-            Phone_Number: contact_Number.value,
-            Owner: userID,
-            TransactionID:userID,
-            
-        })              
-        .then(()=>{
-            console.log(serv.id);
-            saveToUser(serv.id);
-        });
-    }catch(error){
-        alert(error);
+    const newServ = push(ref(realdb,"Services/"));
+
+    set(newServ,{
+        ServiceName: service_name.value,
+        ServicePrice: service_price.value,
+        ServiceTimes: servicetime,
+        ServiceCategory: service_category.value,
+        Description: service_desc.value,
+        Points: getPoints(),
+        LinksOfImagesArray: imageLinkArray,
+        Location: document.getElementById('city').value ,
+        location_data:loc_data.toString(),
+        Phone_Number: contact_Number.value,
+        Owner: userID,
+        TransactionID:userID,
+        
+    })              
+    .then(()=>{
+        console.log(newServ.key);
+        saveToUser(newServ.key,userID,servicetime);
+    }).catch((e)=>{
+        alert(e);
         RestoreBack();
-    }
+    });
+
     
 
     
@@ -417,7 +417,7 @@ async function UploadAService(userID){
 
 
 
-async function saveToUser(servID){
+async function saveToUser(servID,userID,servicetime){
     await set(ref(realdb, 'ProviderProfile/' + userID + '/Services/'+servID),{
     ServiceName: service_name.value,
     ServicePrice: service_price.value,
