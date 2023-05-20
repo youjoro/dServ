@@ -19,6 +19,7 @@ const pmTime = document.getElementById('pmSelector');
 const service_desc = document.getElementById('desArea');
 const service_category = document.getElementById('Cate_Inp');
 const contact_Number = document.getElementById('servNum');
+const service_address = document.getElementById('serviceAddress');
 const cityChoice = document.getElementById('city');
 //Points
 const point_1 = document.getElementById('Point1_Inp');
@@ -126,6 +127,7 @@ function getPoints(){
 function RestoreBack(){
     addImg.disabled = false;
     selectImg.disabled = false;
+    service_address.value='';
     service_name.value = '';
     service_price.value = '';
     amTime.value = '';
@@ -388,6 +390,7 @@ async function UploadAService(userID){
     const newServ = push(ref(realdb,"Services/"));
 
     set(newServ,{
+        Address:service_address.value,
         ServiceName: service_name.value,
         ServicePrice: service_price.value,
         ServiceTimes: servicetime,
@@ -419,6 +422,7 @@ async function UploadAService(userID){
 
 async function saveToUser(servID,userID,servicetime){
     await set(ref(realdb, 'ProviderProfile/' + userID + '/Services/'+servID),{
+    Address:service_address.value,
     ServiceName: service_name.value,
     ServicePrice: service_price.value,
     ServiceTimes: servicetime,

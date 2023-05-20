@@ -110,7 +110,7 @@ const monitorAuthState = async() =>{
   else{
     onAuthStateChanged(auth,user=>{
       if(user){
-
+        sessionStorage.verified = user.emailVerified;
         console.log(user.emailVerified);
         sessionStorage.user = user.uid;
         sessionStorage.sessionCheck = "loggedIn";

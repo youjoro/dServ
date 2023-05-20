@@ -3,15 +3,26 @@ let service = null;
 const chatProvider = document.getElementById('chatProvider');
 
 chatProvider.disabled = true;
+
+
 function checkSession(){
   
 var sessionData=sessionStorage.getItem("sessionCheck");
+var verified = sessionStorage.getItem('verified');
 console.log(sessionData);
 if(sessionData == "loggedIn"){
-    document.getElementById("bookButton").style.display="block";
-    document.getElementById("signupbutton").style.display="none";
+  if(verified == "false"){
+    document.getElementById("bookButton").style.display="none";
+    document.getElementById("signupbutton").style.display="block";
+    document.getElementById("messageButton").innerHTML = "Verify Email First";
+    document.getElementById("messageButton").href="#";
+  }else{
+      document.getElementById("bookButton").style.display="block";
+      document.getElementById("signupbutton").style.display="none";
+  }
     
-}else{
+}
+else{
     document.getElementById("bookButton").style.display="none";
     document.getElementById("signupbutton").style.display="block";
     

@@ -1,3 +1,30 @@
+//IMPORTS AND CONFIG
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+import {getStorage, ref as sRef, uploadBytesResumable, getDownloadURL,deleteObject }
+    from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
+import { getDatabase, ref, set, child, update,get }
+    from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+import { getAuth, 
+  onAuthStateChanged, 
+
+} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+
+
+
+import {firebaseConfig} from '../firebase_config.js';
+
+const app = initializeApp(firebaseConfig);
+const realdb = getDatabase(app);
+const auth = getAuth();
+const storage = getStorage();
+let check = sessionStorage.getItem("user");
+let request = null;
+
+
+
+
 // References
     var Files = [];
     var FileReaders = [];
@@ -19,6 +46,7 @@
     const service_desc = document.getElementById('desArea');
     const service_category = document.getElementById('Cate_Inp');
     const contact_Number = document.getElementById('servNum');
+    const service_address = document.getElementById('serviceAddress');
     const cityChoice = document.getElementById('city');
     //Points
     const point_1 = document.getElementById('Point1_Inp');
@@ -117,6 +145,7 @@
 
 
     function RestoreBack(){
+        service_address.value='';
         addImg.disabled = false;
         selectImg.disabled = false;
         service_name.value = '';
@@ -140,6 +169,7 @@
     //locationbutton.addEventListener('click', getLocation);
 
     function validateForm() {
+
         // This function deals with validation of the form fields
         var x, y, i, valid = true;
         
@@ -186,14 +216,22 @@
         }
     }
 
+    function clearImages (imageLink){
+        const imageAddress = "Images_" + request.imgFolder+imageLink; 
 
+        const imageRef = sRef(storage,imageAddress);
+
+        deleteObject(imageRef).then(() => {
+        // File deleted successfully
+        }).catch((error) => {
+            console.log(error)
+        });
+    }
 
     function UploadAnImage(imgToUpload, imgNo){
         const metadata = {
             contentType: imgToUpload.type
         };
-
-        const storage = getStorage();
 
         const imageAddress = "Images_" + request.imgFolder+ "/img#" + (imgNo+1); 
 
@@ -339,29 +377,6 @@ function onMapClick(e) {
 map.on('click', onMapClick);    
 window.onload = getLocation();
 
-//IMPORTS AND CONFIG
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import {getStorage, ref as sRef, uploadBytesResumable, getDownloadURL}
-    from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
-import { getDatabase, ref, set, child, update, remove }
-    from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
-import { getAuth, 
-  onAuthStateChanged, 
-
-} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
-
-
-
-import {firebaseConfig} from '../firebase_config.js';
-
-const app = initializeApp(firebaseConfig);
-const realdb = getDatabase(app);
-const auth = getAuth();
-
-let check = sessionStorage.getItem("user");
-let request = null;
 
 window.onload = function(){
      
@@ -398,6 +413,7 @@ window.onload = function(){
         servicetime = amTime.value+"am to "+pmTime.value+"pm";
         try{
             update(ref(realdb,"Services/"+request.id),{
+                Address:service_address.value,
                 ServiceName: service_name.value,
                 ServicePrice: service_price.value,
                 ServiceTimes: servicetime,
@@ -413,6 +429,7 @@ window.onload = function(){
                 
             }).then(function(){
                 update(ref(realdb, 'ProviderProfile/' + userID + '/Services/'+request.id ),{
+                Address:service_address.value,
                 ServiceName: service_name.value,
                 ServicePrice: service_price.value,
                 ServiceTimes: servicetime,

@@ -12,15 +12,15 @@ function onMapClick(e) {
 
 //map.on('click', onMapClick);
 
-function renderMarkers(coords,name){
-    console.log(coords,name,countcall);
-
+function renderMarkers(coords,name,add){
+    console.log(coords,name,countcall,add);
+    let details = name+"\n"+add
     popup
         .setLatLng(coords)
-        .setContent(name)
+        .setContent(details)
         .openOn(map);
     servicemarker = new L.marker(coords).addTo(map)
-        .bindPopup(name,{autoClose: false})
+        .bindPopup(details,{autoClose: false})
         .openPopup();
     layerGroup.addLayer(servicemarker);
     map.addLayer(layerGroup);
@@ -132,8 +132,8 @@ let countcall = 0;
 function addAServiceLocation(serv){
     
     let coords = serv.location_data.toString().split(',');
-    console.log(coords);
-    renderMarkers(coords,serv.ServiceName);
+    console.log(serv.Address);
+    renderMarkers(coords,serv.ServiceName,serv.Address);
 }
 
 city.addEventListener('click',getAllServicesLocation);
