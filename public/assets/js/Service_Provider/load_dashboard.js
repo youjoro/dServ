@@ -26,14 +26,16 @@ const verifyDiv = document.getElementById('verifyDiv');
 let validated =  sessionStorage.verified
 
 //Services
-
-if (validated=="false"){
-  create.style.visibility = 'hidden';
-  verifyMessage.style.visibility = 'visible';
-}else{
-  create.style.visibility = 'visible';
-  verifyMessage.remove();
+if(create != null){
+  if (validated=="false"){
+    create.style.visibility = 'hidden';
+    verifyMessage.style.visibility = 'visible';
+  }else{
+    create.style.visibility = 'visible';
+    verifyMessage.remove();
+  }
 }
+
 async function getRequestsID(serviceName){
   let IDs = []
   console.log(serviceName);

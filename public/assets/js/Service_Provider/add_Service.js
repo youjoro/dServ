@@ -20,6 +20,7 @@ const service_desc = document.getElementById('desArea');
 const service_category = document.getElementById('Cate_Inp');
 const contact_Number = document.getElementById('servNum');
 const service_address = document.getElementById('serviceAddress');
+const days = document.getElementsByName('days');
 const cityChoice = document.getElementById('city');
 //Points
 const point_1 = document.getElementById('Point1_Inp');
@@ -48,6 +49,18 @@ function OpenFileDialog(){
 }
 
 
+
+function getDays(){
+    var daysavailable = []
+    for(var i = 0; i<days.length;i++){
+        console.log(days[i].checked+" "+days[i].id)
+        if(days[i].checked){
+            daysavailable.push(days[i].id)
+        }
+    }
+    console.log(daysavailable)
+    return daysavailable;
+}
 
 
 function AssignImgsToFilesArray(theFiles){
@@ -149,35 +162,29 @@ addImg.addEventListener('click', validateForm);
 //locationbutton.addEventListener('click', getLocation);
 
 function validateForm() {
-    // This function deals with validation of the form fields
-    var x, y, i, valid = true;
-    
-    y = document.getElementsByTagName("input");
-    var d = service_desc;
-    
-    //check if description and experience/expertise is empty
-    if(d.value.length == 0){
-            d.classList.add("border-danger");
-            valid = false;
-                }
-    // A loop that checks every input field in the current tab:
-    for (i = 0; i < y.length; i++) {
-        // If a field is empty...
-        if (y[i].value == "") {
-
-        // add an "invalid" class to the field:
-        y[i].className += " invalid";
-        
-        // and set the current valid status to false
-        valid = false;
+    var inputs = [
+        service_address.value,
+        service_name.value,
+        service_price.value,
+        service_desc.value,
+        service_category.value,
+        point_1.value,
+        point_2.value,
+        point_3.value,
+    ]
+    var x = 0
+    for (var i = 0;i<inputs.length;i++){
+        if (inputs[i].value != ''){
+            console.log(inputs[i],x)
+            x+=1
         }
-        
+        if (x==7){
+            console.log(x)
+            uploadAllImages();
+        }
     }
-    // If the valid status is true, mark the step as finished and valid:
-    if (valid) {
 
-        uploadAllImages();
-    }
+    
     
 }
 
@@ -389,6 +396,9 @@ async function UploadAService(userID){
     servicetime = amTime.value+"am to "+pmTime.value+"pm";
     const newServ = push(ref(realdb,"Services/"));
 
+    var availableDays =  getDays()
+    console.log(availableDays)
+
     set(newServ,{
         Address:service_address.value,
         ServiceName: service_name.value,
@@ -401,13 +411,15 @@ async function UploadAService(userID){
         Location: document.getElementById('city').value ,
         location_data:loc_data.toString(),
         Phone_Number: contact_Number.value,
-        Owner: userID,
         TransactionID:userID,
+        verificationStatus:"for verification",
+        ServiceDays:availableDays
+
         
     })              
     .then(()=>{
         console.log(newServ.key);
-        saveToUser(newServ.key,userID,servicetime);
+        saveToUser(newServ.key,userID,servicetime,availableDays);
     }).catch((e)=>{
         alert(e);
         RestoreBack();
@@ -420,21 +432,22 @@ async function UploadAService(userID){
 
 
 
-async function saveToUser(servID,userID,servicetime){
+async function saveToUser(servID,userID,servicetime,days){
     await set(ref(realdb, 'ProviderProfile/' + userID + '/Services/'+servID),{
-    Address:service_address.value,
-    ServiceName: service_name.value,
-    ServicePrice: service_price.value,
-    ServiceTimes: servicetime,
-    ServiceCategory: service_category.value,
-    Description: service_desc.value,
-    Points: getPoints(),
-    LinksOfImagesArray: imageLinkArray,
-    Location: document.getElementById('city').value ,
-    location_data:loc_data.toString(),
-    Phone_Number: contact_Number.value,
-    TransactionID:userID,
-    imgFolder:check +"_" +servicesCount
+        Address:service_address.value,
+        ServiceName: service_name.value,
+        ServicePrice: service_price.value,
+        ServiceTimes: servicetime,
+        ServiceCategory: service_category.value,
+        Description: service_desc.value,
+        Points: getPoints(),
+        LinksOfImagesArray: imageLinkArray,
+        Location: document.getElementById('city').value ,
+        location_data:loc_data.toString(),
+        Phone_Number: contact_Number.value,
+        TransactionID:userID,
+        verificationStatus:"for verification",
+        ServiceDays:days
     
     })
     alert("Upload Succesful");

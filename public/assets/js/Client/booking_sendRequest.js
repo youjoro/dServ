@@ -8,7 +8,7 @@ const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
 const db = getFirestore(app);
 const fireauth = getAuth(app);
-var button = document.getElementById('sendRequest');
+const button = document.getElementById('sendRequest');
 
 //inputs
 const fName = document.getElementById('firstName');
@@ -19,7 +19,7 @@ const clients = document.getElementById('numberselected');
 const bundle = document.getElementById('BundleSelected');
 const remarks = document.getElementById('remarks');
 const date = document.getElementById('date');
-
+const checkbox = document.getElementById('agree')
 
 
 
@@ -32,10 +32,16 @@ var sessOUT = document.getElementById('sessOut');
 
 window.onload = sessIN.style.display = 'none';
 
-
+checkbox.onclick = function(){
+    if (button.style.visibility == 'hidden'){
+        button.style.visibility = 'visible';
+    }else{
+        button.style.visibility = 'hidden';
+    }
+}
 //
 window.onload = function(){
-
+    button.style.visibility = 'hidden';
     checkSession();
 
     service = localStorage.Service;
@@ -137,16 +143,18 @@ async function sendRequest(userID){
         const docRef = await addDoc(collection(db, "transactions"), {
             ClientFirstName: fName.value,
             ClientLastName: lName.value,
+            clientID:userID,
             ClientMobileNum: mobileNum.value,
             ClientEmail: email.value,            
             clientNumber: clients.value,
             ClientRemarks: remarks.value,
-            clientID:userEmail,
+            ownerEmail:userEmail,
             RequestedDate:date.value,
             DateAdded:dt,
             confirmStatus:'pending',
             serviceName:service.ServiceName,
-            ServiceOwner:service.Owner
+            ServiceOwner:service.TransactionID,
+            ServiceID:service.id
             });
         const a = await updateRequestList_client(userID,docRef.id);
         const b = await updateRequestList_ServiceProvider(service.TransactionID,service.id,docRef.id,service.ServiceName);

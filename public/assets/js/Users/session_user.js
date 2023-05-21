@@ -20,7 +20,7 @@ function getProfileIMG(userID){
   var dbRef = ref(realdb);
   let pfp = document.getElementById('profileIMG');
   let currentPFP = document.getElementById('myImg');
-
+  
   if (pfpLink == null || performance.navigation.type == performance.navigation.TYPE_RELOAD){
     get(child(dbRef,"users/"+userID+"/profilePic")).then((snapshot)=>{
       
@@ -94,7 +94,7 @@ async function getRequestsNum(UID){
       const coll = collection(firestoredb, "users",UID,"transactions");
       const snapshot =  await getCountFromServer(coll);
       total_pending = total_pending + snapshot.data().count;
-      notifNUM.innerHTML = total_pending;
+      //notifNUM.innerHTML = total_pending;
     }catch(e){
       console.log(e);
     }

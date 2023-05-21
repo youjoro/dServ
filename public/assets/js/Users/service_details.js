@@ -185,7 +185,7 @@ var fullname ='';
 
 let docRef = '';
 async function addChatID(chatID){
-  var providerID = service.Owner;
+  var providerID = service.TransactionID;
   sessionStorage.providerID = providerID;
   sessionStorage.providerfireID = service.TransactionID;
   try {
@@ -298,7 +298,7 @@ const monitorFireAuth = async() =>{
 
 
 async function loadServiceProviderProfile(){
-    var providerID = service.Owner;
+    var providerID = service.TransactionID;
 
     getProfileIMG(providerID);
     getProfileDetails(providerID);

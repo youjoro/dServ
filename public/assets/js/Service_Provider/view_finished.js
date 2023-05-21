@@ -27,15 +27,7 @@ const OuterDiv = document.getElementById('servicesBlock');
 const messagesTab =document.getElementById('messages');
 const requestnotif = document.getElementById('request_notif');
 const interactableMessages = document.getElementById('messagesInteractable');
-const cancelReq = document.getElementById('cancelReq');
-const acceptReq = document.getElementById('acceptReq');
-const chatClient = document.getElementById('chatClient');
-const editReq = document.getElementById('editReq');
 
-window.onload = cancelReq.style.display = "none";
-window.onload = acceptReq.style.display = "none";
-window.onload = chatClient.style.display = "none";
-window.onload = editReq.style.display = "none";
 var fireuserID = sessionStorage.getItem('user');
 
 //Session
@@ -104,57 +96,7 @@ monitorAuthState();
 
 
 
-/*
-  let creds =localStorage.getItem('item');
-  creds = creds.split(',');
-  console.log(creds[1]);*/
 
-//Services
-
-//Firestore
-async function acceptRequest(){
-  alert("are you sure?");
-  let fireuser = sessionStorage.getItem('user');
-  let creds =localStorage.getItem('item');
-  creds = creds.split(',');
-  console.log(creds);
-
-  const transactionUpdate = doc(firestoredb, "transactions",creds[0]);
-  const docClientUpdate = doc(firestoredb, "users",creds[2],"transactions",creds[0]);
-  const docServProviderUpdate = doc(firestoredb, "users",fireuser,"services",creds[1],"transactions",creds[0]);
-  //update docs
-  batch.update(transactionUpdate,{'confirmStatus':"accepted"});
-  batch.update(docClientUpdate,{'confirmStatus':"accepted"});
-  batch.update(docServProviderUpdate,{'confirmStatus':"accepted"});
-   batch.commit().then(() => {
-      console.log('profiles updated...');
-      location.reload();
-    });
-  
-  
-  
-}
-
-async function cancelRequest(){
-  alert("are you sure?");
-  let fireuser = sessionStorage.getItem('user');
-  let creds =localStorage.getItem('item');
-  creds = creds.split(',');
-  console.log(creds);
-
-  const transactionUpdate = doc(firestoredb, "transactions",creds[0]);
-  const docClientUpdate = doc(firestoredb, "users",creds[2],"transactions",creds[0]);
-  const docServProviderUpdate = doc(firestoredb, "users",fireuser,"services",creds[1],"transactions",creds[0]);
-  //update docs
-  batch.update(transactionUpdate,{'confirmStatus':"cancelled"});
-  batch.update(docClientUpdate,{'confirmStatus':"cancelled"});
-  batch.update(docServProviderUpdate,{'confirmStatus':"cancelled"});
-   batch.commit().then(() => {
-      console.log('profiles updated...');
-      location.reload();
-    });
-  
-}
 
 async function getRequestData(serviceID,serviceName){
   
@@ -174,7 +116,7 @@ async function getRequests(docID){
   console.log(docID);
   let id ="";
   let userID = sessionStorage.getItem('user');
-    const q = query(collection(firestoredb,"users",userID, "services",docID,"transactions"));
+    const q = query(collection(firestoredb,"users",userID, "services",docID,"finished"));
     
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
@@ -201,10 +143,11 @@ async function getRequests(docID){
 
 async function getInfo(docID){
   let data = '';
-  const q = query(doc(firestoredb,"transactions",docID));
+  const q = query(doc(firestoredb,"finished",docID));
   const docSnap = await getDoc(q);
   
   data = docSnap.data()
+  console.log(data)
   return data;
 }
 
@@ -369,10 +312,7 @@ function addMessage(service,index){
 
 function viewDetails(serviceID,serviceName,clientID){
   OuterDiv.innerHTML = '';
-  window.onload = cancelReq.style.display = "";
-  window.onload = acceptReq.style.display = "";
-  window.onload = chatClient.style.display = "";
-  window.onload = editReq.style.display = "";
+
 
   var items = [];
 
@@ -425,6 +365,4 @@ async function getrequestPending(serviceID,serviceName,clientID){
 
 
 
-cancelReq.addEventListener('click',cancelRequest);
-acceptReq.addEventListener('click',acceptRequest);
 //chatClient.addEventListener('click',);

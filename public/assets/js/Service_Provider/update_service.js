@@ -170,31 +170,7 @@ let request = null;
 
     function validateForm() {
 
-        // This function deals with validation of the form fields
-        var x, y, i, valid = true;
-        
-        y = document.getElementsByTagName("input");
-        var d = service_desc;
-        
-        //check if description and experience/expertise is empty
-        if(d.value.length == 0){
-                d.classList.add("border-danger");
-                valid = false;
-                    }
-        // A loop that checks every input field in the current tab:
-        for (i = 0; i < y.length; i++) {
-            // If a field is empty...
-            if (y[i].value == "") {
 
-            // add an "invalid" class to the field:
-            y[i].className += " invalid";
-            
-            // and set the current valid status to false
-            valid = false;
-            }
-            
-        }
-        // If the valid status is true, mark the step as finished and valid:
         if (valid) {
 
             uploadAllImages();
@@ -411,6 +387,9 @@ window.onload = function(){
 
     async function UploadAService(userID){
         servicetime = amTime.value+"am to "+pmTime.value+"pm";
+        var availableDays =  getDays()
+        console.log(availableDays)
+
         try{
             update(ref(realdb,"Services/"+request.id),{
                 Address:service_address.value,
@@ -424,8 +403,9 @@ window.onload = function(){
                 Location: document.getElementById('city').value ,
                 location_data:loc_data.toString(),
                 Phone_Number: contact_Number.value,
-                Owner: userID,
-                TransactionID:check
+                TransactionID:userID,
+                verificationStatus:"for verification",
+                ServiceDays:days
                 
             }).then(function(){
                 update(ref(realdb, 'ProviderProfile/' + userID + '/Services/'+request.id ),{
@@ -440,7 +420,9 @@ window.onload = function(){
                 Location: document.getElementById('city').value ,
                 location_data:loc_data.toString(),
                 Phone_Number: contact_Number.value,
-                TransactionID:check
+                TransactionID:userID,
+                verificationStatus:"for verification",
+                ServiceDays:days
                 })
                 alert("Upload Succesful");
                 window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");

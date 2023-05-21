@@ -22,13 +22,13 @@
 
   </head>
   <body>
-    <div class="container bg-light">
+    <div class="container bg-light w-100">
         <a href="/Service_Provider_Dashboard/index.html" class="btn btn-lg btn-outline float-start text-black my-3">Return</a>
         <p id="session">u are not logged in</p>
         
         <div class="row py-lg-4">
             <h1>Set Up Service</h1>
-            <div class="col">
+            <div class="col-8">
 
             <div class="container vstack p-2 ms-5" >
                 
@@ -40,12 +40,14 @@
 
                 <label>Contact Number</label> <input class="form-control" pattern="[0-9]{10}" type="text" name="" id="servNum" required/>
 
-                <label id="Location"></label>
-                <label id="City"></label>
-                <div id="map" class="py-3"></div>
+                <div class="container">
+                    <h3 id="Location" class="pt-5"></h3>
+                </div>
+                
+                <div id="map" class="py-3 rounded-3"></div>
                 
 
-                <div class="col-md-5">
+                <div class="col-md-5 py-4">
                   <label for="country" class="form-label">City</label>
                   <select class="form-select" id="city" required>
                     <option value="">Choose...</option>
@@ -131,22 +133,102 @@
                     </div>
                 </div>
 
-                <label>Category</label>
-                <select id="Cate_Inp" class="form-select" required>
-                    <option value="Beautification">Beautification</option>
-                    <option value="Repairs">Repairs</option>
-                    <option value="Education">Education</option>
-                    <option value="Therapeutic">Therapeutic</option>
-                    <option value="Cleaning">Cleaning</option>
-                </select>
+
+
+                <h3>Days Available</h3>
+                <div class="row seven-cols pt-2 pb-3">
+                  
+                  <div class="col-md-1">
+                    <div class="form-check h-75">
+                      <input name="days" class="form-check-input btn btn-primary btn-square-lg w-75 h-100 " type="checkbox" value="" id="mon">
+                      <label class="form-check">
+                        Mon
+                      </label>
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-1">
+                    <div class="form-check h-75">
+                      <input name="days" class="form-check-input btn btn-primary btn-square-lg w-75 h-100 " type="checkbox" value="" id="tuesday">
+                      <label class="form-check">
+                        Tues
+                      </label>
+                    </div>
+                  </div>
+
+                  
+                  <div class="col-md-1">
+                    <div class="form-check h-75">
+                      <input name="days" class="form-check-input btn btn-primary btn-square-lg w-75 h-100 " type="checkbox" value="" id="wednesday">
+                      <label class="form-check">
+                        Wed
+                      </label>
+                    </div>
+                  </div>
+
+                  
+                  <div class="col-md-1">
+                    <div class="form-check h-75">
+                      <input name="days" class="form-check-input btn btn-primary btn-square-lg w-75 h-100 " type="checkbox" value="" id="thursday">
+                      <label class="form-check">
+                        Thurs
+                      </label>
+                    </div>
+                  </div>
+
+                  
+                  <div class="col-md-1">
+                    <div class="form-check h-75">
+                      <input name="days" class="form-check-input btn btn-primary btn-square-lg w-75 h-100 " type="checkbox" value="" id="friday">
+                      <label class="form-check">
+                        Fri
+                      </label>
+                    </div>
+                  </div>
+
+                  
+                  <div class="col-md-1">
+                    <div class="form-check h-75">
+                      <input name="days" class="form-check-input btn btn-primary btn-square-lg w-75 h-100 " type="checkbox" value="" id="saturday">
+                      <label class="form-check">
+                        Sat
+                      </label>
+                    </div>
+                  </div>
+
+                  
+                  <div class="col-md-1">
+                    <div class="form-check h-75">
+                      <input name="days" class="form-check-input btn btn-primary btn-square-lg w-75 h-100 " type="checkbox" value="" id="sunday">
+                      <label class="form-check">
+                        Sun
+                      </label>
+                    </div>
+                  </div>
+
+                  
+                </div>
+
+                <div class="container pb-4 pt-3">
+                  <label class="py-2">Category</label>
+                  <select id="Cate_Inp" class="form-select" required>
+                      <option value="Beautification">Beautification</option>
+                      <option value="Repairs">Repairs</option>
+                      <option value="Education">Education</option>
+                      <option value="Therapeutic">Therapeutic</option>
+                      <option value="Cleaning">Cleaning</option>
+                  </select>
+                </div>
+                
 
                 <label>Description</label> <textarea class="form-control" id="desArea" cols="30" rows="10" required></textarea>
 
                 <hr class="mx-n3">
-                <p>Quick descriptions and Hooklines of the Service</p>
-                <label>Points *1</label> <input class="form-control" type="text" id="Point1_Inp" required/>
-                <label>Points *2</label> <input class="form-control" type="text" id="Point2_Inp" required/>
-                <label>Points *3</label> <input class="form-control" type="text" id="Point3_Inp" required/>
+                <p>Quick descriptions and Taglines of the Service</p>
+                <label>Tag *1</label> <input class="form-control" type="text" id="Point1_Inp" required/>
+                <label>Tag *2</label> <input class="form-control" type="text" id="Point2_Inp" required/>
+                <label>Tag *3</label> <input class="form-control" type="text" id="Point3_Inp" required/>
 
                 <hr class="mx-n3">
                 <h3>Images</h3>

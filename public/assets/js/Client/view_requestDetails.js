@@ -1,6 +1,6 @@
 let request = null;
 let OuterDiv = document.getElementById('detailsDIV');
-
+const retrurnButton = document.getElementById('returnPage')
 window.onload = function(){    
     request = localStorage.Request;     
     if (request){
@@ -10,7 +10,9 @@ window.onload = function(){
     }
 }
 
-
+retrurnButton.onclick = function(){
+    
+}
 
 function viewDetails(request){
     let time = request.DateAdded;
@@ -41,7 +43,6 @@ function viewDetails(request){
     
         
         <div class ="col-4"><h6 class="category">`+request.serviceName+`</h6></div>
-        <div class ="col-4"><h6 class="price">Selected Bundle:  `+request.ClientSelectedBundle+`</h6></div>
         <div class ="col-4"><h6 class="location text-muted">Number of Clients: `+request.clientNumber+`</h6></div>
     </div>
     
