@@ -35,6 +35,7 @@ window.onload = function(){
     service = localStorage.Service;
     
     if (service){
+      
         service = JSON.parse(service);
         loadServiceProviderProfile();
         LoadService();
@@ -52,6 +53,19 @@ window.addEventListener("beforeunload", function(e){
 })
 */
 function LoadService(){
+    if (service.ServiceDays != null){
+      var daysString = service.ServiceDays.toString();
+      document.getElementById('days').innerHTML = daysString.split(',').join(', ');
+    }else{
+      document.getElementById('days').innerHTML = "Service Not Updated";
+    } 
+
+    if(service.verificationStatus != null){
+      document.getElementById('verificationStatus').innerHTML = service.verificationStatus;
+    }else{
+      document.getElementById('verificationStatus').innerHTML = "Under verification";
+    }
+    
     document.getElementById('titleTop').innerHTML = service.ServiceName;
     document.getElementById('categoryLink').innerHTML = service.ServiceCategory;
     document.getElementById('locationLink').innerHTML = service.Location;
@@ -64,10 +78,64 @@ function LoadService(){
     document.getElementById('price').innerHTML = service.ServicePrice;
     document.getElementById('number').innerHTML = service.Phone_Number;
     
+    
+    if (service.reviews != '' && service.reviews != null){
+      var review = service.reviews
+      var i = 0
+      console.log(review)
+      for (var key in review){
+        i+=1
+        console.log(review[key].client)
+        console.log(review[key].rating)
+        console.log(review[key].comment)
+        genReviews(review[key],i)
+      }
+    }
+
+    
     GenLI();
     genImgs();
-    loadMap()
+    loadMap();
+
 };
+
+
+function genReviews(rev,index){
+    let starRatings= `
+    <div class="rating" id="ratingDiv-`+index+`"> 
+        <input type="radio" name="ratingStars" value="5" id="star-5" disabled><label for="5">☆</label> 
+        <input type="radio" name="ratingStars" value="4" id="star-4" disabled><label for="4">☆</label> 
+        <input type="radio" name="ratingStars" value="3" id="star-3" disabled><label for="3">☆</label> 
+        <input type="radio" name="ratingStars" value="2" id="star-2" disabled><label for="2">☆</label> 
+        <input type="radio" name="ratingStars" value="1" id="star-1" disabled><label for="1">☆</label>
+    </div>
+  `
+  
+
+  const reviewDIv = document.getElementById('reviewDiv');
+  let name = document.createElement('h3');
+  let comment = document.createElement('p');
+  let rating = document.createElement('p');
+  let div = document.createElement('div');
+  name.classList.add("pt-3")
+  div.classList.add("w-25","border-1","border","rounded-5","p-2","my-2")
+  name.innerHTML = " &emsp;" + rev.client;
+  rating.innerHTML = "&emsp;&emsp;&emsp;" + starRatings;
+  comment.innerHTML = "&emsp;&emsp;&emsp;Says " + rev.comment;
+
+  div.append(name);
+  div.appendChild(comment);
+  div.appendChild(rating);
+  reviewDIv.append(div)    
+  setStars(rev.rating,index)
+}
+
+
+function setStars (rating,index){
+  var x = document.getElementById("ratingDiv-"+index).querySelector("#star-"+rating);
+  x.checked = true;
+}
+
 
 function GenLI(){
     service.Points.forEach(html => {
@@ -184,6 +252,9 @@ var username='';
 var fullname ='';
 
 let docRef = '';
+
+
+
 async function addChatID(chatID){
   var providerID = service.TransactionID;
   sessionStorage.providerID = providerID;

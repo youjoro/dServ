@@ -128,15 +128,22 @@
                         <h2 id="title"></h2>
                         <h3 id="Location"></h3>
                         <h4 id="serviceTimes"></h4>
+                        <div class="col infoText text-truncate">Available days<p id="days" class=" fw-semibold"></p></div>
                     </div>
-                    <div class="col-1">
+                    <div class="col-2">
                         <div class="row">
-                            <div class="col">
-                                <!--Rating-->
+                            <div class="col-9">
+                                <h2 class="fw-bold" id="verificationStatus"></h2>
                             </div>
                             <div class="col">
-                                <h4 id="reviews"></h4>
-                                <p>reviews</p>
+                                
+                                <div class="rating"> 
+                                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> 
+                                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
+                                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> 
+                                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> 
+                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                </div>
                             </div>
                         </div>
                         
@@ -216,6 +223,7 @@
                                 <div class="row row-cols-2">
                                     <div class="col infoText text-truncate">Email<p id="contactEmail" class=" fw-semibold">test</p></div>
                                     <div class="col infoText text-truncate">Available times<p id="times" class=" fw-semibold">test</p></div>
+                                    
                                 </div>
 
                                 <hr>
@@ -236,8 +244,8 @@
         </div>
         <div class="container">
             <h3 class=" fw-normal fs-3">Reviews</h3>
-            <div class="container">
-                <!---->
+            <div class="container" id="reviewDiv">
+                <hr>
             </div>
         </div>
     </div>
@@ -251,7 +259,14 @@
             Sign Up or Log In to book
         </a>
     </div>
-    
+                <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; dServ 2021</span>
+                    </div>
+                </div>
+            </footer>
 </body>
 <script src="/assets/js/Users/session_user.js" type="module"></script>
 <script src="/assets/js/Users/service_details.js" type="module"></script>

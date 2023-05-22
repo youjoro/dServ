@@ -47,6 +47,7 @@ let request = null;
     const service_category = document.getElementById('Cate_Inp');
     const contact_Number = document.getElementById('servNum');
     const service_address = document.getElementById('serviceAddress');
+    const days = document.getElementsByName('days');
     const cityChoice = document.getElementById('city');
     //Points
     const point_1 = document.getElementById('Point1_Inp');
@@ -131,6 +132,17 @@ let request = null;
         return imageLinkArray.length == Files.length;
     }
 
+    function getDays(){
+    var daysavailable = []
+    for(var i = 0; i<days.length;i++){
+        console.log(days[i].checked+" "+days[i].id)
+        if(days[i].checked){
+            daysavailable.push(days[i].id)
+        }
+    }
+    console.log(daysavailable)
+    return daysavailable;
+}
 
 
     function getPoints(){
@@ -169,13 +181,30 @@ let request = null;
     //locationbutton.addEventListener('click', getLocation);
 
     function validateForm() {
-
-
-        if (valid) {
-
+    var inputs = [
+        service_address.value,
+        service_name.value,
+        service_price.value,
+        service_desc.value,
+        service_category.value,
+        point_1.value,
+        point_2.value,
+        point_3.value,
+    ]
+    var x = 0
+    for (var i = 0;i<inputs.length;i++){
+        if (inputs[i].value != ''){
+            console.log(inputs[i],x)
+            x+=1
+        }
+        if (x==7){
+            console.log(x)
             uploadAllImages();
         }
-        
+    }
+
+    
+      
 }
 
 
@@ -405,7 +434,7 @@ window.onload = function(){
                 Phone_Number: contact_Number.value,
                 TransactionID:userID,
                 verificationStatus:"for verification",
-                ServiceDays:days
+                ServiceDays:availableDays
                 
             }).then(function(){
                 update(ref(realdb, 'ProviderProfile/' + userID + '/Services/'+request.id ),{
@@ -422,7 +451,7 @@ window.onload = function(){
                 Phone_Number: contact_Number.value,
                 TransactionID:userID,
                 verificationStatus:"for verification",
-                ServiceDays:days
+                ServiceDays:availableDays
                 })
                 alert("Upload Succesful");
                 window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");

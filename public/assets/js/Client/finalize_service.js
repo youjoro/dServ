@@ -202,9 +202,13 @@ async function acceptRequest(){
 }
 
 function addReview(){
+    console.log(request.ClientFirstName+"  "+request.ClientLastName);
+    const dt = new Date();
     set(ref(realdb, 'Services/' + request.ServiceID + '/reviews/' + request.id), {
         rating: sessionStorage.getItem('rating'),
-        comment:commentbox.value
+        comment:commentbox.value,
+        client:request.ClientFirstName+"  "+request.ClientLastName,
+        DateFinalized:dt
     }).then(()=>{
         addToFinished_client();
         console.log('review added');
