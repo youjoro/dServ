@@ -31,31 +31,17 @@
         
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script>
-            $(window).scroll(function(){
-                $('nav').toggleClass('scrolled', $(this).scrollTop() > 10);
-                $('nav').addClass("navbar-dark");
-                $('.text-dark').removeClass("text-dark");
-                $('.text-dark').addClass("text-light");
-                
-            });
-        </script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#datepicker').datepicker();
-                
-            });
-        </script>    
+    
         
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
   <body>
     <!--Navbar-->
     <header class="text-center">
-    <nav class="navbar navbar-expand-md fixed-top navbar-light" id="nav_bar">
+    <nav class="navbar navbar-expand-md fixed-top text-black navbar-light" id="nav_bar">
         <div class="container-fluid">
         
-        <a class="navbar navbar-brand text-dark">dServ</a>
+        <a class="navbar navbar-brand text-black">dServ</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -84,10 +70,10 @@
     </header>
     <!--Navbar-->
     <header class="text-center">
-    <nav class="navbar navbar-expand-md fixed-top navbar-light" id="nav_barLoggedIn">
+    <nav class="navbar navbar-expand-md fixed-top text-black navbar-light" id="nav_barLoggedIn">
         <div class="container-fluid">
         
-        <a class="navbar-brand" href="#">dServ</a>
+        <a class="navbar-brand text-black   " href="#">dServ</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -114,7 +100,7 @@
     </header>
     <main class=" mt-5 my-5">
         <div class="container gradient py-5">
-            <div class="row row-cols-2 w-100">
+            <div class="row row-cols-2 w-100 bookingDiv">
 
 
                 <div class="col col-7 d-flex justify-content-center align-items-center side">
@@ -123,7 +109,7 @@
                             <div class="container bg-white rounded-2"  id="sessIn">
                                 <br>
                                 <h2 class="text-black">End User Agreement</h2>
-                                <p class=" text-black">This Home Service Agreement, hereinafter referred to as the "Agreement," is entered on [DATE OF AGREEMENT], by and between [NAME OF THE CONTRACTOR], hereinafter the "Contractor" resident of [CONTRACTOR ADDRESS] and [NAME OF THE CLIENT], hereinafter the "Client" resident of [CLIENT ADDRESS], collectively called the "Parties."<br><br>
+                                <p class=" text-black">This Home Service Agreement, hereinafter referred to as the "Agreement," is entered on the day you have entered, by and between you, hereinafter the "Contractor" and you, hereinafter the "Client", collectively called the "Parties."<br><br>
 
                                     Whereas, the Client seeks a home service provider and deems the qualifications of the Contractor fit for the service.<br><br>
 
@@ -132,10 +118,8 @@
                                     In Consideration of the terms and conditions set forth between the parties herein this Agreement, the receipt of which is duly acknowledged, the parties agree as follows;<br><br>
                                     
                                     
-                                    <br>The Client hires the Contractor for the following cleaning services;
-                                    <br><br>    &emsp;&emsp;Vacuum and mop floors
-                                    <br><br>
-                                    The cleaning services shall be delivered at [CLIENT ADDRESS].<br><br>
+                                    
+                                    The cleaning services shall be delivered at the Address you have entered.<br><br>
                                     The Clients services shall be carried out between [STARTING TIME OF THE DAY] and [ENDING TIME OF THE DAY].<br><br>
                                     If the Contractor pays for any equipment from his or her own pocket, the Client shall reimburse the Contractor for the same amount.<br><br>
                                     The Contractor shall perform the duties honestly and diligently, following the building codes and any other applicable laws for the time being.<br><br>

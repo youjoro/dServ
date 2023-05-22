@@ -37,8 +37,11 @@ transition: 0.75s ease;
 }
 
 @media (max-width: 900px) {
+.bookingDiv{
+    flex-direction: column;
+}
 .side{
-    display: none !important;
+    width: fit-content;
 }
 
 .bookingform{
@@ -49,12 +52,15 @@ transition: 0.75s ease;
 
 
 @media (max-width: 768px) {
+.bookingDiv{
+    flex-direction: column;
+}
 .side{
-    display: none;
+    width: fit-content;
 }
 .d-flex
  {
-  display: none !important;
+  display: flex !important;
 }
 .bookingform{
     width: 70vw;
