@@ -30,7 +30,7 @@ body{
 }
 
 .rating>label::before {
-    content: "\2605";
+    content: "★";
     position: absolute;
     opacity: 0
 }
@@ -38,7 +38,8 @@ body{
 
 
 .rating>input:checked~label:before {
-    opacity: 1
+    opacity: 1;
+    content: "★";
 }
 
 
@@ -61,13 +62,17 @@ body{
 	color: #fff;
 }
 
-.profileImg{
-    max-width: 13em;
-    max-height: 13em;
+
+
+
+.forProfile_serviceProvider{
+    min-width:  13em;
+    min-height: 13em;
     border: black 0.4px;
     border-style: solid;
     border-radius: 50%;
 }
+
 
 
 .material-symbols-outlined {

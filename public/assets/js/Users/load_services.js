@@ -1,4 +1,4 @@
-//IMPORTS AND CONFIG
+ //IMPORTS AND CONFIG
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
@@ -24,19 +24,12 @@ function resetSearch(num){
     var products = document.querySelectorAll('.productcard');
     var filter = searchQuery.value.toUpperCase();
     console.log('oi');
+    products.remove();  
     for(var i = 0; i<products.length;i++){  
         console.log(products[i]); 
         
         console.log(i);
-        if(i==products.length-1){
-            console.log(num);
-            if(num == 0){
-                searchExactServices(products,filter);
-            }else{
-                searchFuzzyServices(products,filter);
-            }
-        }
-        products[i].style.display = "";             
+                 
     };
 
 
@@ -95,7 +88,14 @@ function searchFuzzyServices(products,filter){
 }
 
 searchClick.addEventListener('click',function(){
-    if (searchQuery=="");
+    var products = document.querySelectorAll('.productcard');
+    for(var i = 0; i<products.length;i++){  
+        console.log(products[i]); 
+        products[i].remove();             
+    };
+    
+    
+    /*if (searchQuery=="");
 
     else if(searchCategory.value == "title"){
         resetSearch(1);
@@ -107,7 +107,7 @@ searchClick.addEventListener('click',function(){
     }else if(searchCategory.value == "location"){
         resetSearch(0);
         
-    }
+    }*/
 });
 
 var OuterDiv = document.getElementById('ServicesDiv');
@@ -130,7 +130,7 @@ function getAllServices(){
         document.getElementById('load').remove();
         if (arrayOfServices.length != 0){
             
-            addAllServices();
+            //addAllServices();
             
             document.getElementById("empty_list").style.display = 'none';
         }else{

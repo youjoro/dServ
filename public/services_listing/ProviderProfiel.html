@@ -102,33 +102,31 @@
 
     
 
-    <div class="container my-1">
+    <div class="container my-1 pt-5">
 
 
-        <div class="flex py-sm-2 w-75">
+        <div class="flex py-sm-2 w-75 pb-3">
             <!--For Images-->
             <div class="row">
-                <div class="col-7">
-                    <img id="big_img" class="img-fluid w-75" alt="...">
+                <div class="col-3">
+                    <img id="serviceProviderIMG" class="forProfile_serviceProvider" alt="">
                 </div>
-                <div class="col-5">
-                    <div class="row row-cols-2"  id="small_imgs">
-
-                    </div>
+                <div class="col-9">
+                    <h2 id="providerName">|</h2>
+                    <h3 id="providerNumber">|</h3>
                 </div>
+                
             </div>
             
         </div>
 
-        <div class="container">
+        <div class="container pt-2">
             <!--For Upper Text and Title-->
             <div class="container">
                 <div class="row row-cols-2">
-                    <div class="col-9">
-                        <h2 id="title"></h2>
-                        <h3 id="Location"></h3>
-                        <h4 id="serviceTimes"></h4>
+                    <div class="col-9 pt-5">
                         <div class="col infoText text-truncate">Available days<p id="days" class=" fw-semibold"></p></div>
+                        <button class="btn btn-outline-dark" id="chatProvider">Chat with them</button>
                     </div>
                     <div class="col-2">
                         <div class="row">
@@ -160,12 +158,34 @@
     
     <div class="container">
         <div class="container py-3">
-            <h2>Overview</h2>
+            
                 <div class="row row-cols-2 ">
+                    <h2>About them</h2>
+                    
                     <div class="col-7 columnRow">
-                        <p id="desc"></p>
+                        <h3 id="selfDesc">|</h3>  
+                            <div class="container">
+                                <div class="extraDetails">
+                                    <div class="container p-3 border border-2 rounded-1 infoBox">
+
+                                        <div class="row row-cols-2"> 
+                                            <div class="col infoText">From<p id="city" class=" fw-semibold">test</p></div>
+                                            <div class="col infoText">Brand Name<p id="brandname" class=" fw-semibold">test</p></div>
+                                        </div>
+
+                                        <div class="row row-cols-2">
+                                            <div class="col infoText text-truncate">Email<p id="contactEmail" class=" fw-semibold">test</p></div>
+                                            <div class="col infoText text-truncate">Available times<p id="times" class=" fw-semibold">test</p></div>
+                                            
+                                        </div>
+
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
                         <hr>
-                        <h3>Price:</h3>                    
+                        <h3>Services Offered:</h3>                    
                         <p id="price"></p>
                         <ul id="points">
 
@@ -186,55 +206,6 @@
                         </div>
                     </div>
                 </div>
-        </div>
-        <div class="container">
-            <h3 class=" fw-normal fs-3">About The Provider</h3>
-            <div class="container py-3" id="providerProfile">
-                <!--Provider Details-->
-                <div class="container">
-                    <div class="container">
-
-                        <div class="row row-cols-2 py-3">
-                            <div class="col-3">
-                                <img id="serviceProviderIMG" class="profileImg" alt="">
-                            </div>
-                            <div class="col-9 ">
-                                <div class="container me-5">
-                                    <h3 id="providerName">|</h3>
-                                    <h3 id="providerNumber">|</h3>
-                                    <h3 id="selfDesc">|</h3>
-                                    <button class="btn btn-outline-dark" id="chatProvider">Chat with them</button>
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div class="row row-cols-2">
-                        <div class="col-7 extraDetails">
-                            <div class="container p-3 border border-2 rounded-1 infoBox">
-
-                                <div class="row row-cols-2"> 
-                                    <div class="col infoText">From<p id="city" class=" fw-semibold">test</p></div>
-                                    <div class="col infoText">Brand Name<p id="brandname" class=" fw-semibold">test</p></div>
-                                </div>
-
-                                <div class="row row-cols-2">
-                                    <div class="col infoText text-truncate">Email<p id="contactEmail" class=" fw-semibold">test</p></div>
-                                    <div class="col infoText text-truncate">Available times<p id="times" class=" fw-semibold">test</p></div>
-                                    
-                                </div>
-
-                                <hr>
-                                <p id="brandDesc" class="descDIV"></p>
-                            </div>
-                        </div>
-                        <div class="col-5 spacing"></div>
-                    </div>
-
-                </div>
-            </div>
         </div>
         <div class="container py-3">
             <!--<h3 class=" fw-normal fs-3">Bundles</h3>

@@ -85,9 +85,6 @@ function LoadService(){
       console.log(review)
       for (var key in review){
         i+=1
-        console.log(review[key].client)
-        console.log(review[key].rating)
-        console.log(review[key].comment)
         genReviews(review[key],i)
       }
     }
@@ -101,15 +98,9 @@ function LoadService(){
 
 
 function genReviews(rev,index){
-    let starRatings= `
-    <div class="rating" id="ratingDiv-`+index+`"> 
-        <input type="radio" name="ratingStars" value="5" id="star-5" disabled><label for="5">☆</label> 
-        <input type="radio" name="ratingStars" value="4" id="star-4" disabled><label for="4">☆</label> 
-        <input type="radio" name="ratingStars" value="3" id="star-3" disabled><label for="3">☆</label> 
-        <input type="radio" name="ratingStars" value="2" id="star-2" disabled><label for="2">☆</label> 
-        <input type="radio" name="ratingStars" value="1" id="star-1" disabled><label for="1">☆</label>
-    </div>
-  `
+
+
+  var starRatings = addSelected(index,rev.rating)
   
 
   const reviewDIv = document.getElementById('reviewDiv');
@@ -117,25 +108,78 @@ function genReviews(rev,index){
   let comment = document.createElement('p');
   let rating = document.createElement('p');
   let div = document.createElement('div');
+
+  console.log(rev.rating)
+
   name.classList.add("pt-3")
   div.classList.add("w-25","border-1","border","rounded-5","p-2","my-2")
   name.innerHTML = " &emsp;" + rev.client;
-  rating.innerHTML = "&emsp;&emsp;&emsp;" + starRatings;
+  rating.insertAdjacentHTML('afterbegin',starRatings);
   comment.innerHTML = "&emsp;&emsp;&emsp;Says " + rev.comment;
 
   div.append(name);
   div.appendChild(comment);
   div.appendChild(rating);
   reviewDIv.append(div)    
-  setStars(rev.rating,index)
+  
 }
 
+function addSelected(index,rating){
+  let starRatings= ``
 
-function setStars (rating,index){
-  var x = document.getElementById("ratingDiv-"+index).querySelector("#star-"+rating);
-  x.checked = true;
+    if(rating == "5"){
+      starRatings = `
+          <div class="rating" id="ratingDiv-`+index+`"> 
+              <label for="5">★</label> 
+              <label for="4">★</label> 
+              <label for="3">★</label> 
+              <label for="2">★</label> 
+              <label for="1">★</label>
+          </div>
+        `
+    }else if(rating == "4"){
+      starRatings = `
+          <div class="rating" id="ratingDiv-`+index+`"> 
+              <label for="5">☆</label> 
+              <label for="4">★</label> 
+              <label for="3">★</label> 
+              <label for="2">★</label> 
+              <label for="1">★</label>
+          </div>
+        `
+    }else if(rating == "3"){
+      starRatings = `
+          <div class="rating" id="ratingDiv-`+index+`"> 
+              <label for="5">☆</label> 
+              <label for="4">☆</label> 
+              <label for="3">★</label> 
+              <label for="2">★</label> 
+              <label for="1">★</label>
+          </div>
+        `
+    }else if(rating == "2"){
+      starRatings = `
+          <div class="rating" id="ratingDiv-`+index+`"> 
+              <label for="5">☆</label> 
+              <label for="4">☆</label> 
+              <label for="3">☆</label> 
+              <label for="2">★</label> 
+              <label for="1">★</label>
+          </div>
+        `
+    }else if(rating == "1"){
+      starRatings = `
+          <div class="rating" id="ratingDiv-`+index+`"> 
+              <label for="5">☆</label> 
+              <label for="4">☆</label> 
+              <label for="3">☆</label> 
+              <label for="2">☆</label> 
+              <label for="1">★</label>
+          </div>
+        `
+    }
+    return starRatings
 }
-
 
 function GenLI(){
     service.Points.forEach(html => {
@@ -447,7 +491,7 @@ bookingselected.href="/Booking/booking_page.html";
 
 
 function sendToChat(){
-    window.location.replace("http://test-75edb.web.app/chat/chat.html");
+    window.location.replace("http://127.0.0.1:5500/chat/chat.html");
 }
 
 chatProvider.addEventListener('click',monitorFireAuth);

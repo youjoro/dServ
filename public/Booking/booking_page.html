@@ -109,7 +109,10 @@
                             <div class="container bg-white rounded-2"  id="sessIn">
                                 <br>
                                 <h2 class="text-black">End User Agreement</h2>
-                                <p class=" text-black">This Home Service Agreement, hereinafter referred to as the "Agreement," is entered on the day you have entered, by and between you, hereinafter the "Contractor" and you, hereinafter the "Client", collectively called the "Parties."<br><br>
+                                <h3 class="text-danger pt-2 pb-3">Read the Terms first before continuing<br></h3>                                
+                                <p class=" text-black">
+                                    
+                                    This Home Service Agreement, hereinafter referred to as the "Agreement," is entered on the day you have entered, by and between you, hereinafter the "Contractor" and you, hereinafter the "Client", collectively called the "Parties."<br><br>
 
                                     Whereas, the Client seeks a home service provider and deems the qualifications of the Contractor fit for the service.<br><br>
 
@@ -126,8 +129,20 @@
                                     The Contractor shall be responsible for carrying out the work through licensed individuals.<br><br>
                                     The Contractor shall not be liable for delay in the work due to any unforeseen circumstance, like War, Government Regulations, and any Act of God.<br><br>
                                     Any change to this Agreement shall be made by the parties mutually
-                                </p>
-                                <input type="checkbox" id="agree"><label for="">&emsp;I agree to these terms</label>
+                                </p> 
+                                <div class=" pt-4 d-flex justify-content-end ps-5">
+                                    <div class="container row row-cols-2" >
+                                        <div class=" col-2">
+                                            <input type="checkbox" class="form-check-input h-75 w-50 btn btn-danger btn-square-lg" id="agree">
+                                        </div>
+                                        <div class=" col-9">
+                                            <h2 class="fw-bold text-danger">&emsp;I agree to these terms</h2>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                
                                 <br><br>
                             </div>
 
@@ -146,6 +161,12 @@
                 <div class="col col-5">
                     <div class="container bg-white border border-1 rounded-4 p-3 bookingform">
                         <div class="container py-1"><h3>Service Request Form</h3></div>
+
+                        <div class="container row row-cols-2 pb-3" >
+                            <input type="checkbox" class="form-check-input" id="forOthers">                  
+                            <label class="">&emsp;For others </label>
+                            
+                        </div>                        
                         <div class="row g-3">
                             <div class="col-sm-6">                                
                                 <input type="text" class="form-control" id="firstName" placeholder="First name" value="" required>                                
