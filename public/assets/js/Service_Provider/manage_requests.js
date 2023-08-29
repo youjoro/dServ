@@ -156,10 +156,10 @@ async function cancelRequest(){
   
 }
 
-async function getRequestData(serviceID,serviceName){
+async function getRequestData(transactionID,serviceName){
   
-  console.log(serviceID,serviceName);
-  const docRef = doc(firestoredb, "users",fireuserID,"services",serviceName,"transactions",serviceID);
+  console.log(transactionID,serviceName);
+  const docRef = doc(firestoredb, "users",fireuserID,"services",serviceName,"transactions",transactionID);
   const docSnap = await getDoc(docRef);
   let data = await getInfo(docSnap.id);
     
@@ -273,10 +273,31 @@ function addAllServices(){
 let countReq = 0;
 function addMessage(service,index){
   
+  let servicesDropdown = document.createElement('div');
+  let dropdownButton = document.createElement('button');
+  let dropdownMenu = document.createElement('div');
+
+  servicesDropdown.classList.add('accordion','pb-2');
+  dropdownButton.classList.add('btn','btn-success','text-truncate','text-left');
+  dropdownButton.style.width = "16em";
+  dropdownButton.setAttribute('data-toggle','collapse');
+  dropdownButton.setAttribute('data-target','#collapse-'+index)
+  dropdownButton.textContent = service.ServiceName;
+
+
+  dropdownMenu.classList.add('collapse');
+  dropdownMenu.setAttribute('id','collapse-'+index);
+  dropdownButton.append(dropdownMenu);
+  servicesDropdown.append(dropdownButton);
+  interactableMessages.append(servicesDropdown);
+  console.log(service.id);
+
+
   const getrequestPending = async()=>{    
-    console.log(service)
+    
     let requests = await getRequests(service.id.replace(/\s/g,''));
-    let requestnum = await getRequestsNum(service.id.replace(/\s/g,''));
+     await getRequestsNum(service.id.replace(/\s/g,''));
+    
     
     
     for(var i = 0; i<requests.length; i++){   
@@ -302,8 +323,8 @@ function addMessage(service,index){
       
 
       requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
-      sideDIVRequests.classList.add('dropdown-item', 'd-flex', 'align-items-center', 'button-'+countReq+'','reqbutton');
-
+      sideDIVRequests.classList.add( 'd-flex', 'align-items-center', 'button-'+countReq+'','reqbutton','collapse-item','p-1');
+      sideDIVRequests.style.textDecoration = 'none';
       let dropdownIMG = document.createElement('div');
       dropdownIMG.classList.add('dropdown-list-image', 'mr-3');
 
@@ -316,13 +337,14 @@ function addMessage(service,index){
       divText.classList.add('font-weight-bold');
       //for sidebar
       let sidedivText = document.createElement('div');
-      sidedivText.classList.add('font-weight-bold');
+      sidedivText.classList.add('font-weight-bold','bg-light','w-100','p-1','rounded','border-0');
 
       //for notif bar
       let remarkText = document.createElement('div');
       remarkText.classList.add('text-truncate');
       //side bar
       let sideremarkText = document.createElement('div');
+      sideremarkText.style.textDecoration = 'none';
       sideremarkText.classList.add('text-truncate');
 
       //for notif bar
@@ -350,7 +372,7 @@ function addMessage(service,index){
       console.log(id);
       sideDIVRequests.onclick = function() { viewDetails(id,service.id.replace(/\s/g,''),clientID); };
       messagesTab.append(requestbutton);
-      interactableMessages.append(sideDIVRequests);
+      dropdownMenu.append(sideDIVRequests);
       
     }
 
@@ -367,7 +389,7 @@ function addMessage(service,index){
 //  function loadMessage()
 
 
-function viewDetails(serviceID,serviceName,clientID){
+function viewDetails(transactionID,serviceName,clientID){
   OuterDiv.innerHTML = '';
   window.onload = cancelReq.style.display = "";
   window.onload = acceptReq.style.display = "";
@@ -380,19 +402,19 @@ function viewDetails(serviceID,serviceName,clientID){
       items.push(item_id);
       localStorage.setItem("item",items);
   }
-  store(serviceID);
+  store(transactionID);
   store(serviceName);
   store(clientID);
-  console.log(serviceID,serviceName,clientID);
+  console.log(transactionID,serviceName,clientID);
   
 
-  getrequestPending(serviceID,serviceName,clientID);
+  getrequestPending(transactionID,serviceName,clientID);
 
 }
 
-async function getrequestPending(serviceID,serviceName,clientID){
-    
-  let requestdata = await getRequestData(serviceID,serviceName,clientID);
+async function getrequestPending(transactionID,serviceName,clientID){
+  console.log(clientID);
+  let requestdata = await getRequestData(transactionID,serviceName,clientID);
   let date = requestdata.DateAdded;
   console.log(date);
   let dateFormat = new Date(date.seconds*1000);

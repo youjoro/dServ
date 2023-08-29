@@ -23,7 +23,6 @@
     const upBtn = document.getElementById('upBtn'); 
     const downBtn = document.getElementById('downBtn'); 
 
-
     const username = document.getElementById('username');
     const firstName = document.getElementById('firstName');
     const lastName = document.getElementById('lastName')
@@ -235,7 +234,7 @@
     }
 
     function updateData(num){
-        
+        var a = new Object();
         let choices = {
             0:"username",
             1:"FirstName",
@@ -250,11 +249,15 @@
         var index = getServiceIndex(num);
         let chosen =choices[index]
 
-        if (textBars[index].value == ""){
+        if (index==8){
+            a[chosen] = textBars[7].value;
+            updateNewData(a)
+
+        }else if (textBars[index].value == ""){
             console.log(chosen);
         }else{
             console.log(chosen);
-            var a = new Object();
+            
             a[chosen] = textBars[index].value;
             console.log(a);
 

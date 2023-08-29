@@ -245,8 +245,8 @@ function addMessage(service,index){
       
 
       requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
-      sideDIVRequests.classList.add('dropdown-item', 'd-flex', 'align-items-center', 'button-'+countReq+'','reqbutton');
-
+      sideDIVRequests.classList.add('d-flex', 'align-items-center', 'button-'+countReq+'','reqbutton');
+      sideDIVRequests.style.textDecoration = 'none';
       let dropdownIMG = document.createElement('div');
       dropdownIMG.classList.add('dropdown-list-image', 'mr-3');
 

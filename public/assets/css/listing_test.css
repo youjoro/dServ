@@ -25,10 +25,10 @@ h6,.list{
 .productcard{
     border-radius: 4px;
     height: 470px;
-    width: 260px;
+    width: 300px;
     margin: 20px;
     display: flex;
-    align-items: center;
+    
     justify-content: space-between;
     flex-direction: column;
     transition: border-color .3s;
@@ -36,13 +36,19 @@ h6,.list{
     box-shadow: 0.1em 0.1em 5px gray;
 }
 .productcard:hover{
+    border-radius: 2em;
+    transition: 300ms;
+    width: 320px;
+    padding: 10px;
     box-shadow: 0.3em 0.3em 5px gray;
 }
 .thumb{
-    width: 220px;
+    border-radius: 2em;
+    width: 240px;
     height: 200px;
     cursor: pointer;
     padding: 8px;
+    
 }
 .detbtns{
     background-color: navy;
@@ -57,6 +63,7 @@ h6,.list{
 }
 .title{
     font-family: 'Raleway', sans-serif;
+    padding-left: 0.5em;
 }
 
 .list-group-item{

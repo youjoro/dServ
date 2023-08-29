@@ -8,7 +8,10 @@ body{
 
 }
 
-
+.profileImg{
+        width: 10em;
+        height: 10em;
+    }
 
 .rating {
     display: flex;

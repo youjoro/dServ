@@ -3,17 +3,11 @@ var popup = L.popup();
 let marker;
 let servicemarker;
 var layerGroup = L.layerGroup();
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent("You clicked the map at " + e.latlng.toString())
-        .openOn(map);
-}let count = 0;
+let count = 0;
 
 //map.on('click', onMapClick);
 
 function renderMarkers(coords,name,add){
-    console.log(coords,name,countcall,add);
     let details = name+"\n"+add
     popup
         .setLatLng(coords)
@@ -74,7 +68,7 @@ function error(err){
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 
-import { getDatabase, ref, child, get,equalTo,orderByChild,query}
+import { getDatabase, ref,  get,equalTo,orderByChild,query}
     from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 
 import {firebaseConfig} from '../firebase_config.js';
@@ -89,21 +83,27 @@ var arrayOfServicesLocations = [];
 
 
 function getAllServicesLocation(){
-    arrayOfServicesLocations = [];
+    const products = document.querySelectorAll('.productcard');
+    for(var i = 0; i<products.length;i++){  
+            products[i].remove(); 
+            console.log(products[i]); 
+            
+        };
     const q = query(ref(realdb,"Services"),orderByChild ("Location"),equalTo(citylist.value));
     getAllServices();
 
-    console.log(arrayOfServicesLocations.length);
-
+    
     if(map.hasLayer(layerGroup)){
         map.removeLayer(layerGroup); 
-        console.log(layerGroup);
-        
+        layerGroup = L.layerGroup();
     }
-    console.log(citylist.value)
+    
+    
     get(q)
     .then((snapshot) => {
-        console.log(snapshot.val());
+        
+
+        
         snapshot.forEach(serv => {
             arrayOfServicesLocations.push(serv.val());
         });
@@ -111,17 +111,21 @@ function getAllServicesLocation(){
         if (arrayOfServicesLocations.length != 0){
             
             addAllServicesLocation();
+
+            
+            
+
                         
         }else{  
             alert("No Services found in that City");
         }
         arrayOfServicesLocations = [];
+        
     })
 }
 
 function addAllServicesLocation(){
     let i = 0;
-    console.log(arrayOfServicesLocations.length)
     arrayOfServicesLocations.forEach(serv =>{
         addAServiceLocation(serv);
         countcall+=1;
@@ -132,11 +136,13 @@ let countcall = 0;
 function addAServiceLocation(serv){
     
     let coords = serv.location_data.toString().split(',');
-    console.log(serv.Address);
     renderMarkers(coords,serv.ServiceName,serv.Address);
 }
+    
 
-city.addEventListener('click',getAllServicesLocation);
+city.addEventListener('click',function(){
+    getAllServicesLocation();
+});
 
 
 
@@ -147,14 +153,11 @@ city.addEventListener('click',getAllServicesLocation);
 var OuterDiv = document.getElementById('ServicesDiv');
 //Product Card
 function getAllServices(){
+    arrayOfServices = []    
     const q = query(ref(realdb,"Services"),orderByChild ("Location"),equalTo(citylist.value));
     let cities = document.querySelectorAll('.location');
 
-    var products = document.querySelectorAll('.productcard');
-    for (var i = 0; i<cities.length;i++){        
-        products[i].remove();
-        
-    }
+    
 
 
     get(q)
@@ -171,14 +174,14 @@ function getAllServices(){
         }
           
     })
-    console.log(arrayOfServices);
 }
 
 function addAllServices(){
     let i = 0;
+    console.log(arrayOfServices)
     arrayOfServices.forEach(serv =>{
-        console.log(serv.ServiceName);
         addAService(serv, i++);
+        
     });
     AssignAllEvents();
 }
