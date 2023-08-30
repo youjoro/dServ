@@ -69,11 +69,14 @@ body{
 
 
 .forProfile_serviceProvider{
-    min-width:  13em;
-    min-height: 13em;
+    min-width:  8em;
+    min-height: 8em;
+    max-width:  13em;
+    max-height: 13em;
     border: black 0.4px;
     border-style: solid;
     border-radius: 50%;
+    
 }
 
 

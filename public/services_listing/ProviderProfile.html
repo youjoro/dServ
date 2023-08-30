@@ -21,6 +21,7 @@
     <!--Style-->
     <link rel="stylesheet" href="/assets/css/service-details.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="/assets/css/listing_test.css">
 </head>
 <body>
     <!--Navbar-->
@@ -92,9 +93,7 @@
         <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
-            <li class="breadcrumb-item"><a id="categoryLink" href="/services_listing/services_listing.html"></a></li>
-            <li class="breadcrumb-item "><a id="locationLink" href="/services_listing/services_listing.html"></a></li>
-            <li class="breadcrumb-item active" id="titleLink" aria-current="page"></li>
+            
         </ol>
         </nav>        
 
@@ -124,8 +123,7 @@
             <!--For Upper Text and Title-->
             <div class="container">
                 <div class="row row-cols-2">
-                    <div class="col-9 pt-5">
-                        <div class="col infoText text-truncate">Available days<p id="days" class=" fw-semibold"></p></div>
+                    <div class="col-9 pt-1">
                         <button class="btn btn-outline-dark" id="chatProvider">Chat with them</button>
                     </div>
                     <div class="col-2">
@@ -159,11 +157,13 @@
     <div class="container">
         <div class="container py-3">
             
-                <div class="row row-cols-2 ">
-                    <h2>About them</h2>
-                    
-                    <div class="col-7 columnRow">
-                        <h3 id="selfDesc">|</h3>  
+                <div class="row pb-2">
+                    <div class="col-5">
+                        <h2>About them</h2>
+                        <h3 id="selfDesc">|</h3>
+                    </div>
+                    <div class="col-6 columnRow">
+                          
                             <div class="container">
                                 <div class="extraDetails">
                                     <div class="container p-3 border border-2 rounded-1 infoBox">
@@ -178,33 +178,21 @@
                                             <div class="col infoText text-truncate">Available times<p id="times" class=" fw-semibold">test</p></div>
                                             
                                         </div>
-
                                         
                                     </div>
                                 </div>
                             </div>
-
-                        <hr>
-                        <h3>Services Offered:</h3>                    
-                        <p id="price"></p>
-                        <ul id="points">
-
-                        </ul>
+                            <br>
+                        
                     </div>
-
-
-                    <!--Sidebar-->
-                    <div class="col-4 mx-lg-5 columnRow">
-                        <div class="container shadow p-3 mb-5 bg-body rounded columnRow">
-                            <h3>Call</h3>
-                            <h3 class=" text-danger" id="number"></h3>
-                            <hr>
-                            <h3>Directions</h3>
-                            <div id="map" class="py-3"></div>
-                            <hr>
-                            <button id="getDirections" class="btn btn-outline-dark"><h4 class="text-danger">Get Directions</h4></button>
+                    <br>
+                    <hr>
+                    <h3>Services Offered:</h3>                    
+                        <div id="ServicesDiv" style="min-width: 100%;" class="container justify-content-start align-items-center">
+                    
                         </div>
-                    </div>
+
+                    
                 </div>
         </div>
         <div class="container py-3">
@@ -220,16 +208,7 @@
             </div>
         </div>
     </div>
-    <div class="container"id="bookButton">
-        <a class="float" id="bookingPressed">
-            Book Now
-        </a>
-    </div>
-    <div class="container"id="signupbutton">
-        <a href="/Landing_Pages/signUp.html" class="float" id="messageButton">
-            Sign Up or Log In to book
-        </a>
-    </div>
+    
                 <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
@@ -240,7 +219,7 @@
             </footer>
 </body>
 <script src="/assets/js/Users/session_user.js" type="module"></script>
-<script src="/assets/js/Users/service_details.js" type="module"></script>
+<script src="/assets/js/Users/view_ProviderProfile.js" type="module"></script>
 <script src="/assets/js/firebase_config.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
