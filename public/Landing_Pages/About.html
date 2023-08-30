@@ -23,7 +23,13 @@
       h2,h1{
         font-family: 'Urbanist', sans-serif;
       }
-      
+      .bg-custom{
+        background-color: rgba(255, 255, 255, 0.169);
+        padding: 0.5em;
+      }
+      .bg-custom > .text-center{
+        text-align: left !important;
+      }
     </style>
 
     
@@ -40,7 +46,7 @@
     
   </head>
   
-  <body class="w-100 h-100 text-center">
+  <body class="w-100 h-100 ">
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
@@ -112,61 +118,44 @@
     </header>
 
     <main>
-    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators bg-dark bg-opacity-25 rounded">
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        
-        <div class="container ">
-          <div class="carousel-caption ">
-            <h1>About Us</h1>
-            <p class="lead">Discover about us and what our app holds</p>
-            <p class="lead">
-              <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Learn more</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item" style="background-repeat: fit; background-position: center; width:100%; background-image:url('https://static8.depositphotos.com/1192060/932/i/600/depositphotos_9320270-stock-photo-home-services.jpg');">
-        
-        <div class="container d-flex">
+    <div class="container bg-custom">
+          <h2>FAQs</h2>
+          <p class="text-left">
+            <strong>What is dServ?</strong>
+            <br>
+            An online booking system is a platform or application that connects homeowners with various service providers, enabling users to conveniently book and receive services like repairs, maintenance, cleaning, and more for their homes through the internet.
+            <br><br>
+            <strong>How does the dServ works?</strong>
+            <br>
+            Users typically sign up on the platform, select the type of service they need, specify their requirements, and schedule a preferred time for the service. The platform then matches the user with suitable service providers, and the user can choose and book one based on reviews, ratings, and availability.
+            <br><br>
+            <strong>What types of services can I find on such a platform?</strong>
+            <br>
+            Services offered can vary widely, including plumbing, electrical work, carpentry, painting, cleaning, pest control, gardening, appliance repair, and more.
+            <br><br>
+            <strong>Are the service providers on the platform reliable?</strong>
+            <br>
+            Reputable online home service systems often perform background checks, verify licenses, and showcase user reviews and ratings to ensure the reliability of service providers.
+            <br><br>
+            <strong>How can I pay for the services?</strong>
+            <br>
+            It is generally a cash-based payment method settled after the service is provided
+            <br><br>
+            <strong>What are the benefits of using an online home service system?</strong>
+            <br>
+            Benefits include easy access to a wide range of services, the ability to compare service providers, convenient booking and scheduling, and often quicker response times.
+            <br><br>
+            <strong>Is the platform available in my area?</strong>
+            <br>
+            Many platforms are location-based, so you'll need to check if the platform operates in your region.
+          </p>
           
-          <div class="carousel-caption" style="background-color: rgba(0,0,0,0.3);">
-            <h2 style="margin-top: 12vh;">Become a Service Provider now</h2>
-            <p>Register and get clients easily with our online platform.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
-          </div>
         </div>
-      </div>
-      <div class="carousel-item">
-        
-        <div class="container">
-          <div class="carousel-caption text-end">
-            <h2>Learn about the People Behind the App</h2>
-            <p>Take a look on how this app was developed</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <button class="carousel-control-prev btn btn-dark" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next btn btn-dark" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
 
 
     </main>
     
-    <footer class="mt-auto text-white-50">
+    <footer class="mt-auto text-white-50 text-center">
       <p>All Rights Reserved &copy; 2017–2022</p>
     </footer>
   </div>

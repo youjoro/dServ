@@ -398,7 +398,7 @@ window.onload = function(){
         document.getElementById('session').style.visibility  = "hidden";
     }else{
         alert("You are not allowed here");
-        window.location.replace("http://127.0.0.1:5500/index.html");
+        window.location.replace("http://test-75edb.web.app/index.html");
     }
 
 
@@ -454,7 +454,7 @@ window.onload = function(){
                 ServiceDays:availableDays
                 })
                 alert("Upload Succesful");
-                window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+                window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
                 
             });
         }catch(error){

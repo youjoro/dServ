@@ -294,15 +294,18 @@ function getProfileDetails(userID){
 }
 
 var OuterDiv = document.getElementById('ServicesDiv');
-
+var arrayOfServices = [];
 
 function getServices(services){
   var i = 0;
   for (var service in services){
+    arrayOfServices.push(services[service]);
+    let end = arrayOfServices[arrayOfServices.length - 1];
+    end['id']=service.key;
     addAService(services[service], i);
     i++;
   }
-
+  AssignAllEvents();
 }
 
 
@@ -367,10 +370,33 @@ function getProfileIMG(userID){
 
 }
 
+function getServiceIndex(id){
+    console.log(id)
+    var indstart = id.indexOf('-')+1;
+    var indEnd = id.length;
+    return Number(id.substring(indstart,indEnd));
+}
 
+function gotoServiceDetails(event){
+    var index = getServiceIndex(event.target.id);
+    localStorage.Service = JSON.stringify(arrayOfServices[index]);
+    window.location = "services_details.html";
+}
+
+function AssignAllEvents(method){
+    var btns = document.getElementsByClassName('detbtns');
+    var titles = document.getElementsByClassName('title');
+    var thumbs = document.getElementsByClassName('thumb');
+
+    for (let i=0; i <btns.length;i++){
+        btns[i].addEventListener('click',gotoServiceDetails);
+        titles[i].addEventListener('click',gotoServiceDetails);
+        thumbs[i].addEventListener('click',gotoServiceDetails);
+    }
+}
 
 function sendToChat(){
-    window.location.replace("http://127.0.0.1:5500/chat/chat.html");
+    window.location.replace("http://test-75edb.web.app/chat/chat.html");
 }
 
 chatProvider.addEventListener('click',monitorFireAuth);
