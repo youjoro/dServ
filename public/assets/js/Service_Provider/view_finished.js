@@ -5,7 +5,7 @@ import { getAuth,
   signOut 
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { getDatabase, ref, onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getFirestore , collection,getDoc, doc , getCountFromServer, query,  getDocs ,writeBatch } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { getFirestore , collection,getDoc, doc , getCountFromServer, query,  getDocs ,writeBatch,orderBy,limitToLast  } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
 import {firebaseConfig} from '../firebase_config.js';
 
@@ -27,7 +27,7 @@ const OuterDiv = document.getElementById('servicesBlock');
 const messagesTab =document.getElementById('messages');
 const requestnotif = document.getElementById('request_notif');
 const interactableMessages = document.getElementById('messagesInteractable');
-
+const chatTab = document.getElementById('chats')
 var fireuserID = sessionStorage.getItem('user');
 
 //Session
@@ -72,8 +72,6 @@ if(sessionData != null){
     
 }
 }
-
-
 
 
 
@@ -210,12 +208,126 @@ function addAllServices(){
 }
 
 
+async function loadMessages(){
+  var chatList = []
+  var userID = sessionStorage.getItem("user");
+  const getChats = collection(firestoredb, "users",userID,"chat");
+    
+  const querySnapshot = await getDocs(getChats);
+  querySnapshot.forEach((doc) => {
+    chatList.push(doc.data().chatID);
+  });
+
+  console.log(chatList);
+  //chats();
+  getChatData(chatList);
+}
+
+async function getChatData(chatIDs){
+  
+  
+  for(var i = 0; i<chatIDs.length;i++){
+    var latest = ''
+    const q = doc(firestoredb,"chat",chatIDs[i]);
+    const docSnap = await getDoc(q);
+    const c = query(collection(firestoredb,"chat",chatIDs[i],"messages"), orderBy('timestamp'), limitToLast(1));
+    const chatmessage = await getDocs(c);
+
+
+    chatmessage.forEach((doc)=>{
+        if(doc.exists()){
+          latest = doc.data().text;
+          console.log(latest)
+        }else{
+          latest = ""
+          console.log(latest)
+        }
+        
+    })
+
+    if (docSnap.exists()) {
+      
+      await createChatMessages(docSnap.data(),latest);
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
+    
+}
+
+
+
+function createChatMessages(chat,chatmessage){
+  console.log(chatmessage)
+  let latestmessage = chatmessage.substring(0,25);
+  latestmessage.replace(/[^a-zA-Z0-9]/g,"...");
+  let img = document.createElement('img');
+  img.classList.add('rounded-circle');
+  img.src="img/undraw_profile_1.svg";
+  let requestbutton = document.createElement('a');
+  requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
+
+
+  let dropdownIMG = document.createElement('div');
+  dropdownIMG.classList.add('dropdown-list-image', 'mr-3');
+
+
+  let status = document.createElement('div');
+  status.classList.add('status-indicator','bg-success');
+
+
+  let divText = document.createElement('div');
+  divText.classList.add('font-weight-bold');
+
+
+  let remarkText = document.createElement('div');
+  remarkText.classList.add('text-truncate');
+
+
+  let clientName = document.createElement('div');
+  clientName.classList.add('small','text-gray-500');
+
+
+  dropdownIMG.append(img,status);
+
+
+  clientName.innerHTML = chat.clientUsername;
+  remarkText.innerHTML = latestmessage+"...";
+
+  divText.append(remarkText,clientName);
+
+  requestbutton.append(dropdownIMG,divText);
+  chatTab.append(requestbutton);
+  
+}
+
+loadMessages()
 
 
 
 let countReq = 0;
 function addMessage(service,index){
-  
+    
+  let servicesDropdown = document.createElement('div');
+  let dropdownButton = document.createElement('button');
+  let dropdownMenu = document.createElement('div');
+
+  servicesDropdown.classList.add('accordion','pb-2');
+  dropdownButton.classList.add('btn','btn-success','text-truncate','text-left');
+  dropdownButton.style.width = "16em";
+  dropdownButton.setAttribute('data-toggle','collapse');
+  dropdownButton.setAttribute('data-target','#collapse-'+index)
+  dropdownButton.textContent = service.ServiceName;
+
+
+  dropdownMenu.classList.add('collapse');
+  dropdownMenu.setAttribute('id','collapse-'+index);
+  dropdownButton.append(dropdownMenu);
+  servicesDropdown.append(dropdownButton);
+  interactableMessages.append(servicesDropdown);
+  console.log(service.id);
+
   const getrequestPending = async()=>{    
     console.log(service)
     let requests = await getRequests(service.id.replace(/\s/g,''));
@@ -245,7 +357,7 @@ function addMessage(service,index){
       
 
       requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
-      sideDIVRequests.classList.add('d-flex', 'align-items-center', 'button-'+countReq+'','reqbutton');
+      sideDIVRequests.classList.add('d-flex','text-white', 'align-items-center', 'button-'+countReq+'','reqbutton');
       sideDIVRequests.style.textDecoration = 'none';
       let dropdownIMG = document.createElement('div');
       dropdownIMG.classList.add('dropdown-list-image', 'mr-3');
@@ -273,7 +385,7 @@ function addMessage(service,index){
       clientName.classList.add('small','text-gray-500');
       //for sidebar
       let sideclientName = document.createElement('div');
-      sideclientName.classList.add('small','text-gray-500');
+      sideclientName.classList.add('small','text-white');
 
       dropdownIMG.append(img,status);
 
@@ -293,7 +405,7 @@ function addMessage(service,index){
       console.log(id);
       sideDIVRequests.onclick = function() { viewDetails(id,service.id.replace(/\s/g,''),clientID); };
       messagesTab.append(requestbutton);
-      interactableMessages.append(sideDIVRequests);
+      dropdownMenu.append(sideDIVRequests);
       
     }
 

@@ -5,7 +5,7 @@
     from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
     import {firebaseConfig} from "../firebase_config.js";
     import { getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
-    import { getFirestore,writeBatch, doc }from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
+    import { getFirestore,writeBatch, doc,orderBy,limitToLast,collection, query,  getDocs, getDoc }from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
     const app = initializeApp(firebaseConfig);
     const realdb = getDatabase(app);
     const fireDB = getFirestore(app);
@@ -41,6 +41,7 @@
     const employeeTable = document.getElementById('employeeTable');
     const textBars = document.querySelectorAll('.editTextBar');
 
+    const chatTab = document.getElementById('chats')
 
 
     var input =document.createElement('input');
@@ -292,3 +293,102 @@
 
     editButton.onclick = check;
     upBtn.onclick = monitorAuthState;  
+
+
+
+
+async function loadMessages(){
+  var chatList = []
+  var userID = sessionStorage.getItem("user");
+  const getChats = collection(fireDB, "users",userID,"chat");
+    
+  const querySnapshot = await getDocs(getChats);
+  querySnapshot.forEach((doc) => {
+    chatList.push(doc.data().chatID);
+  });
+
+  console.log(chatList);
+  //chats();
+  getChatData(chatList);
+}
+
+async function getChatData(chatIDs){
+  
+  
+  for(var i = 0; i<chatIDs.length;i++){
+    var latest = ''
+    const q = doc(fireDB,"chat",chatIDs[i]);
+    const docSnap = await getDoc(q);
+    const c = query(collection(fireDB,"chat",chatIDs[i],"messages"), orderBy('timestamp'), limitToLast(1));
+    const chatmessage = await getDocs(c);
+
+
+    chatmessage.forEach((doc)=>{
+        if(doc.exists()){
+          latest = doc.data().text;
+          console.log(latest)
+        }else{
+          latest = ""
+          console.log(latest)
+        }
+        
+    })
+
+    if (docSnap.exists()) {
+      
+      await createChatMessages(docSnap.data(),latest);
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
+    
+}
+
+
+
+function createChatMessages(chat,chatmessage){
+  console.log(chatmessage)
+  let latestmessage = chatmessage.substring(0,25);
+  latestmessage.replace(/[^a-zA-Z0-9]/g,"...");
+  let img = document.createElement('img');
+  img.classList.add('rounded-circle');
+  img.src="img/undraw_profile_1.svg";
+  let requestbutton = document.createElement('a');
+  requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
+
+
+  let dropdownIMG = document.createElement('div');
+  dropdownIMG.classList.add('dropdown-list-image', 'mr-3');
+
+
+  let status = document.createElement('div');
+  status.classList.add('status-indicator','bg-success');
+
+
+  let divText = document.createElement('div');
+  divText.classList.add('font-weight-bold');
+
+
+  let remarkText = document.createElement('div');
+  remarkText.classList.add('text-truncate');
+
+
+  let clientName = document.createElement('div');
+  clientName.classList.add('small','text-gray-500');
+
+
+  dropdownIMG.append(img,status);
+
+
+  clientName.innerHTML = chat.clientUsername;
+  remarkText.innerHTML = latestmessage+"...";
+
+  divText.append(remarkText,clientName);
+
+  requestbutton.append(dropdownIMG,divText);
+  chatTab.append(requestbutton);
+  
+}
+
+loadMessages()

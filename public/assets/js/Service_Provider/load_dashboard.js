@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getDatabase, ref, onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { getFirestore , collection, getCountFromServer, query, getDocs,doc,getDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { getFirestore , collection, getCountFromServer, query, getDocs,doc,getDoc,orderBy,limitToLast } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
 import {firebaseConfig} from '../firebase_config.js';
 
@@ -23,6 +23,7 @@ const requestnotif = document.getElementById('request_notif');
 const create = document.getElementById('createServiceButton');
 const verifyMessage = document.getElementById('verMessage');
 const verifyDiv = document.getElementById('verifyDiv');
+const chatTab = document.getElementById('chats')
 let validated =  sessionStorage.verified
 
 //Services
@@ -38,7 +39,7 @@ if(create != null){
 
 async function getRequestsID(serviceName){
   let IDs = []
-  console.log(serviceName);
+  
   var userID = sessionStorage.getItem('user');
     const q = collection(firestoredb, "users",userID,"services",serviceName,"transactions");
     
@@ -56,16 +57,16 @@ async function getRequestsID(serviceName){
 
 
 async function getRequests(serviceName){
-  console.log(serviceName);
+  
   let requestID = await getRequestsID(serviceName);
-  console.log(requestID);
+  
   for(var i = 0; i<requestID.length;i++){
-    console.log(requestID);
+    
     const q = doc(firestoredb,"transactions",requestID[i]);
     const docSnap = await getDoc(q);
 
     if (docSnap.exists()) {
-      console.log(docSnap);
+      
       await createMessages(docSnap.data());
     } else {
       // doc.data() will be undefined in this case
@@ -127,10 +128,106 @@ function loadServices(){
         addAllServices();
     })
     } ;
-    console.log(servicesList);
+    
     services();
 }
 
+
+async function loadMessages(){
+  var chatList = []
+  var userID = sessionStorage.getItem("user");
+  const getChats = collection(firestoredb, "users",userID,"chat");
+    
+  const querySnapshot = await getDocs(getChats);
+  querySnapshot.forEach((doc) => {
+    chatList.push(doc.data().chatID);
+  });
+
+  console.log(chatList);
+  //chats();
+  getChatData(chatList);
+}
+
+async function getChatData(chatIDs){
+  
+  
+  for(var i = 0; i<chatIDs.length;i++){
+    var latest = ''
+    const q = doc(firestoredb,"chat",chatIDs[i]);
+    const docSnap = await getDoc(q);
+    const c = query(collection(firestoredb,"chat",chatIDs[i],"messages"), orderBy('timestamp'), limitToLast(1));
+    const chatmessage = await getDocs(c);
+
+
+    chatmessage.forEach((doc)=>{
+        if(doc.exists()){
+          latest = doc.data().text;
+          console.log(latest)
+        }else{
+          latest = ""
+          console.log(latest)
+        }
+        
+    })
+
+    if (docSnap.exists()) {
+      
+      await createChatMessages(docSnap.data(),latest);
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
+    
+}
+
+
+
+function createChatMessages(chat,chatmessage){
+  console.log(chatmessage)
+  let latestmessage = chatmessage.substring(0,25);
+  latestmessage.replace(/[^a-zA-Z0-9]/g,"...");
+  let img = document.createElement('img');
+  img.classList.add('rounded-circle');
+  img.src="img/undraw_profile_1.svg";
+  let requestbutton = document.createElement('a');
+  requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
+
+
+  let dropdownIMG = document.createElement('div');
+  dropdownIMG.classList.add('dropdown-list-image', 'mr-3');
+
+
+  let status = document.createElement('div');
+  status.classList.add('status-indicator','bg-success');
+
+
+  let divText = document.createElement('div');
+  divText.classList.add('font-weight-bold');
+
+
+  let remarkText = document.createElement('div');
+  remarkText.classList.add('text-truncate');
+
+
+  let clientName = document.createElement('div');
+  clientName.classList.add('small','text-gray-500');
+
+
+  dropdownIMG.append(img,status);
+
+
+  clientName.innerHTML = chat.clientUsername;
+  remarkText.innerHTML = latestmessage+"...";
+
+  divText.append(remarkText,clientName);
+
+  requestbutton.append(dropdownIMG,divText);
+  chatTab.append(requestbutton);
+  
+}
+
+loadMessages()
 loadServices();
 
 function addAllServices(){
@@ -163,7 +260,7 @@ async function addMessage(service){
 
 function appendLocalStorage(requestInfo){
   var localArray = localStorage.getItem('requests');
-  console.log(requestInfo);
+  
   if(localArray == null){
     localStorage.requests=requestInfo;
   }else if(!localArray.includes(requestInfo)){
@@ -175,7 +272,7 @@ function appendLocalStorage(requestInfo){
 }
 
 function createMessages(requests){
-  console.log(requests);
+  
   
   let desc = requests.ClientRemarks.substring(0,25);
   desc.replace(/[^a-zA-Z0-9]/g,"...");
@@ -227,7 +324,7 @@ function createMessages(requests){
 function addAService(service,index){
   let serviceName = service.id;
   serviceName = serviceName.replace(/\s/g,'');
-  console.log(serviceName);
+  
   
   const getrequestPending = async()=>{
     let requestnum = await getRequestsNum(serviceName);
@@ -272,7 +369,7 @@ function getServiceIndex(id){
 
 function gotoServiceDetails(event){
     var index = getServiceIndex(event.target.id);
-    console.log(index);
+    
     localStorage.Request = JSON.stringify(arrayOfServices[index]);
     window.location = "/Service_Provider_Dashboard/updateService.html";
 }

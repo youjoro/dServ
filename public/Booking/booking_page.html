@@ -83,7 +83,30 @@
                     <a class="nav-link active" aria-current="page" href="/index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/Landing_Pages/About.html">About</a>
+                    <!-- Icon -->
+                    <div class="btn-group">
+                        <button type="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" class="notification">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="badge" id="notifsCount"></span>
+                        </button>
+                        
+                        <ul class="dropdown-menu dropdown-menu-lg-end" id="notifBar">
+                            <h6 class="ps-3">Notifications</h6>
+                            <hr style="margin: 0px;">
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" class="notification">
+                            <span class="material-symbols-outlined">chat</span>
+                            <span class="badge" id="chatCount"></span>
+                        </button>
+                        
+                        <ul class="dropdown-menu dropdown-menu-lg-end" id="messagesNotif">
+                            <h6 class="ps-3">Chat messages</h6>
+                            <hr style="margin: 0px;">
+                        </ul>
+                    </div>
+                    
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" id="profile_tab" aria-current="page" ><img id="profileIMG" class="img-thumbnail rounded-5" alt=""></a>

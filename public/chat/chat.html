@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,900&family=Montserrat:wght@500&family=Paytone+One&family=Quicksand:wght@300&family=Raleway:wght@300;500&family=Urbanist:wght@300&display=swap" rel="stylesheet">
     <!--Custom styles-->
     <link rel="stylesheet" href="/assets/css/profile.css">
@@ -77,7 +78,29 @@
                 </li>
                 <li class="nav-item">
                     <!-- Icon -->
-
+                    <div class="btn-group">
+                        <button type="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" class="notification">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="badge" id="notifsCount"></span>
+                        </button>
+                        
+                        <ul class="dropdown-menu dropdown-menu-lg-end" id="notifBar">
+                            <h6 class="ps-3">Notifications</h6>
+                            <hr style="margin: 0px;">
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" class="notification">
+                            <span class="material-symbols-outlined">chat</span>
+                            <span class="badge" id="chatCount"></span>
+                        </button>
+                        
+                        <ul class="dropdown-menu dropdown-menu-lg-end" id="messagesNotif">
+                            <h6 class="ps-3">Chat messages</h6>
+                            <hr style="margin: 0px;">
+                        </ul>
+                    </div>
+                    
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" id="profile_tab" aria-current="page" ><img id="profileIMG" class="img-thumbnail rounded-5" alt=""></a>

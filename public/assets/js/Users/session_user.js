@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getDatabase, ref,get,child,onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 import { getAuth,onAuthStateChanged,signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-import {  getFirestore , collection, getCountFromServer } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import {  getFirestore , collection, getCountFromServer,getDoc, doc , query,  getDocs ,orderBy,limitToLast  } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 import {firebaseConfig} from '../firebase_config.js'; 
 
 const app = initializeApp(firebaseConfig);
@@ -11,7 +11,8 @@ const auth = getAuth(app);
 const checkifFirstLoggedIn = sessionStorage.getItem("IsThisFirstTime_Log_From_LiveServer");
 
 const notifNUM = document.getElementById('notif_Num');
-
+const chatTab = document.getElementById('messagesNotif');
+const chatCount = document.getElementById('chatCount')
 
 function getProfileIMG(userID){
 
@@ -78,7 +79,7 @@ var sessionData=sessionStorage.getItem("sessionCheck");
   if(sessionData == "loggedIn"){
       document.getElementById("nav_bar").style.display="none";
       document.getElementById("nav_barLoggedIn").style.display="block";
-      
+      loadMessages()
       getUserType();
   }else{
       document.getElementById("nav_barLoggedIn").style.display="none";
@@ -148,4 +149,106 @@ const signOutUser = async() =>{
     window.location.replace("http://test-75edb.web.app/index.html");
 }
 document.getElementById('logOut').addEventListener('click', signOutUser);
+
+
+
+async function loadMessages(){
+  var chatList = []
+  var userID = sessionStorage.getItem("user");
+  const getChats = collection(firestoredb, "users",userID,"chat");
+    
+  const querySnapshot = await getDocs(getChats);
+  querySnapshot.forEach((doc) => {
+    chatList.push(doc.data().chatID);
+  });
+
+  console.log(chatList);
+  //chats();
+  getChatData(chatList);
+}
+
+async function getChatData(chatIDs){
+  
+  
+  for(var i = 0; i<chatIDs.length;i++){
+    var latest = ''
+    const q = doc(firestoredb,"chat",chatIDs[i]);
+    const docSnap = await getDoc(q);
+    const c = query(collection(firestoredb,"chat",chatIDs[i],"messages"), orderBy('timestamp'), limitToLast(1));
+    const chatmessage = await getDocs(c);
+
+
+    chatmessage.forEach((doc)=>{
+        if(doc.exists()){
+          latest = doc.data().text;
+          console.log(latest)
+        }else{
+          latest = ""
+          console.log(latest)
+        }
+        
+    })
+
+    if (docSnap.exists()) {
+      
+      await createChatMessages(docSnap.data(),latest,i);
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
+    
+}
+
+
+
+function createChatMessages(chat,chatmessage,count){
+  chatCount.innerHTML = count+1
+  console.log(chatmessage)
+  let latestmessage = chatmessage.substring(0,25);
+  let li = document.createElement('li')
+  latestmessage.replace(/[^a-zA-Z0-9]/g,"...");
+  let img = document.createElement('img');
+  img.classList.add('rounded-circle','pe-1');
+  img.src="../assets/img/profile_icon.png";
+  img.style.width = "2.5em";
+  img.style.height = "2.5em";
+  let requestbutton = document.createElement('a');
+  requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
+
+
+  let dropdownIMG = document.createElement('div');
+  dropdownIMG.classList.add('dropdown-list-image', 'mr-3');
+
+
+  let status = document.createElement('div');
+  status.classList.add('status-indicator','bg-success');
+
+
+  let divText = document.createElement('div');
+  divText.classList.add('font-weight-bold');
+
+
+  let remarkText = document.createElement('div');
+  remarkText.classList.add('text-truncate');
+
+
+  let clientName = document.createElement('div');
+  clientName.classList.add('small','text-gray-500');
+
+
+  dropdownIMG.append(img,status);
+
+
+  clientName.innerHTML = chat.clientUsername;
+  remarkText.innerHTML = latestmessage+"...";
+
+  divText.append(remarkText,clientName);
+
+  requestbutton.append(dropdownIMG,divText);
+  li.append(requestbutton)
+  chatTab.append(li);
+  
+}
+
 

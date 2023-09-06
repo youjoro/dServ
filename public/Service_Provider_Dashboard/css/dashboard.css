@@ -1,6 +1,8 @@
 .reqbutton:hover{
-    background-color: aliceblue;
-    padding: 2em;
+    color: azure;
+    background-color: #72dfb7;
+    padding: 1em;
+    margin: 0.1em;
 }
 .reqbutton{
     overflow: hidden;
