@@ -396,7 +396,7 @@ function AssignAllEvents(method){
 }
 
 function sendToChat(){
-    window.location.replace("http://test-75edb.web.app/chat/chat.html");
+    window.location.replace("http://127.0.0.1:5500/chat/chat.html");
 }
 
 chatProvider.addEventListener('click',monitorFireAuth);
