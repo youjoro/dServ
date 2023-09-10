@@ -374,7 +374,7 @@ function addMessage(service,index){
   let dropdownMenu = document.createElement('div');
 
   servicesDropdown.classList.add('accordion','pb-2');
-  dropdownButton.classList.add('btn','btn-success','text-truncate','text-left');
+  dropdownButton.classList.add('btn','text-truncate','text-left');
   dropdownButton.style.width = "16em";
   dropdownButton.setAttribute('data-toggle','collapse');
   dropdownButton.setAttribute('data-target','#collapse-'+index)

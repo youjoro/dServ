@@ -357,7 +357,7 @@ async function renderMessages(docID){
         }
       });
 
-      await retrieveAndRender(docID,chatInfo);
+      await retrieveAndRender(docID,chatInfo.text);
    
     
 
@@ -367,7 +367,7 @@ async function renderMessages(docID){
 
 }
 
-async function retrieveAndRender(id){
+async function retrieveAndRender(id,chatInfo){
   
   const recentMessagesQueryLoad = query(collection(firestoredb,"chat",id,"messages"), orderBy('timestamp'), limitToLast(1));
   if (IDcalls.includes(id)){        
@@ -375,12 +375,12 @@ async function retrieveAndRender(id){
   }else{
     IDcalls.push(id);
           // Start listening to the query.
-    listenToQuery(recentMessagesQueryLoad)
+    listenToQuery(recentMessagesQueryLoad,chatInfo)
    
   }
 }
 
-async function listenToQuery(recentMessagesQueryLoad){
+async function listenToQuery(recentMessagesQueryLoad,latest){
   
   onSnapshot(recentMessagesQueryLoad, function(snapshot) {  
 
@@ -388,7 +388,7 @@ async function listenToQuery(recentMessagesQueryLoad){
 
       var chatInfo = change.doc.data();
 
-      if (change.type === 'removed') {
+      if (latest == chatInfo.text) {
         //deleteMessage(change.doc.id);
       } else {        
 

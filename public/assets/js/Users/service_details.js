@@ -78,15 +78,20 @@ function LoadService(){
     document.getElementById('price').innerHTML = service.ServicePrice;
     document.getElementById('number').innerHTML = service.Phone_Number;
     
-    
+    var total = 0
     if (service.reviews != '' && service.reviews != null){
+      console.log(service)
       var review = service.reviews
       var i = 0
       console.log(review)
       for (var key in review){
         i+=1
+        total += parseInt(review[key].rating)
         genReviews(review[key],i)
       }
+      getAverage(total,i)
+    }else{
+      console.log(service)
     }
 
     
@@ -97,9 +102,18 @@ function LoadService(){
 };
 
 
+function getAverage(totalRate,num){
+  let rating = totalRate/num
+
+  const ratingDiv = document.getElementById('totalRating');
+  var starRatings = addSelected('total',Math.floor(rating))
+  console.log(rating)
+  ratingDiv.insertAdjacentHTML('afterbegin',starRatings);
+}
+
 function genReviews(rev,index){
 
-
+  console.log(rev)
   var starRatings = addSelected(index,rev.rating)
   
 
@@ -354,6 +368,7 @@ async function providertChatID(date,docRef){
       chatID:docRef,
       dateStarted:date
     });
+    
   }catch(error){
     console.log(error);
   }
@@ -366,6 +381,7 @@ async function clientChatID(date,docRef){
       chatID:docRef,
       dateStarted:date
     });
+    
   }catch(error){
     console.log(error);
   }

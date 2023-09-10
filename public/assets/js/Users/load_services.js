@@ -43,7 +43,11 @@ searchClick.addEventListener('click',function(){
     if (searchQuery.value != "") count +=1;
     if (selectedCategory != "") count +=1;
     if (cityPicker != "") count +=1;
-    addSearchedServicesByName(searchQuery.value,serviceType,city);
+    if (searchCategory.value =="Points"){
+        addSearchedServicesByTag(searchQuery.value,serviceType,city);
+    }else if (searchCategory.value == "ServiceName"){
+        addSearchedServicesByName(searchQuery.value,serviceType,city);
+    }
 });
 
 
@@ -71,31 +75,11 @@ function getAllServices(){
             let end = arrayOfServices[arrayOfServices.length - 1];
             end['id']=serv.key;
         });
-
+        console.log(arrayOfServices)
         document.getElementById('load').remove();
         
         if (arrayOfServices.length != 0){
-            const autoCompleteJS = new autoComplete({
-                placeHolder: "Search for Services...",
-                data: {
-                    src: arrayOfServices,
-                    keys:["ServiceName"],
-                    placeHolder:"Search...",                
-                    cache: true,
-                },
-                resultItem: {
-                    highlight: true
-                },
-                events: {
-                    input: {
-                        selection: (event) => {
-                            const selection = event.detail.selection.value.ServiceName;
-                            autoCompleteJS.input.value = selection;
-                        }
-                    }
-                }
-            });
-
+            loadAutoComplete(searchCategory.value,"new")
             addFirstPageServices();
             createPages(arrayOfServices.length);
             document.getElementById("empty_list").style.display = 'none';
@@ -105,10 +89,59 @@ function getAllServices(){
     })
 
     
-    
 }
 
+var autoCompletedata = []
+function loadAutoComplete(searchkey,v){
+    const autoCompleteJS = new autoComplete({
+        placeHolder: "Search for Services...",
+        data: {
+            src: arrayOfServices,
+            keys:["ServiceName","Points"],
+            placeHolder:"Search...",                
+            cache: true,
+        },
+        resultItem: {
+            highlight: true
+        },
+        events: {
+            input: {
+                selection: (event) => {
+                    if (searchkey == "ServiceName"){
+                        const selection = event.detail.selection.value.ServiceName;
+                        autoCompleteJS.input.value = selection;
+                    }else if (searchkey == "Points"){
+                        const selection = event.detail.selection.value.Points;
+                        autoCompleteJS.input.value = selection;
+                    }
+                    
+                }
+            }
+        },resultsList: {
+            element: (list, data) => {
+                if (!data.results.length) {
+                    // Create "No Results" message list element
+                    const message = document.createElement("div");
+                    message.setAttribute("class", "no_result");
+                    // Add message text content
+                    message.innerHTML = `<span>Found No Results for "${data.query}"</span>`;
+                    // Add message list element to the list
+                    list.appendChild(message);
+                }
+            },
+            noResults: true,
+        }
+        
+    });
 
+
+    autoCompletedata=autoCompleteJS
+}
+
+searchCategory.addEventListener('change',function(){
+    console.log(autoCompletedata.data.keys)
+    loadAutoComplete(searchCategory.value)
+})
 
 
 function createPages(num){
@@ -122,6 +155,41 @@ function createPages(num){
         numbered.textContent = i;
         scroller.append(numbered);
     }
+}
+
+function addSearchedServicesByTag(text,cat,city){
+    let i = 0;
+    console.log(text,cat,city)
+    if(text.includes(',')){
+        text = text.split(",")
+        arrayOfServices.forEach(serv =>{
+        for (var i in serv.Points){
+            if (serv.Points[i].toLowerCase().includes(text[i].toLowerCase())&& serv.ServiceCategory.includes(cat)  && serv.Location.includes(city) ){
+                addAService(serv,i);
+                break;
+            }else{
+                console.log(serv.Points);
+                i++;
+            }      
+        } 
+    });
+    }else{
+        arrayOfServices.forEach(serv =>{
+        for (var i in serv.Points){
+            if (serv.Points[i].toLowerCase().includes(text.toLowerCase())&& serv.ServiceCategory.includes(cat)  && serv.Location.includes(city) ){
+                addAService(serv,i);
+                break;
+            }else{
+                console.log(serv.Points);
+                i++;
+            }      
+        }
+        
+        
+    });
+    }
+    
+    AssignAllEvents();
 }
 
 function addSearchedServicesByName(text,cat,city){
@@ -148,7 +216,13 @@ function addFirstPageServices(){
         console.log(query);
         var q = query.split(",");
         console.log(q);
-        addSearchedServicesByName(q[0],q[1],q[2])
+        if(q.length==3){
+            addSearchedServicesByName(q[0],q[1],q[2])
+        }else{
+            var text = q[0]+","+q[1]+","+q[2]
+            addSearchedServicesByTag(text,q[3],q[4])
+            console.log(q[0])
+        }
         sessionStorage.removeItem("query");
     }else{
         console.log(arrayOfServices.length)

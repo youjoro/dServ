@@ -22,6 +22,88 @@ const date = document.getElementById('date');
 const checkbox = document.getElementById('agree')
 
 
+const dateGet = new Date();
+
+let day = dateGet.getDate();
+let month = dateGet.getMonth() + 1;
+let year = dateGet.getFullYear();
+
+// This arrangement can be altered based on how we want the date's format to appear.
+let currentDate = `${month}/${day}/${year}`;
+console.log(currentDate)
+
+
+const holidays = [
+"11/01/2023"
+    ,"12/30/2023"
+    ,"12/31/2023"
+    ,"12/8/2023"
+,"12/25/2023"    
+,"11/27/2023"
+,"01/01/2024"
+,"02/10/2024"
+,"02/25/2024"
+,"03/28/2023"
+,"03/29/2024"
+,"03/30/2024"
+,"04/09/2024"
+,"04/10/2024"
+,"05/01/2024"
+,"06/12/2024"
+,"06/16/2024"
+,"08/21/2024"
+,"18/26/2024"
+,"11/01/2024"
+,"11/30/2024"
+,"12/08/2024"
+,"12/24/2024"
+,"12/25/2024"
+,"12/30/2024"
+,"03/29/2024"]
+
+
+function loadDays() {
+    var days = service.ServiceDays;
+    if(days != null){
+        var week = [
+            {num:0, day:"sun"},
+            {num:1, day:"mon"},
+            {num:2, day:"tue"},
+            {num:3, day:"wed"},
+            {num:4, day:"thu"},
+            {num:5, day:"fri"},
+            {num:6, day:"sat"}
+
+        ]
+        
+        for (var d in days){
+            for (var i in week) {
+                if (week[i].day == days[d]) {
+                    week.splice(i, days.length);
+
+                }
+            }
+        }
+        var d = []
+        for (var i in week){
+            d.push(week[i].num)
+        }
+        console.log(d)
+
+        $('#datepicker').datepicker({
+            autoclose:true,
+            daysOfWeekDisabled:d,
+            datesDisabled:holidays,
+            startDate:currentDate
+        });
+    }else{
+        $('#datepicker').datepicker({
+            autoclose:true,
+            datesDisabled:holidays
+        });
+    }
+
+}
 
 
 var service = null;
@@ -53,7 +135,7 @@ window.onload = function(){
         console.log(service.TransactionID);
         console.log(service.id);
         localStorage.setItem("service",service);
-
+        loadDays()
     }else{
         alert("o no");
     }

@@ -245,7 +245,7 @@ const monitorFireAuth = async() =>{
 
 async function loadServiceProviderProfile(){
     var providerID = service.TransactionID;
-
+    
     getProfileIMG(providerID);
     getProfileDetails(providerID);
 
@@ -265,6 +265,8 @@ let providerEmail = document.getElementById('contactEmail');
 let providerTimes = document.getElementById('times');
 let providerServices = document.getElementById('Services');
 
+var servicesList = []
+
 function getProfileDetails(userID){
 
   
@@ -283,7 +285,15 @@ function getProfileDetails(userID){
         providerEmail.innerHTML = snapshot.val().businessEmail;
         providerTimes.innerHTML = snapshot.val().availability;
         chatProvider.disabled =false;
-        getServices(snapshot.val().Services)
+        for (var serv in snapshot.val().Services){
+          servicesList.push(serv)
+        } 
+        getServices(servicesList)
+        if(snapshot.val().verificationStatus != null){
+          document.getElementById('verificationStatus').innerHTML = service.verificationStatus;
+        }else{
+          document.getElementById('verificationStatus').innerHTML = "Under verification";
+        }
       }else{        
         profileIMG.src = "/assets/img/profile_icon.png";
         chatProvider.disabled = true;
@@ -293,21 +303,32 @@ function getProfileDetails(userID){
 
 }
 
+
 var OuterDiv = document.getElementById('ServicesDiv');
 var arrayOfServices = [];
 
-function getServices(services){
-  var i = 0;
-  for (var service in services){
-    arrayOfServices.push(services[service]);
-    let end = arrayOfServices[arrayOfServices.length - 1];
-    end['id']=service.key;
-    addAService(services[service], i);
-    i++;
+async function getServices(servicesList){
+  const dbref = ref(realdb);
+  for (var  i = 0; i<servicesList.length; i++){
+    await get(child(dbref, "Services/"+servicesList[i]))
+      .then((snapshot) => {
+        arrayOfServices.push(snapshot.val());
+        let end = arrayOfServices[arrayOfServices.length - 1];
+        end['id']=snapshot.key;
+        console.log(arrayOfServices)
+      })
   }
-  AssignAllEvents();
+  loadAllServices()
+  
 }
 
+function loadAllServices(){
+  for (var i = 0; i<arrayOfServices.length;i++){
+    addAService(arrayOfServices[i], i);
+  }
+  console.log(arrayOfServices)
+  AssignAllEvents();
+}
 
 function addAService(service, index){
     let html = 

@@ -49,7 +49,6 @@ function OpenFileDialog(){
 }
 
 
-
 function getDays(){
     var daysavailable = []
     for(var i = 0; i<days.length;i++){

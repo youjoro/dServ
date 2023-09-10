@@ -10,8 +10,9 @@ const firestoredb = getFirestore(app);
 const auth = getAuth(app);
 const checkifFirstLoggedIn = sessionStorage.getItem("IsThisFirstTime_Log_From_LiveServer");
 
-const notifNUM = document.getElementById('notif_Num');
+const notifNUM = document.getElementById('notifsCount');
 const chatTab = document.getElementById('messagesNotif');
+const notifTab = document.getElementById('notifBar');
 const chatCount = document.getElementById('chatCount')
 
 function getProfileIMG(userID){
@@ -80,6 +81,7 @@ var sessionData=sessionStorage.getItem("sessionCheck");
       document.getElementById("nav_bar").style.display="none";
       document.getElementById("nav_barLoggedIn").style.display="block";
       loadMessages()
+      loadNotifs()
       getUserType();
   }else{
       document.getElementById("nav_barLoggedIn").style.display="none";
@@ -240,7 +242,7 @@ function createChatMessages(chat,chatmessage,count){
   dropdownIMG.append(img,status);
 
 
-  clientName.innerHTML = chat.clientUsername;
+  clientName.innerHTML = chat.serviceProviderName;
   remarkText.innerHTML = latestmessage+"...";
 
   divText.append(remarkText,clientName);
@@ -252,3 +254,76 @@ function createChatMessages(chat,chatmessage,count){
 }
 
 
+async function loadNotifs(){
+  var chatList = []
+  var userID = sessionStorage.getItem("user");
+  const getChats = collection(firestoredb, "users",userID,"transactions");
+    
+  const querySnapshot = await getDocs(getChats);
+  querySnapshot.forEach((doc) => {
+    chatList.push(doc.data().RequestID);
+  });
+
+  console.log(chatList);
+  //chats();
+  getOrderData(chatList);
+}
+
+async function getOrderData(chatIDs){
+  
+  
+  for(var i = 0; i<chatIDs.length;i++){
+    var latest = ''
+    const q = doc(firestoredb,"transactions",chatIDs[i]);
+    const docSnap = await getDoc(q);
+    
+
+    if (docSnap.exists()) {
+      
+      await createNotifMessages(docSnap.data(),i);
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
+    
+}
+
+
+
+function createNotifMessages(orderInfo,count){
+  notifNUM.innerHTML = count+1
+  
+  let li = document.createElement('li')
+  
+  let requestbutton = document.createElement('a');
+  requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
+
+
+  let status = document.createElement('div');
+  status.classList.add('status-indicator','bg-success');
+
+
+  let divText = document.createElement('div');
+  divText.classList.add('font-weight-bold');
+
+
+  let remarkText = document.createElement('div');
+  remarkText.classList.add('text-truncate');
+
+
+  let clientName = document.createElement('div');
+  clientName.classList.add('small','text-gray-500');
+
+
+
+  clientName.innerHTML = orderInfo.serviceName;
+  remarkText.innerHTML = orderInfo.confirmStatus;
+
+  divText.append(remarkText,clientName);
+
+  requestbutton.append(divText);
+  li.append(requestbutton)
+  notifTab.append(li);
+  
+}
