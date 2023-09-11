@@ -122,7 +122,7 @@ async function getProfileIMG(chatID){
   
   let pfp = document.getElementById('recipientIMG');
 
-  if(querySnapshot.data().serviceProviderImgLink!= null){
+  if(querySnapshot.data().serviceProviderImgLink!= ''){
     if (userTYPE == "client"){
       pfp.src = servicePFP;
       document.getElementById('recipientName').innerHTML = querySnapshot.data().serviceProviderName;
@@ -133,7 +133,13 @@ async function getProfileIMG(chatID){
     
   }else{
     pfp.src = "/assets/img/profile_icon.png";
+    if (userTYPE == "client"){
+      
+      document.getElementById('recipientName').innerHTML = querySnapshot.data().serviceProviderName;
+    }else if (userTYPE == "serviceProvider"){
     
+      document.getElementById('recipientName').innerHTML = querySnapshot.data().clientUsername;
+    }
   }
 
 }
@@ -206,7 +212,12 @@ async function getChatInfo(chatID){
 
   if (userTYPE == "client"){
     servicePFP = querySnapshot.data().serviceProviderImgLink; 
-    await getRecipientInfo(querySnapshot.data().transactionProviderID,servicePFP,chatID);
+    if (servicePFP !=''){
+      await getRecipientInfo(querySnapshot.data().transactionProviderID,servicePFP,chatID);
+    }else{
+      await getRecipientInfo(querySnapshot.data().transactionProviderID,"/assets/img/profile_icon.png",chatID);
+    }
+    
     
   }else if (userTYPE == "serviceProvider"){
     let clientID = querySnapshot.data().clientID;  
@@ -227,7 +238,7 @@ async function getRecipientInfo(userID,imgLINK,chatID){
   const querySnapshot = await getDoc(q);
   
   loadInboxItem(querySnapshot.data().username,imgLINK,chatID);
-  
+  console.log(querySnapshot.data().username,userID)
 
 }
 
@@ -264,8 +275,8 @@ async function loadInboxItem (username,imgLINK,chatID){
         
         sessionStorage.currentchat = chatID;
         addChatID(chatID);
+        loadMessages(chatID);
         renderMessages(chatID);
-        loadMessages();
       }
 
     })
@@ -276,19 +287,17 @@ async function loadInboxItem (username,imgLINK,chatID){
 
 
 // Saves a new message to Cloud Firestore.
-async function saveMessage() {
+async function saveMessage(Message,UserID,refID) {
 
   // Add a new message entry to the Firebase database.
-  
-  let message = messageSent.value;
-  messageSent.value='';
+  console.log(Message,UserID)
   const date = new Date();
-  if(refID!=null && message !=""){
+  if(refID!="" && Message !=""){
     try {
-      console.log("sent");
+      console.log("sent"+refID);
       await addDoc(collection(firestoredb,"chat",refID,"messages"), {
-        userID: userID,
-        text: message,      
+        userID: UserID,
+        text: Message,      
         timestamp: date
       });
     }
@@ -297,7 +306,7 @@ async function saveMessage() {
     }
   }else{
     //alert("no");
-    messageSent.value='';
+    Message='';
   }
   
 }
@@ -309,31 +318,32 @@ async function saveMessage() {
 
 // Loads chat messages history and listens for upcoming ones.
 function loadMessages() {
-
+  
   const received = document.getElementsByClassName("receivedMessage");
   const sent = document.getElementsByClassName("sentMessage");
   const recentSent = document.getElementById('recentMessage');
 
 
-  if (received.length >0 || sent.length >0 ){
+  if (received.length >0 && sent.length >0 ){
     console.log(sent.length,received.length );
     const list = document.getElementById("messages");
     console.log("delete");
     while (list.hasChildNodes()) {
       list.removeChild(list.firstChild);
     }
-  }else{
-    console.log(sent.length,received.length );
   }
   
   
 }
 
 
+
+
+
   let IDcalls = [];
 
 async function renderMessages(docID){
-
+  var providerID = docID.split('-')
   let id =docID;
   let n =0;
   // Create the query to load the last 12 messages and listen for new ones.
@@ -359,10 +369,14 @@ async function renderMessages(docID){
 
       await retrieveAndRender(docID,chatInfo.text);
    
-    
+      
 
     }catch(error){
       console.log(error);
+    }
+    if(n==0){
+      console.log("oi none"+providerID[0],docID)
+      await saveMessage("Hello! How may I help you today?",providerID[0],docID)
     }
 
 }
@@ -436,5 +450,5 @@ function receivedMessages(text){
 }
 
 sendBtn.addEventListener('click',function(){
-  saveMessage();
+  saveMessage(messageSent.value,userID,refID);
 });

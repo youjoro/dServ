@@ -86,16 +86,10 @@ var userID = sessionStorage.getItem("user");
             console.log(a);
 
             if (chosen == "username"){
-               update(ref(realdb, 'users/' + userID),a).then(function(){
-                batch.update(doc(fireDB, "users",userID), a)   
+               batch.update(doc(fireDB, "users",userID), a)   
                 batch.commit().then(() => {
-                        updateNewData(a)
-                    });
-                    
-                    
-                }).catch(function(error){
-                console.log('Synchronization failed');
-            }) 
+                    updateNewData(a)
+                });
             }
             else{
                 updateNewData(a)

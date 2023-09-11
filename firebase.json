@@ -7,7 +7,7 @@
       "**/node_modules/**"
     ],
       "redirects": [ {
-    "source": "127.0.0.1:5500/index.html",
+    "source": "test-75edb.web.app/index.html",
     "destination": "/index.html",
     "type": 301
   } ]

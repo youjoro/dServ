@@ -21,7 +21,14 @@ h6,.list{
     font-size: small;
 }
 
-
+.autoComplete_wrapper > input{
+            height: 3em;
+            width: 40em;
+            border-radius: 0em;
+            border: 0px solid gray;
+            border-top: 1px solid gray;
+            border-bottom: 1px solid gray;
+        }
 .productcard{
     border-radius: 4px;
     height: 470px;
@@ -77,6 +84,11 @@ h6,.list{
     color: white;
     padding: 2px;
 }
+.searchBAR{
+    width: 100%; 
+    margin:auto;
+}
+
 
 @media screen and (max-width: 1120px){
     .list-group-item{
@@ -95,6 +107,15 @@ h6,.list{
     .move_left{
         align-self: center;
     }
+    .searchBAR{
+        width: 20em;
+        margin-left:5.5em;
+    }
+    .autoComplete_wrapper > input{
+       width: 20em;
+       
+    }
+    
 }
 
 @media screen and (max-width: 568px){
@@ -104,8 +125,16 @@ h6,.list{
     .move_left{
         align-self: center;
     }
+    .searchBAR{
+        width: 10em;
+        margin-left:8em;
+    }
+    .autoComplete_wrapper > input{
+       width: 8em;
+       
+    }
+    
 }
-
 
 
 .navbar-brand{
