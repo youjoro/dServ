@@ -29,14 +29,20 @@ const requestnotif = document.getElementById('request_notif');
 const interactableMessages = document.getElementById('messagesInteractable');
 const cancelReq = document.getElementById('cancelReq');
 const acceptReq = document.getElementById('acceptReq');
+const updateDate = document.getElementById('changeDate')
+const dateInput = document.getElementById('date');
+const calendarButtons = document.getElementById('calendarButtons')
 const chatClient = document.getElementById('chatClient');
 const editReq = document.getElementById('editReq');
+const calendar = document.getElementById('datepicker');
 const chatTab = document.getElementById('chats')
 
 window.onload = cancelReq.style.display = "none";
 window.onload = acceptReq.style.display = "none";
 window.onload = chatClient.style.display = "none";
 window.onload = editReq.style.display = "none";
+window.onload = calendar.style.display = "none";
+window.onload =  calendarButtons.style.display = "none";
 var fireuserID = sessionStorage.getItem('user');
 
 //Session
@@ -128,6 +134,32 @@ async function acceptRequest(){
   batch.update(docClientUpdate,{'confirmStatus':"accepted"});
   batch.update(docServProviderUpdate,{'confirmStatus':"accepted"});
    batch.commit().then(() => {
+      console.log('profiles updated...');
+      location.reload();
+    });
+  
+  
+  
+}
+
+
+async function updateAppointmentDate(){
+  alert("are you sure?");
+  let newDate = dateInput.value
+  let fireuser = sessionStorage.getItem('user');
+  let creds =localStorage.getItem('item');
+  creds = creds.split(',');
+  console.log(creds);
+
+  const transactionUpdate = doc(firestoredb, "transactions",creds[0]);
+  const docClientUpdate = doc(firestoredb, "users",creds[2],"transactions",creds[0]);
+  const docServProviderUpdate = doc(firestoredb, "users",fireuser,"services",creds[1],"transactions",creds[0]);
+  //update docs
+  batch.update(transactionUpdate,{'RequestedDate':newDate});
+  batch.update(docClientUpdate,{'RequestedDate':newDate});
+  batch.update(docServProviderUpdate,{'RequestedDate':newDate});
+   batch.commit().then(() => {
+      dateInput.value = ""
       console.log('profiles updated...');
       location.reload();
     });
@@ -541,8 +573,28 @@ async function getrequestPending(transactionID,serviceName,clientID){
   
 }
 
+function openCalendar(){
+  dateInput.value = ""
+  calendarButtons.style.display = "";
+  calendar.style.display = "";
+  updateDate.addEventListener('click',updateAppointmentDate)
+}
 
+function closeCalendarTab(){
+  dateInput.value = ""
+
+  calendarButtons.style.display = "none";
+  calendar.style.display = "none";
+}
+$('.datepicker').datepicker({
+    format: 'mm/dd/yyyy',
+    autoclose: true
+});
+
+const closeCalendar = document.getElementById('closeCalendar')
+closeCalendar.addEventListener('click',closeCalendarTab)
 
 cancelReq.addEventListener('click',cancelRequest);
 acceptReq.addEventListener('click',acceptRequest);
+editReq.addEventListener('click',openCalendar)
 //chatClient.addEventListener('click',);

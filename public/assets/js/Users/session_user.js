@@ -62,9 +62,12 @@ function getProfileIMG(userID){
       if(user_type=="client"){
         document.getElementById('profile_tab').href = "/view_profile/profile.html";
         sessionStorage.userTYPE = "client";
-      }else{
+      }else if(user_type=="provider"){
         document.getElementById('profile_tab').href = "/Service_Provider_Dashboard/index.html";
         sessionStorage.userTYPE = "serviceProvider";
+      }else{
+        alert("You are not supposed to be here");
+        window.location.replace("http://test-75edb.web.app/index.html");
       }
     })
     } ;
@@ -217,7 +220,7 @@ function createChatMessages(chat,chatmessage,count){
   img.style.height = "2.5em";
   let requestbutton = document.createElement('a');
   requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
-
+  requestbutton.href = "../chat/chat.html"
 
   let dropdownIMG = document.createElement('div');
   dropdownIMG.classList.add('dropdown-list-image', 'mr-3');
@@ -290,7 +293,6 @@ async function getOrderData(chatIDs){
 }
 
 
-
 function createNotifMessages(orderInfo,count){
   notifNUM.innerHTML = count+1
   
@@ -298,7 +300,7 @@ function createNotifMessages(orderInfo,count){
   
   let requestbutton = document.createElement('a');
   requestbutton.classList.add('dropdown-item', 'd-flex', 'align-items-center');
-
+  requestbutton.href = "../view_profile/profile.html"
 
   let status = document.createElement('div');
   status.classList.add('status-indicator','bg-success');

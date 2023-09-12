@@ -298,15 +298,32 @@
                                 </div>
                                 <div class="card-body">
                                     <div id="servicesBlock"></div>
-                                    <div class=" d-flex justify-content-between">
-                                        <div>
-                                            <a href="/chat/chat.html" id="chatClient" class="btn ps-1 btn-outline-info">Chat</a>
-                                            <button id="editReq" class="btn ps-1 btn-outline-primary">Change Date</button>
+                                    <div class="container">
+                                        <div class=" d-flex justify-content-between">
+                                            <div>
+                                                <a href="/chat/chat.html" id="chatClient" class="btn ps-1 btn-outline-info">Chat</a>
+                                                <button id="editReq" class="btn ps-1 btn-outline-primary">Change Date</button>
+                                            </div>
+                                            
+                                            <div>
+                                                <button id="acceptReq" class="btn ps-1 btn-outline-success">Accept</button>
+                                                <button id="cancelReq" class="btn ps-1 btn-outline-danger">Cancel</button>
+                                            </div>
                                         </div>
                                         
-                                        <div>
-                                            <button id="acceptReq" class="btn ps-1 btn-outline-success">Accept</button>
-                                            <button id="cancelReq" class="btn ps-1 btn-outline-danger">Cancel</button>
+                                        
+                                        <div class="input-group date w-50 mt-2" id="datepicker">
+                                            <input type="text" class="form-control" id="date" readonly>
+                                            <span class="input-group-append">
+                                                <span class="input-group-text bg-white p-3">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </span>
+                                            
+                                        </div>
+                                        <div id="calendarButtons">
+                                            <button class="btn btn-success ms-1" id="changeDate">Update Date</button>
+                                            <button class="btn btn-warning ms-1" id="closeCalendar">Close</button>
                                         </div>
                                         
                                     </div>
@@ -362,7 +379,8 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <!--Firebase scripts-->
     <script src="/assets/js/Service_Provider/manage_requests.js" type="module"></script>
     <script src="/assets/js/firebase_config.js" type="module"></script>

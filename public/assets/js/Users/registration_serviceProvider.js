@@ -32,7 +32,6 @@ var typeOfProvider = "";
 
 
 
-
 //window.onload =localStorage.clear();
 window.onload = document.getElementById("final_submit").style.visibility="hidden";
 
@@ -58,7 +57,6 @@ function checkPass(){
     document.getElementById("final_submit").disabled=true;
   }
 }
-
 
 
 //adding fields
@@ -191,6 +189,7 @@ function showTab(n) {
 
 
 var currTab = 0;
+
 
 
 window.nextPrev = function (n){

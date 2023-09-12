@@ -63,7 +63,7 @@ function LoadService(){
     if(service.verificationStatus != null){
       document.getElementById('verificationStatus').innerHTML = service.verificationStatus;
     }else{
-      document.getElementById('verificationStatus').innerHTML = "Under verification";
+      document.getElementById('verificationStatus').innerHTML = "Service Under verification";
     }
     
     document.getElementById('titleTop').innerHTML = service.ServiceName;

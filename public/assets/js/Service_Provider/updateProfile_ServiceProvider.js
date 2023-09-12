@@ -14,7 +14,7 @@
 
     var files = [];
     var reader = new FileReader();
-
+    
     const namebox = document.getElementById('namebox'); 
     const extlab = document.getElementById('extlab'); 
     const myImg = document.getElementById('myImg'); 

@@ -44,8 +44,10 @@ async function getUserType(userID){
     console.log(user_type);
     if(user_type=="client"){
       window.location.replace("http://test-75edb.web.app/index.html");
-    }else{
+    }else if(user_type=="provider"){
       window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
+    }else{
+      window.location.replace("http://test-75edb.web.app/Admin/admin.html");
     }
   }) 
   } ;

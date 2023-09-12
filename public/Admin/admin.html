@@ -13,9 +13,11 @@
 
            
         <!--Custom styles for this template -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
         <link href="../assets/css/sidebar.css" rel="stylesheet">
     </head>
     <body>
+      <header class="float-end "><button class="btn btn-danger mt-1 me-2" id="logOut">logout</button></header>
       <div class="d-flex">
 
 
@@ -55,7 +57,10 @@
         </div>
 
         <div id="area" class="w-100 p-2 mt-1">
-          
+          <div id="welcome" >
+            <h5>Welcome, Admin</h5>
+            <h6 id="adminName"></h6>
+          </div>
         </div>  
 
 
@@ -69,5 +74,5 @@
     </body>
     <script src="/assets/js/firebase_config.js" type="module"></script>
     <script src="/assets/js/Admin/AdminUI.js"  type="module"></script>
-    
+    <script src="/assets/js/Admin/session_Admin.js"  type="module"></script>
 </html>

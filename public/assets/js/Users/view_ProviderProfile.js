@@ -12,13 +12,9 @@ var verified = sessionStorage.getItem('verified');
 console.log(sessionData);
 if(sessionData == "loggedIn"){
   if(verified == "false"){
-    document.getElementById("bookButton").style.display="none";
-    document.getElementById("signupbutton").style.display="block";
-    document.getElementById("messageButton").innerHTML = "Verify Email First";
     document.getElementById("messageButton").href="#";
   }else{
-      document.getElementById("bookButton").style.display="block";
-      document.getElementById("signupbutton").style.display="none";
+
   }
     
 }
@@ -292,7 +288,7 @@ function getProfileDetails(userID){
         if(snapshot.val().verificationStatus != null){
           document.getElementById('verificationStatus').innerHTML = service.verificationStatus;
         }else{
-          document.getElementById('verificationStatus').innerHTML = "Under verification";
+          document.getElementById('verificationStatus').innerHTML = "Provider Undergoing verification";
         }
       }else{        
         profileIMG.src = "/assets/img/profile_icon.png";

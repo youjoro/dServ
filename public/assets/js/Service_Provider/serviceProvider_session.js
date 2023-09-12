@@ -25,10 +25,7 @@ function getUserType(){
       onValue(getType, (snapshot) => {
       user_type = snapshot.val();
       
-      if(user_type=="client" || user_type==null){
-        alert("You are not supposed to be here");
-        window.location.replace("http://test-75edb.web.app/index.html");
-      }else{
+      if(user_type=="provider" ){
         
         document.getElementById("profile_content").style.visibility = "visible";
         if(document.getElementById("loading") != null){
@@ -36,6 +33,9 @@ function getUserType(){
           document.getElementById("loading").remove();
         }
         
+      }else{
+        alert("You are not supposed to be here");
+        window.location.replace("http://test-75edb.web.app/index.html");
       }
     })
     } ;
