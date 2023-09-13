@@ -64,15 +64,16 @@ const holidays = [
 
 function loadDays() {
     var days = service.ServiceDays;
+    console.log(days)
     if(days != null){
         var week = [
-            {num:0, day:"sun"},
-            {num:1, day:"mon"},
-            {num:2, day:"tue"},
-            {num:3, day:"wed"},
-            {num:4, day:"thu"},
-            {num:5, day:"fri"},
-            {num:6, day:"sat"}
+            {num:0, day:"sunday"},
+            {num:1, day:"monday"},
+            {num:2, day:"tuesday"},
+            {num:3, day:"wednesday"},
+            {num:4, day:"thursday"},
+            {num:5, day:"friday"},
+            {num:6, day:"saturday"}
 
         ]
         

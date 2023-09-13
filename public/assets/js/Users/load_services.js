@@ -226,7 +226,7 @@ function addFirstPageServices(){
         sessionStorage.removeItem("query");
     }else{
         console.log(arrayOfServices.length)
-        for (var  i=0; i<10;i++){
+        for (var  i=0; i<arrayOfServices.length;i++){
             addAService(arrayOfServices[i], i);
         }
         
@@ -236,6 +236,7 @@ function addFirstPageServices(){
 
 
 function addAService(service, index){
+    console.log(service)
     let html = 
     `
 
