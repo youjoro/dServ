@@ -19,12 +19,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     
   });
-
-  for (var i =0 ;i<requestList.length;i++){
-    let requestData = requestList[i].split('-');
-    
-    render(calendar,requestData[i]);
+  if(requests != null){
+    for (var i =0 ;i<requestList.length;i++){
+        let requestData = requestList[i].split('-');
+        
+        render(calendar,requestData);
+      }
   }
+  
   
   calendar.render();
     
@@ -32,14 +34,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function render(calendar,requestData){
   console.log(requestData)
-  if (requestData[1] != null){
-    let wrongdate = requestData[1].replaceAll("/", "-");
+  if (requestData[2] != null){
+    let wrongdate = requestData[2].replaceAll("/", "-");
     let datestring = wrongdate.split("-");
     let correctDate = datestring[0]+"-"+datestring[2]+"-"+datestring[1];
     
-      console.log(requestData[1].replaceAll("/", "-"));
+      console.log(requestData[2].replaceAll("/", "-"));
         calendar.addEvent({
-          title: requestData[0],
+          title: requestData[1],
           start: correctDate,
           allDay: true
         });

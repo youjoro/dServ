@@ -177,6 +177,8 @@ async function getChatData(chatIDs){
   
   for(var i = 0; i<chatIDs.length;i++){
     var latest = ''
+    var senderID = ""
+    var messageStatus = ""
     const q = doc(firestoredb,"chat",chatIDs[i]);
     const docSnap = await getDoc(q);
     const c = query(collection(firestoredb,"chat",chatIDs[i],"messages"), orderBy('timestamp'), limitToLast(1));
@@ -186,6 +188,8 @@ async function getChatData(chatIDs){
     chatmessage.forEach((doc)=>{
         if(doc.exists()){
           latest = doc.data().text;
+          messageStatus = doc.data().readBy
+          senderID = doc.data().userID
           console.log(latest)
         }else{
           latest = ""
@@ -196,7 +200,7 @@ async function getChatData(chatIDs){
 
     if (docSnap.exists()) {
       
-      await createChatMessages(docSnap.data(),latest,i);
+      await createChatMessages(docSnap.data(),latest,i,senderID,messageStatus);
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
@@ -207,8 +211,22 @@ async function getChatData(chatIDs){
 
 
 
-function createChatMessages(chat,chatmessage,count){
-  chatCount.innerHTML = count+1
+function createChatMessages(chat,chatmessage,count,senderID,messageStatus){
+  var userID = sessionStorage.getItem("user");
+  var stat = document.createElement('p')
+  stat.classList.add("text-muted")
+  if(senderID != userID && messageStatus == null){
+    console.log(senderID, messageStatus,chat)
+    chatCount.innerHTML = count+1
+    stat.innerHTML = "unread"
+  }else{
+    
+    stat.innerHTML = "read"
+    
+  }
+
+
+
   console.log(chatmessage)
   let latestmessage = chatmessage.substring(0,25);
   let li = document.createElement('li')
@@ -248,7 +266,7 @@ function createChatMessages(chat,chatmessage,count){
   clientName.innerHTML = chat.serviceProviderName;
   remarkText.innerHTML = latestmessage+"...";
 
-  divText.append(remarkText,clientName);
+  divText.append(remarkText,clientName,stat);
 
   requestbutton.append(dropdownIMG,divText);
   li.append(requestbutton)
@@ -312,17 +330,19 @@ function createNotifMessages(orderInfo,count){
 
   let remarkText = document.createElement('div');
   remarkText.classList.add('text-truncate');
+  let dateText = document.createElement('div');
+  remarkText.classList.add('text-truncate');
 
 
   let clientName = document.createElement('div');
   clientName.classList.add('small','text-gray-500');
 
 
-
   clientName.innerHTML = orderInfo.serviceName;
+  dateText.innerHTML = orderInfo.RequestedDate;
   remarkText.innerHTML = orderInfo.confirmStatus;
 
-  divText.append(remarkText,clientName);
+  divText.append(remarkText,dateText,clientName);
 
   requestbutton.append(divText);
   li.append(requestbutton)

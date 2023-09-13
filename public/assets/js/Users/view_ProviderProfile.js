@@ -271,6 +271,9 @@ function getProfileDetails(userID){
     get(child(dbRef,"ProviderProfile/"+userID)).then((snapshot)=>{
       
       if(snapshot.exists()){
+        if(snapshot.val().holidayStatus == "yes"){
+          document.getElementById('holidayStatus').innerHTML =  "CURRENTLY ON HOLIDAY";
+        }
         fullname = snapshot.val().FirstName +" "+snapshot.val().lastName;
         profileName.innerHTML = fullname;
         profileNumber.innerHTML = snapshot.val().phoneNumber;

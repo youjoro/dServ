@@ -458,6 +458,15 @@ function getProfileDetails(userID){
     get(child(dbRef,"ProviderProfile/"+userID)).then((snapshot)=>{
       
       if(snapshot.exists()){
+        var bookingselected = document.getElementById('bookingPressed');
+        if(snapshot.val().holidayStatus == "yes"){
+          
+          
+          bookingselected.remove()
+          document.getElementById('serviceTimes').innerHTML =  "CURRENTLY ON HOLIDAY";
+        }else{
+          bookingselected.href="/Booking/booking_page.html";
+        }
         fullname = snapshot.val().FirstName +" "+snapshot.val().lastName;
         profileName.innerHTML = fullname;
         profileNumber.innerHTML = snapshot.val().phoneNumber;
@@ -469,6 +478,8 @@ function getProfileDetails(userID){
         providerTimes.innerHTML = snapshot.val().availability;
         providerDesc.innerHTML = snapshot.val().brand_desc;
         chatProvider.disabled =false;
+
+        
       }else{        
         profileIMG.src = "/assets/img/profile_icon.png";
         chatProvider.disabled = true;
@@ -502,8 +513,7 @@ function getProfileIMG(userID){
 
 
 
-var bookingselected = document.getElementById('bookingPressed');
-bookingselected.href="/Booking/booking_page.html";
+
 
 
 function sendToChat(){

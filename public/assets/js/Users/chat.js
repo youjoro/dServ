@@ -16,7 +16,8 @@ import {
   doc,
   getDocs,
   getDoc,
-  limitToLast
+  limitToLast,
+  writeBatch
 } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js';
 
 import { getDatabase, ref,get,child,onValue} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
@@ -35,6 +36,7 @@ const auth = getAuth(app);
 
 // Initialize firestore
 const firestoredb = getFirestore(app); 
+const batch = writeBatch(firestoredb);
 
 //HTML elements
 const checkifFirstLoggedIn = sessionStorage.getItem("IsThisFirstTime_Log_From_LiveServer");
@@ -190,10 +192,15 @@ async function getClientPFP(clientID,chatID){
   let pfp = "";
   get(child(dbRef, `users/${clientID}`)).then((snapshot) => {
     if (snapshot.exists()) {      
-      pfp = snapshot.val().profilePic.imgLink;      
-      clientPFP = pfp; 
-      console.log(pfp);   
-      getRecipientInfo(clientID, pfp ,chatID);  
+      if(snapshot.val().profilePic!=null){
+        pfp = snapshot.val().profilePic.imgLink;      
+        clientPFP = pfp; 
+        console.log(pfp); 
+        getRecipientInfo(clientID, pfp ,chatID); 
+      }else{
+        getRecipientInfo(clientID, "/assets/img/profile_icon.png" ,chatID);
+      }
+       
     } else {
       console.log("No data available");
     }
@@ -210,7 +217,8 @@ async function getChatInfo(chatID){
   const q = query(doc(firestoredb, "chat",chatID));
   const querySnapshot = await getDoc(q);
 
-  if (userTYPE == "client"){
+  if(querySnapshot.exists()){
+    if (userTYPE == "client"){
     servicePFP = querySnapshot.data().serviceProviderImgLink; 
     if (servicePFP !=''){
       await getRecipientInfo(querySnapshot.data().transactionProviderID,servicePFP,chatID);
@@ -225,6 +233,7 @@ async function getChatInfo(chatID){
         
   }
   
+  }
   
 }
 
@@ -361,8 +370,11 @@ async function renderMessages(docID){
         chatInfo = doc.data();
         if(chatInfo.userID == userID && n<=12){              
           sentMessages(chatInfo.text);
+
         }else if(n<=12 && chatInfo.userID != userID){                            
-          receivedMessages(chatInfo.text);              
+          receivedMessages(chatInfo.text);
+                        
+          readMessages(doc,docID,doc.id,userID,n)
 
         }
       });
@@ -379,6 +391,22 @@ async function renderMessages(docID){
       await saveMessage("Hello! How may I help you today?",providerID[0],docID)
     }
 
+}
+
+
+function readMessages(message,chatID,id,viewers){
+  var a = new Object();
+
+  a["readBy"]=viewers
+  console.log(message.readBy,chatID,id,viewers)
+  if (message.readBy == null || message.readBy == ""){
+    updateDoc(doc(firestoredb, "chat",chatID,"messages",id), a)   
+    
+  }
+
+
+  
+            
 }
 
 async function retrieveAndRender(id,chatInfo){

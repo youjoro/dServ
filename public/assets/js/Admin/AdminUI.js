@@ -616,10 +616,18 @@ function gotoRequestDetails(event){
         viewResume(arrayOfData[index].id)
       })
       deleteuser.addEventListener('click',function(){
-        deleteUser(arrayOfData[index].id)
+        deleteUser(arrayOfData[index].id,arrayOfData[index].user_type)
       })
       
-    }else{
+    }else if(verifyServ != null && arrayOfData[index].user_type == "client"){
+      deleteuser.addEventListener('click',function(){
+        deleteUser(arrayOfData[index].id,arrayOfData[index].user_type)
+      })
+      verifyServ.style.display = "none"
+      sus.style.display = "none"
+      view.style.display = "none"
+    }
+    else{
       verifyServ.style.display = "none"
       sus.style.display = "none"
       view.style.display = "none"
@@ -645,23 +653,33 @@ function AssignAllEvents(){
 
 //admin actions
 
-function deleteUser(id){
+function deleteUser(id,type){
   console.log(id)
   let a = new Object();
-  remove(ref(realdb, 'ProviderProfile/' + id),a).then(async()=>{
-    await deleteDoc(doc(firedb, "users", id));
-    
+  
+  if (type == "provider"){
+      remove(ref(realdb, 'ProviderProfile/' + id),a).then(async()=>{
+      await deleteDoc(doc(firedb, "users", id));
+      
+      remove(ref(realdb, 'users/' + id  ),a).then(function(){
+        alert("User Data Deleted");
+        
+        location.reload()
+      }
+        
+      )
+    }
+
+      
+    )
+  }else{
+    deleteDoc(doc(firedb, "users", id));
     remove(ref(realdb, 'users/' + id  ),a).then(function(){
       alert("User Data Deleted");
       
       location.reload()
-    }
-      
-    )
+    })
   }
-
-    
-  )
 
 
 }

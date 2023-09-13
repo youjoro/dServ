@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, ref, onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getDatabase, ref, onValue,update} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 import { getFirestore , collection, getCountFromServer, query, getDocs,doc,getDoc,orderBy,limitToLast } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
 import {firebaseConfig} from '../firebase_config.js';
@@ -67,7 +67,8 @@ async function getRequests(serviceName){
 
     if (docSnap.exists()) {
       
-      await createMessages(docSnap.data());
+      await createMessages(docSnap.data(),requestID[i]);
+      
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
@@ -130,6 +131,41 @@ function loadServices(){
     } ;
     
     services();
+}
+
+function checkHolidayMode(){
+  const holidayButton = document.getElementById('setHoliday')
+  var userID = sessionStorage.getItem("user");
+  const getService = ref(realdb, 'ProviderProfile/'+userID+'/holidayStatus');
+
+  onValue(getService, (snapshot) => {
+    if(snapshot.val()=="no" || snapshot.val()==null){
+      holidayButton.classList.add("btn-outline-secondary")
+      holidayButton.addEventListener('click',function(){
+        updateHolidayStatus("yes",userID)
+      })
+    }else{
+      holidayButton.classList.add("btn-success")
+      holidayButton.innerHTML = "Currently in Holiday Mode"
+      holidayButton.addEventListener('click',function(){
+        updateHolidayStatus("no",userID)
+      })
+    }
+  });
+
+
+  
+}
+
+function updateHolidayStatus(statusText,userID){
+  var a = new Object();
+  a["holidayStatus"] = statusText;
+   update(ref(realdb, 'ProviderProfile/' + userID),a).then(function(){
+                alert("Updated Data");
+                location.reload();
+            }).catch(function(error){
+            console.log('Synchronization failed');
+        })
 }
 
 
@@ -229,6 +265,7 @@ function createChatMessages(chat,chatmessage){
 
 loadMessages()
 loadServices();
+checkHolidayMode()
 
 function addAllServices(){
     let i = 0;
@@ -250,7 +287,7 @@ function addAllServices(){
 
 
 
-
+localStorage.removeItem("requests")
 
 async function addMessage(service){
     
@@ -261,17 +298,18 @@ async function addMessage(service){
 function appendLocalStorage(requestInfo){
   var localArray = localStorage.getItem('requests');
   
-  if(localArray == ""){
+  if(localArray == null){
     localStorage.requests=requestInfo;
   }else if(!localArray.includes(requestInfo)){
     localStorage.requests=localArray +","+requestInfo
   }else{
-    localStorage.requests="none";
+    
   }
+  
   console.log(localStorage.getItem("requests"));
 }
 
-function createMessages(requests){
+function createMessages(requests,ID){
   
   
   let desc = requests.ClientRemarks.substring(0,25);
@@ -314,9 +352,10 @@ function createMessages(requests){
 
   requestbutton.append(dropdownIMG,divText);
   messagesTab.append(requestbutton);
+
   let dateFormat = requests.RequestedDate.split('/');
   dateFormat = dateFormat[2]+"/"+dateFormat[1]+"/"+dateFormat[0];
-  appendLocalStorage(requests.ClientEmail+"-"+dateFormat);
+  appendLocalStorage(ID+"-"+requests.ClientEmail+"-"+dateFormat);
 }
 
 
