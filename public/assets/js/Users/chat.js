@@ -81,7 +81,7 @@ async function addChatID(chatID){
       console.log(error);
 
     }
-
+    renderMessages(chatID);
 }
 
 
@@ -289,9 +289,8 @@ async function loadInboxItem (username,imgLINK,chatID){
       if(currentchat != chatID){
         
         sessionStorage.currentchat = chatID;
-        addChatID(chatID);
-        loadMessages(chatID);
-        renderMessages(chatID);
+        loadMessages(chatID)
+        
       }
 
     })
@@ -332,14 +331,15 @@ async function saveMessage(Message,UserID,refID) {
 
 
 // Loads chat messages history and listens for upcoming ones.
-function loadMessages() {
+function loadMessages(chatID) {
   
   const received = document.getElementsByClassName("receivedMessage");
   const sent = document.getElementsByClassName("sentMessage");
   const recentSent = document.getElementById('recentMessage');
 
-
-  if (received.length >0 && sent.length >0 ){
+  
+  console.log(sent.length,received.length );
+  if (received.length > 0 || sent.length > 0 ){
     console.log(sent.length,received.length );
     const list = document.getElementById("messages");
     console.log("delete");
@@ -347,7 +347,7 @@ function loadMessages() {
       list.removeChild(list.firstChild);
     }
   }
-  
+  addChatID(chatID);
   
 }
 
@@ -376,6 +376,13 @@ async function renderMessages(docID){
         console.log(n);
         chatInfo = doc.data();
         m.push(doc.data())
+        console.log(m)
+        if(m.length==0){
+          console.log("oi none"+providerID[0],docID)
+          await saveMessage("Hello! How may I help you today?",providerID[0],docID)
+        }else{
+          
+        }
         if(chatInfo.userID == userID && n<=12){              
           sentMessages(chatInfo.text);
 
@@ -391,10 +398,7 @@ async function renderMessages(docID){
       await retrieveAndRender(docID,chatInfo.text);
       
       console.log(getmessages.length)
-      if(m.length==0){
-          console.log("oi none"+providerID[0],docID)
-          await saveMessage("Hello! How may I help you today?",providerID[0],docID)
-        } 
+      
 
     }catch(error){
       console.log(error);
