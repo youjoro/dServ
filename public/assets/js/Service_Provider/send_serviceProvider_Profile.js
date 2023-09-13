@@ -201,6 +201,8 @@ async function uploadProcess(userID,data,exp,employees){
   }
   
   )
+    }else{
+      setData(userID,data,exp,employees,"none")
     }
     
 } 
