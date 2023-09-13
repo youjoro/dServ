@@ -246,8 +246,10 @@ async function getRecipientInfo(userID,imgLINK,chatID){
   const q = query(doc(firestoredb, "users",userID));
   const querySnapshot = await getDoc(q);
   
-  loadInboxItem(querySnapshot.data().username,imgLINK,chatID);
+  if(querySnapshot.exists()){
+    loadInboxItem(querySnapshot.data().username,imgLINK,chatID);
   console.log(querySnapshot.data().username,userID)
+  }
 
 }
 
