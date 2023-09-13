@@ -11,8 +11,8 @@
 
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { getFirestore , collection, doc,getDoc,getDocs,query, setDoc,writeBatch, runTransaction   } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js'
-import { getDatabase, set, ref, get, child, update, onValue  } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+import { getFirestore , collection, doc,getDoc,getDocs,query, setDoc,writeBatch, runTransaction,deleteDoc    } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js'
+import { getDatabase, set, ref, get, child, update, onValue ,remove } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 import {firebaseConfig} from "../firebase_config.js";
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);
@@ -546,6 +546,7 @@ async function getUserDetails(requestdata){
   </div>
   
   </div>
+  <button id="removeUser" class = "btn btn-danger me-1">Remove User</button>
   <button id="updateService" class = "btn btn-success me-1">Verify Provider</button>
   <button id="setSus" class = "btn btn-warning me-1">Set under Suspicion</button>
   <button id="view" class = "btn btn-secondary me-1">View Resume</button>
@@ -602,6 +603,7 @@ function gotoRequestDetails(event){
     let verifyServ = document.getElementById('updateService');
     let sus = document.getElementById('setSus');
     let view = document.getElementById('view');
+    let deleteuser = document.getElementById('removeUser');
 
     if (verifyServ != null && arrayOfData[index].user_type == "provider"){
       verifyServ.addEventListener('click',function(){
@@ -613,6 +615,10 @@ function gotoRequestDetails(event){
       view.addEventListener('click',function(){
         viewResume(arrayOfData[index].id)
       })
+      deleteuser.addEventListener('click',function(){
+        deleteUser(arrayOfData[index].id)
+      })
+      
     }else{
       verifyServ.style.display = "none"
       sus.style.display = "none"
@@ -639,7 +645,24 @@ function AssignAllEvents(){
 
 //admin actions
 
-function removeItem(){
+function deleteUser(id){
+  console.log(id)
+  let a = new Object();
+  remove(ref(realdb, 'ProviderProfile/' + id),a).then(async()=>{
+    await deleteDoc(doc(firedb, "users", id));
+    
+    remove(ref(realdb, 'users/' + id  ),a).then(function(){
+      alert("User Data Deleted");
+      
+      location.reload()
+    }
+      
+    )
+  }
+
+    
+  )
+
 
 }
 

@@ -39,6 +39,7 @@ const createServiceProviderProfile = async() =>{
     .then(async(userCredential) => {
       // Signed in 
       const user = userCredential.user;
+      console.log(user.uid)
       await uploadProcess(user.uid,data,exp,employees).then(()=>{
         
         const sendEMAILVERIFY = async() =>{
@@ -82,7 +83,7 @@ const monitorAuthState = async(acc,pass) =>{
     }).then(function(){
       alert("Account Creation Succesful");
       sessionStorage.status = "loggedIn";
-      window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
+      window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
       localStorage.removeItem("Data");
       localStorage.removeItem("exp_entries");
       localStorage.removeItem("employee_data");
@@ -128,8 +129,8 @@ function setData(userID,data,exp,employees,downloadUrl){
       employees:employees.split(',')
         
     }).then(async function(){
-      await saveAccFirestore(userID);
-      await saveAccRTDB(userID);
+      await saveAccFirestore(userID,data);
+      await saveAccRTDB(userID,data);
       monitorAuthState(data[14], data[15]);
       
     }).catch(function(error){
@@ -138,7 +139,7 @@ function setData(userID,data,exp,employees,downloadUrl){
 }
 
 
-async function saveAccFirestore (uid){
+async function saveAccFirestore (uid,data){
     try {
       await  setDoc(doc(firestoredb, "users",uid), {
         username: data[2],
@@ -154,7 +155,7 @@ async function saveAccFirestore (uid){
     }
   }
 
-async function saveAccRTDB(uid){
+async function saveAccRTDB(uid,data){
     try{
       await set(ref(database, 'users/' + uid),{
           username: data[2],

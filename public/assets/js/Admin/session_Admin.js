@@ -29,7 +29,7 @@ const adminName = document.getElementById('adminName')
       sessionStorage.userTYPE = "admin";
     }else{
       alert("You are not supposed to be here");
-      window.location.replace("http://test-75edb.web.app/index.html");
+      window.location.replace("http://127.0.0.1:5500/index.html");
     }
   })
   } ;
@@ -47,7 +47,7 @@ var sessionData=sessionStorage.getItem("sessionCheck");
       getUserType()
   }else{
       alert("You are not supposed to be here");
-      window.location.replace("http://test-75edb.web.app/index.html");
+      window.location.replace("http://127.0.0.1:5500/index.html");
   }
 }
 
@@ -72,7 +72,7 @@ const monitorAuthState = async() =>{
         signOut(auth);
         console.log("no user");
         alert("You are not supposed to be here");
-        window.location.replace("http://test-75edb.web.app/index.html");
+        window.location.replace("http://127.0.0.1:5500/index.html");
       }
     });
         
@@ -88,7 +88,7 @@ const signOutUser = async() =>{
     localStorage.clear();
     location.reload();
     sessionStorage.reloaded = "yes";
-    window.location.replace("http://test-75edb.web.app/index.html");
+    window.location.replace("http://127.0.0.1:5500/index.html");
 }
 document.getElementById('logOut').addEventListener('click', signOutUser);
 
