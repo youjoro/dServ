@@ -223,7 +223,7 @@ async function getChatData(chatIDs){
 
 
 function createChatMessages(chat,chatmessage){
-  console.log(chatmessage)
+  console.log(chat)
   let latestmessage = chatmessage.substring(0,25);
   latestmessage.replace(/[^a-zA-Z0-9]/g,"...");
   let img = document.createElement('img');

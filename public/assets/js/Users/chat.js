@@ -197,7 +197,9 @@ async function getClientPFP(clientID,chatID){
         clientPFP = pfp; 
         console.log(pfp); 
         getRecipientInfo(clientID, pfp ,chatID); 
+        console.log("data available");
       }else{
+        console.log("No data available");
         getRecipientInfo(clientID, "/assets/img/profile_icon.png" ,chatID);
       }
        
@@ -248,14 +250,16 @@ async function getRecipientInfo(userID,imgLINK,chatID){
   
   if(querySnapshot.exists()){
     loadInboxItem(querySnapshot.data().username,imgLINK,chatID);
-  console.log(querySnapshot.data().username,userID)
+    console.log(querySnapshot.data().username,userID)
+  }else{
+    console.log(chatID)
   }
 
 }
 
 // loading chat inbox
 async function loadInboxItem (username,imgLINK,chatID){
-
+  console.log(chatID)
     var pfpImg = document.createElement('img');
     pfpImg.classList.add("viewchats","rounded-5");
 
@@ -357,6 +361,7 @@ async function renderMessages(docID){
   var providerID = docID.split('-')
   let id =docID;
   let n =0;
+  let m = []
   // Create the query to load the last 12 messages and listen for new ones.
   const recentMessagesQuery = query(collection(firestoredb,"chat",id,"messages"), orderBy('timestamp'), limitToLast(12));
   
@@ -366,10 +371,11 @@ async function renderMessages(docID){
       let chatInfo='';
       const getmessages = await getDocs(recentMessagesQuery);
       
-      getmessages.forEach((doc)=>{
+      getmessages.forEach(async(doc)=>{
         n+=1;
         console.log(n);
         chatInfo = doc.data();
+        m.push(doc.data())
         if(chatInfo.userID == userID && n<=12){              
           sentMessages(chatInfo.text);
 
@@ -379,19 +385,21 @@ async function renderMessages(docID){
           readMessages(doc,docID,doc.id,userID,n)
 
         }
+        
       });
 
       await retrieveAndRender(docID,chatInfo.text);
-   
       
+      console.log(getmessages.length)
+      if(m.length==0){
+          console.log("oi none"+providerID[0],docID)
+          await saveMessage("Hello! How may I help you today?",providerID[0],docID)
+        } 
 
     }catch(error){
       console.log(error);
     }
-    if(n==0){
-      console.log("oi none"+providerID[0],docID)
-      await saveMessage("Hello! How may I help you today?",providerID[0],docID)
-    }
+    
 
 }
 
@@ -441,7 +449,7 @@ async function listenToQuery(recentMessagesQueryLoad,latest){
           sentMessages(chatInfo.text);
         }else{                            
           receivedMessages(chatInfo.text);              
-
+          
         }
 
       }
