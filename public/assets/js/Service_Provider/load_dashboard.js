@@ -135,7 +135,7 @@ function loadServices(){
 
 function checkHolidayMode(){
   const holidayButton = document.getElementById('setHoliday')
-  if(holidayButton=!null){
+  if(holidayButton!=null){
 var userID = sessionStorage.getItem("user");
   const getService = ref(realdb, 'ProviderProfile/'+userID+'/holidayStatus');
 
