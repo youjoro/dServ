@@ -215,8 +215,8 @@ function addFirstPageServices(){
     if (query != null){
         console.log(query);
         var q = query.split(",");
-        console.log(q);
-        if(q.length<=3){
+        console.log(q[q.length-1]);
+        if(q[q.length-1] == "ServiceName"){
             addSearchedServicesByName(q[0],q[1],q[2])
         }else{
             var text = q[0]+","+q[1]+","+q[2]
