@@ -50,7 +50,7 @@ async function getRequestsID(serviceName){
       IDs.push(doc.data().RequestID);
     });
 
-
+    console.log(IDs)
     return IDs;
 }
 
@@ -261,7 +261,7 @@ async function addMessage(service){
 function appendLocalStorage(requestInfo){
   var localArray = localStorage.getItem('requests');
   
-  if(localArray == null){
+  if(localArray == ""){
     localStorage.requests=requestInfo;
   }else if(!localArray.includes(requestInfo)){
     localStorage.requests=localArray +","+requestInfo

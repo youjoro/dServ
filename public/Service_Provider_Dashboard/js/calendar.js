@@ -3,7 +3,6 @@ console.log(requests);
 var requestList = requests.split(',');
 
 
-
 document.addEventListener('DOMContentLoaded', function() {
   
   var calendarEl = document.getElementById('calendar');
@@ -24,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   for (var i =0 ;i<requestList.length;i++){
     let requestData = requestList[i].split('-');
     
-    render(calendar,requestData);
+    render(calendar,requestData[i]);
   }
   
   calendar.render();
