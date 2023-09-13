@@ -170,7 +170,7 @@ async function saveAccRTDB(uid){
   } 
 
 
-async function uploadProcess(){
+async function uploadProcess(userID,data,exp,employees){
     var imgToUpload = files[0];
     var urlToReturn = ""
 
