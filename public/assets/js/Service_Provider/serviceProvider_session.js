@@ -35,7 +35,7 @@ function getUserType(){
       
     }else{
       alert("You are not supposed to be here");
-      window.location.replace("http://127.0.0.1:5500/index.html");
+      window.location.replace("http://test-75edb.web.app/index.html");
     }
   })
   } ;
@@ -110,7 +110,7 @@ const signOutUser = async() =>{
 
     await signOut(auth);
     alert("logged out");
-    window.location.replace("http://127.0.0.1:5500/index.html");
+    window.location.replace("http://test-75edb.web.app/index.html");
     sessionStorage.clear();
     location.reload();
     

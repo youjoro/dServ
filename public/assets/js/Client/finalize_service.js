@@ -226,7 +226,7 @@ function deleteTransaction(){
     deletebatch.delete(docServProviderUpdate);
     deletebatch.commit().then(() => {
             alert('transactions deleted\n operation finished');
-            window.location.replace("http://127.0.0.1:5500/view_profile/profile.html");
+            window.location.replace("http://test-75edb.web.app/view_profile/profile.html");
         });
 }
 

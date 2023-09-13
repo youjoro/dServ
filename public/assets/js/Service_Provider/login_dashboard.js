@@ -35,7 +35,7 @@ import {firebaseConfig} from '../firebase_config.js';
     }).then(function(){
       
       alert('Logged In');
-      window.location.replace("http://127.0.0.1:5500/Service_Provider_Dashboard/index.html");
+      window.location.replace("http://test-75edb.web.app/Service_Provider_Dashboard/index.html");
       
     }).catch(function(error){
        console.log('Synchronization failed');

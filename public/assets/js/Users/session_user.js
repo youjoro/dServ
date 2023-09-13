@@ -67,7 +67,7 @@ function getProfileIMG(userID){
         sessionStorage.userTYPE = "serviceProvider";
       }else{
         alert("You are not supposed to be here");
-        window.location.replace("http://127.0.0.1:5500/index.html");
+        window.location.replace("http://test-75edb.web.app/index.html");
       }
     })
     } ;
@@ -151,7 +151,7 @@ const signOutUser = async() =>{
     localStorage.clear();
     location.reload();
     sessionStorage.reloaded = "yes";
-    window.location.replace("http://127.0.0.1:5500/index.html");
+    window.location.replace("http://test-75edb.web.app/index.html");
 }
 document.getElementById('logOut').addEventListener('click', signOutUser);
 
