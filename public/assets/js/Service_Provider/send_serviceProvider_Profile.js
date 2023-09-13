@@ -175,7 +175,8 @@ async function uploadProcess(userID,data,exp,employees){
     var imgToUpload = files[0];
     var urlToReturn = ""
 
-    const metadata = {
+    if (imgToUpload != '' || imgToUpload != null){
+      const metadata = {
         contentType: imgToUpload.type
     }
 
@@ -200,6 +201,7 @@ async function uploadProcess(userID,data,exp,employees){
   }
   
   )
+    }
     
 } 
 
