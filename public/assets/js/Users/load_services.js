@@ -81,7 +81,7 @@ function getAllServices(){
         if (arrayOfServices.length != 0){
             loadAutoComplete(searchCategory.value,"new")
             addFirstPageServices();
-            createPages(arrayOfServices.length);
+            //createPages(arrayOfServices.length);
             document.getElementById("empty_list").style.display = 'none';
         }else{
             document.getElementById("empty_list").style.display = '';
