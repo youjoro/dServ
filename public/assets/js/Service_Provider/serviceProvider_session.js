@@ -18,29 +18,29 @@ const calButtons = document.getElementById('calendarButton');
 //Session
 function getUserType(){
   var user_type="";
-    var userID = sessionStorage.getItem("user");
+  var userID = sessionStorage.getItem("user");
+  
+  const getType = ref(realdb, 'users/'+userID+'/user_type');
+  const type = async() =>{
+    onValue(getType, (snapshot) => {
+    user_type = snapshot.val();
     
-    const getType = ref(realdb, 'users/'+userID+'/user_type');
-    const type = async() =>{
-      onValue(getType, (snapshot) => {
-      user_type = snapshot.val();
+    if(user_type=="provider" ){
       
-      if(user_type=="provider" ){
+      document.getElementById("profile_content").style.visibility = "visible";
+      if(document.getElementById("loading") != null){
         
-        document.getElementById("profile_content").style.visibility = "visible";
-        if(document.getElementById("loading") != null){
-          
-          document.getElementById("loading").remove();
-        }
-        
-      }else{
-        alert("You are not supposed to be here");
-        window.location.replace("http://test-75edb.web.app/index.html");
+        document.getElementById("loading").remove();
       }
-    })
-    } ;
-    
-    type();
+      
+    }else{
+      alert("You are not supposed to be here");
+      window.location.replace("http://test-75edb.web.app/index.html");
+    }
+  })
+  } ;
+  
+  type();
     
 }
 
@@ -76,32 +76,32 @@ var sessionData=sessionStorage.getItem("user");
 }
 
 const monitorAuthState = async() =>{
-    onAuthStateChanged(auth,user=>{
-      if(user){
-        sessionStorage.verified = user.emailVerified;
+  onAuthStateChanged(auth,user=>{
+    if(user){
+      sessionStorage.verified = user.emailVerified;
 
-        if (user.emailVerified == false){
-          viewRequestsButtons.style.visibility="hidden"
-          calButtons.style.visibility = "hidden"          
-          viewRequestsButtons.href="#"; 
-          calButtons.href="#"; 
-        }else{
-          viewRequestsButtons.style.visibility="visible"
-          calButtons.style.visibility = "visible"
-          
-        }
-
-
-        document.getElementById('prov_name').innerHTML=user.email;         
-        sessionStorage.user = user.uid;
-        getProfileIMG(user.uid);
-        checkSession(user); 
+      if (user.emailVerified == false){
+        viewRequestsButtons.style.visibility="hidden"
+        calButtons.style.visibility = "hidden"          
+        viewRequestsButtons.href="#"; 
+        calButtons.href="#"; 
       }else{
-        console.log("no user");
-        getUserType();
+        viewRequestsButtons.style.visibility="visible"
+        calButtons.style.visibility = "visible"
+        
       }
-    });
-  }
+
+
+      document.getElementById('prov_name').innerHTML=user.email;         
+      sessionStorage.user = user.uid;
+      getProfileIMG(user.uid);
+      checkSession(user); 
+    }else{
+      console.log("no user");
+      getUserType();
+    }
+  });
+}
 
 monitorAuthState();
 

@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase
 import { getDatabase, ref, child, get, set }
 from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
 import {firebaseConfig} from "../firebase_config.js";
-import { getFirestore , collection, doc,getDoc,getDocs,query, setDoc,writeBatch, runTransaction   } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js'
+import { getFirestore , doc,writeBatch, runTransaction   } from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js'
 
 const app = initializeApp(firebaseConfig);
 const realdb = getDatabase(app);

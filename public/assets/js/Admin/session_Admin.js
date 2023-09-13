@@ -10,10 +10,6 @@ const firestoredb = getFirestore(app);
 const auth = getAuth(app);
 const checkifFirstLoggedIn = sessionStorage.getItem("IsThisFirstTime_Log_From_LiveServer");
 
-const notifNUM = document.getElementById('notifsCount');
-const chatTab = document.getElementById('messagesNotif');
-const notifTab = document.getElementById('notifBar');
-const chatCount = document.getElementById('chatCount')
 
 const adminName = document.getElementById('adminName')
 

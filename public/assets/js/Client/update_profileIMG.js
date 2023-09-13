@@ -33,103 +33,103 @@ var input =document.createElement('input');
 input.type = 'file';
 var userID = sessionStorage.getItem("user");
 
-    function getServiceIndex(id){
-        var indstart = id.indexOf('-')+1;
-        console.log(indstart);
-        return Number(id.substring(indstart));
-    }       
+function getServiceIndex(id){
+    var indstart = id.indexOf('-')+1;
+    console.log(indstart);
+    return Number(id.substring(indstart));
+}       
 
-    function check(num){
-        var index = getServiceIndex(num);
-        
-        editPrompt[index].style.display = "";
-        
+function check(num){
+    var index = getServiceIndex(num);
+    
+    editPrompt[index].style.display = "";
+    
+}
+
+
+function cancelEdit(num){
+    var index = getServiceIndex(num);
+    if (index==8){
+        textBars[7].value = '';
+        editPrompt[index].style.display = "none";
+    }else{
+        console.log(textBars[index],index)
+        textBars[index].value = '';
+        editPrompt[index].style.display = "none";
     }
 
+}
 
-    function cancelEdit(num){
-        var index = getServiceIndex(num);
-        if (index==8){
-            textBars[7].value = '';
-            editPrompt[index].style.display = "none";
-        }else{
-            console.log(textBars[index],index)
-            textBars[index].value = '';
-            editPrompt[index].style.display = "none";
-        }
 
+function updateData(num){
+    var a = new Object();
+    let choices = {
+        0:"username",
+        1:"firstName",
+        2:"lastName",
+        3:"address",
+        4:"email"
     }
+    var index = getServiceIndex(num);
+    let chosen =choices[index]
 
+    if (index==8){
+        a[chosen] = textBars[7].value;
+        updateNewData(a)
 
-    function updateData(num){
-        var a = new Object();
-        let choices = {
-            0:"username",
-            1:"firstName",
-            2:"lastName",
-            3:"address",
-            4:"email"
-        }
-        var index = getServiceIndex(num);
-        let chosen =choices[index]
+    }else if (textBars[index].value == ""){
+        console.log(chosen);
+    }else{
+        console.log(chosen);
+        
+        a[chosen] = textBars[index].value;
+        console.log(a);
 
-        if (index==8){
-            a[chosen] = textBars[7].value;
-            updateNewData(a)
-
-        }else if (textBars[index].value == ""){
-            console.log(chosen);
-        }else{
-            console.log(chosen);
-            
-            a[chosen] = textBars[index].value;
-            console.log(a);
-
-            if (chosen == "username"){
-               batch.update(doc(fireDB, "users",userID), a)   
-                batch.commit().then(() => {
-                    updateNewData(a)
-                });
-            }
-            else{
+        if (chosen == "username"){
+            batch.update(doc(fireDB, "users",userID), a)   
+            batch.commit().then(() => {
                 updateNewData(a)
-            }
+            });
+        }
+        else{
+            updateNewData(a)
         }
     }
+}
 
 
-    async function updateNewData(a){
-        update(ref(realdb, 'users/' + userID),a).then(function(){
-                    alert("Updated Data");
-                    location.reload();
-                }).catch(function(error){
-                console.log('Synchronization failed');
-            })
-    }
+async function updateNewData(a){
+    update(ref(realdb, 'users/' + userID),a).then(function(){
+                alert("Updated Data");
+                location.reload();
+            }).catch(function(error){
+            console.log('Synchronization failed');
+        })
+}
 
-    for (var i = 0; i<editPrompt.length;i++ ){
-        window.onload = editPrompt[i].style.display = "none";
-        console.log(i);
-        editButton[i].classList.add('edit-'+i);
-        cancelEditButton[i].classList.add('canc-'+i);
-        updateDataButton[i].classList.add('upd-'+i);
-        
-        editButton[i].addEventListener('click',function(){            
-            let classEdit = this.className.split(' ');
-            check(classEdit[2]);
-        });
-        
-        cancelEditButton[i].addEventListener('click',function(){
-            let classEdit = this.className.split(' ');
-            cancelEdit(classEdit[5])
-        });
+for (var i = 0; i<editPrompt.length;i++ ){
+    window.onload = editPrompt[i].style.display = "none";
+    console.log(i);
+    editButton[i].classList.add('edit-'+i);
+    cancelEditButton[i].classList.add('canc-'+i);
+    updateDataButton[i].classList.add('upd-'+i);
+    
+    editButton[i].addEventListener('click',function(){            
+        let classEdit = this.className.split(' ');
+        check(classEdit[2]);
+    });
+    
+    cancelEditButton[i].addEventListener('click',function(){
+        let classEdit = this.className.split(' ');
+        cancelEdit(classEdit[5])
+    });
 
-        updateDataButton[i].addEventListener('click',function(){
-            let classEdit = this.className.split(' ');
-            updateData(classEdit[5])
-        });
+    updateDataButton[i].addEventListener('click',function(){
+        let classEdit = this.className.split(' ');
+        updateData(classEdit[5])
+    });
 
-    }
+}
 
 
 
